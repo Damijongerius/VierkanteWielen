@@ -10,7 +10,7 @@ head
     h1.nav-heading Vierkante Wielen
 .content
   .content-section-pakket-kopen
-    h1 Weet je zeket dat je pakket [temp] wilt kopen?
+    h1#pakket-text Weet je zeket dat je pakket [temp] wilt kopen?
     form(action='')
       input(type='checkbox' name='bevestigen12' required='')
       label(for='bevestigen12') Bevestigen
@@ -28,7 +28,7 @@ head
       a(href='documenten/privacybeleid.pdf') Privacybeleid
 
 
-<script>
+script.
   var url = window.location.href;
   var queryStart = url.indexOf("?=");
   var pakket = url.slice(queryStart + 2);
@@ -38,8 +38,8 @@ head
     window.location.href = "index";
   } else {
     window.addEventListener("DOMContentLoaded", function () {
-      var element = document.getElementById("someElementId");
-      element.innerText = "Text to change";
+      var element = document.getElementById("pakket-text");
+      element.innerText = "Weet je zeker dat je " + pakket + " wilt kopen?";
     });
   }
-</script>
+
