@@ -1,0 +1,39 @@
+{
+  "name": "vierkantewielen",
+  "version": "1.0.0",
+  "description": "rijschool vierkante wielen",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Damijongerius/VierkanteWielen.git"
+  },
+  "author": "dami en sam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Damijongerius/VierkanteWielen/issues"
+  },
+  "homepage": "https://github.com/Damijongerius/VierkanteWielen#readme",
+  "dependencies": {
+    "@types/express-handlebars": "^6.0.0",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.7",
+    "lodash": "^4.17.21",
+    "mysql": "^2.18.1",
+    "node": "^20.2.0",
+    "path": "^0.12.7",
+    "pug": "^3.0.2",
+    "sql": "^0.78.0",
+    "typescript": "^5.0.4",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17"
+  }
+}
