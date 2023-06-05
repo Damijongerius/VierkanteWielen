@@ -16,7 +16,9 @@
 
     <div class="content">
       <div class="content-section-pakket-kopen">
-        <h1>Weet je zeket dat je pakket [temp] wilt kopen?</h1>
+        <h1 class="pakket-text">
+          Weet je zeket dat je pakket [temp] wilt kopen?
+        </h1>
         <form action="">
           <input type="checkbox" name="bevestigen12" required />
           <label for="bevestigen12">Bevestigen</label>
@@ -45,17 +47,18 @@
   </body>
 </html>
 <script>
-  //   var url = window.location.href;
-  //   var queryStart = url.indexOf("?=");
-  //   var pakket = url.slice(queryStart + 2);
-  //   var pakketten = ["pakket-1", "pakket-2", "pakket-3"];
+  var url = window.location.href;
+  var queryStart = url.indexOf("?=");
+  var pakket = url.slice(queryStart + 2);
+  var pakketten = ["pakket-1", "pakket-2", "pakket-3"];
 
-  //   if (!pakketten.includes(pakket)) {
-  //     window.location.href = "index.html";
-  //   } else {
-  //     window.addEventListener("DOMContentLoaded", function () {
-  //       var element = document.getElementById("someElementId");
-  //       element.innerText = "Text to change";
-  //     });
-  //   }
+  if (!pakketten.includes(pakket)) {
+    window.location.href = "index.html";
+  } else {
+    window.addEventListener("DOMContentLoaded", function () {
+      var element = document.getElementById("someElementId");
+      document.getElementsByClassName("pakket-text")[0].innerText =
+        "Ben je zekere dat je " + pakket + " wilt kopen?";
+    });
+  }
 </script>
