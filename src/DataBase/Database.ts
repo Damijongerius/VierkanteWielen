@@ -25,7 +25,12 @@ export class Database {
     });
   }
 
-  static async query(sqlQuery: string) {
+  static async query(sqlQuery: string, values? : any[]) {
+    if(values === undefined){
+      await this.conn.query(sqlQuery, values, (err, result) => {
+        return err ? Database.reject(err) : result.insertId;
+      });
+    }
     await this.conn.query(sqlQuery, (err, result) => {
       return err ? Database.reject(err) : result.insertId;
     });
