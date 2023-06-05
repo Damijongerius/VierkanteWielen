@@ -11,7 +11,7 @@ head
 .content
   .content-section-pakket-kopen
     h1#pakket-text Weet je zeket dat je pakket [temp] wilt kopen?
-    form(action='')
+    form(action='/pakket_kopen', method="POST")
       input(type='checkbox' name='bevestigen12' required='')
       label(for='bevestigen12') Bevestigen
       input.login-button(type='submit' value='Het pakket kopen')
@@ -35,7 +35,7 @@ script.
   var pakketten = ["pakket-1", "pakket-2", "pakket-3"];
 
   if (!pakketten.includes(pakket)) {
-    window.location.href = "index";
+    window.location.href = "/";
   } else {
     window.addEventListener("DOMContentLoaded", function () {
       var element = document.getElementById("pakket-text");
