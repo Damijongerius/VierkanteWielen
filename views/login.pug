@@ -1,0 +1,30 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Login
+  link(rel='stylesheet' href='./styles/style.css')
+.nav-menu
+  a.nav-home(href='index.html')
+    h1.nav-heading Vierkante Wielen
+.content
+  .content-section-login
+    h1 Log in op mijn account
+    form(action='')
+      input(type='email' placeholder='Email')
+      input(type='password' placeholder='Wachtoord')
+      input.login-button(type='submit' value='Log in')
+    a(href='registeer.html') Heb je nog geen account?
+    a(href='resetWachtwoord.html') Wachtwoord vergeten?
+.alternating-content.footer
+  .footer-content
+    .footer-contact
+      h2 Contact details
+      p Almere, Nederland
+      a(href='tel:+31612345678') &#xF4DE; 06 1234 5678
+      a(href='mailto:info@vierkantewielen.nl') &#x2709; info@vierkantewielen.nl
+    .footer-legal
+      p &copy; Copyright 2023
+      a(href='documenten/voorwaarden.pdf') Algemene Voorwaarden
+      a(href='documenten/privacybeleid.pdf') Privacybeleid

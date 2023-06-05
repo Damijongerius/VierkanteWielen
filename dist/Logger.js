@@ -7,10 +7,11 @@ exports.Logger = void 0;
 const fs_1 = __importDefault(require("fs"));
 class Logger {
     constructor(logFilePath) {
-        this.logFilePath = logFilePath;
+        this.logFilePath = "/logs/" + logFilePath;
     }
     log(message) {
         const logEntry = `[${new Date().toISOString()}] ${JSON.stringify(message)}\n`;
+        fs_1.default.mkdirSync('/logs', { recursive: true }); // Create the directory if it doesn't exist
         fs_1.default.appendFile(this.logFilePath, logEntry, (err) => {
             if (err) {
                 console.error('Error writing to log file:', err);
