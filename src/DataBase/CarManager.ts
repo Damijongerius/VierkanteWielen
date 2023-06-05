@@ -2,12 +2,12 @@ import { Database } from "./Database";
 
 export class CarManager{
 
-    async function addCar(licencePlate: string, manufacturer: string, color: string) {
+    async addCar(licencePlate: string, manufacturer: string, color: string) {
         const sqlQuery = `INSERT INTO cars (licencePlate, manufacturer, color) VALUES ("${licencePlate}", "${manufacturer}", "${color}")`;
         await Database.conn.query(sqlQuery);
       }
       
-      async function getCar(licencePlate: string) {
+      async getCar(licencePlate: string) {
         const sqlQuery = `SELECT * FROM cars WHERE licencePlate = "${licencePlate}"`;
         const [rows] = await Database.conn.query(sqlQuery);
         if (rows.length > 0) {
@@ -17,7 +17,7 @@ export class CarManager{
         return null;
       }
       
-      async function removeCar(licencePlate: string) {
+      async removeCar(licencePlate: string) {
         const sqlQuery = `DELETE FROM cars WHERE licencePlate = "${licencePlate}"`;
         await Database.conn.query(sqlQuery);
       }
