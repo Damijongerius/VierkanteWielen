@@ -17,14 +17,8 @@ class UserManager {
         return __awaiter(this, void 0, void 0, function* () {
             let sqlQuery;
             let values;
-            if (infix === undefined) {
-                sqlQuery = `INSERT INTO users (firstName, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?)`;
-                values = [firstName, lastName, email, permissionLevel, password];
-            }
-            else {
-                sqlQuery = `INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?)`;
-                values = [firstName, infix, lastName, email, permissionLevel, password];
-            }
+            sqlQuery = "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
+            values = [firstName, infix, lastName, email, permissionLevel, password];
             return yield Database_js_1.Database.query(sqlQuery, values);
         });
     }

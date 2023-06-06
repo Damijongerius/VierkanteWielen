@@ -12,15 +12,10 @@ export class UserManager {
   ) {
     let sqlQuery: string;
     let values: any[];
-
-    if (infix === undefined) {
-      sqlQuery = `INSERT INTO users (firstName, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?)`;
-      values = [firstName, lastName, email, permissionLevel, password];
-    } else {
-      sqlQuery = `INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?)`;
-      values = [firstName, infix, lastName, email, permissionLevel, password];
-    }
-
+  
+    sqlQuery = "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
+    values = [firstName, infix, lastName, email, permissionLevel, password];
+  
     return await Database.query(sqlQuery, values);
   }
   //  \\// \\// \\//
