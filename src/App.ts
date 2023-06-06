@@ -1,15 +1,43 @@
 import express from "express";
 import bodyParser from "body-parser";
-import path from "path";
+import RedisStore from "connect-redis"
+import session, {SessionOptions} from 'express-session';
+import {createClient} from "redis"
+import path from 'path';
 
 export const app = express();
 export const port = 3000;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+//Configure redis client
+const redisClient = createClient({ url: 'redis://localhost:6379'});
+redisClient.connect().catch(console.error);
+
+// @ts-ignore
+let redisStore = new RedisStore({
+  // @ts-ignore
+  client: redisClient,
+  prefix: "servertje",
+})
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(session({
+  secret: "blbbblsdf",
+  store: redisStore,
+}));
+
+redisClient.on('error', function (err) {
+  console.log('Could not establish a connection with redis. ' + err);
+});
+
+redisClient.on('connect', function (err) {
+  console.log('Connected to redis successfully');
+});
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
@@ -17,6 +45,6 @@ app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.listen(3000, function () {
-  console.log("server running");
+app.listen(port, function () {
+  console.log("Server running on port " + port);
 });

@@ -1,5 +1,5 @@
 import mysql from "mysql";
-import { Logger } from "../Logger";
+import { Logger } from "../Logger.js";
 
 const logger = new Logger("databaseErr.txt");
 
