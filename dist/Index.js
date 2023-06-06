@@ -32,6 +32,9 @@ App_1.app.get("/resetWachtwoord", function (req, res) {
 App_1.app.get("/pakket", function (req, res) {
     res.render("pakket");
 });
+App_1.app.get("/rooster", function (req, res) {
+    res.render("rooster");
+});
 App_1.app.post("/pakket_kopen", async (req, res) => {
     const { bevestigen12 } = req.body;
     const query = "INSERT INTO subscriptions (subscriptionLevel) VALUES (?)";

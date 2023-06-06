@@ -38,6 +38,10 @@ app.get("/pakket", function (req, res) {
   res.render("pakket");
 });
 
+app.get("/rooster", function (req, res) {
+  res.render("rooster");
+});
+
 app.post("/pakket_kopen", async (req, res) => {
   const { bevestigen12 } = req.body;
 
