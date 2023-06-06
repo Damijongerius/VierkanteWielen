@@ -27,17 +27,18 @@ export class Database {
 
   static async query(sqlQuery: string, values? : any[]) {
     if(values === undefined){
+      await this.conn.query(sqlQuery, (err, result) => {
+        return err ? Database.reject(err) : result.insertId;
+      });
+    }else{
       await this.conn.query(sqlQuery, values, (err, result) => {
         return err ? Database.reject(err) : result.insertId;
       });
     }
-    await this.conn.query(sqlQuery, (err, result) => {
-      return err ? Database.reject(err) : result.insertId;
-    });
   }
 
   static reject(error): boolean{
-    logger.log(error);
+    console.log(error);
     return false;
   }
 

@@ -33,17 +33,19 @@ class Database {
     static query(sqlQuery, values) {
         return __awaiter(this, void 0, void 0, function* () {
             if (values === undefined) {
+                yield this.conn.query(sqlQuery, (err, result) => {
+                    return err ? Database.reject(err) : result.insertId;
+                });
+            }
+            else {
                 yield this.conn.query(sqlQuery, values, (err, result) => {
                     return err ? Database.reject(err) : result.insertId;
                 });
             }
-            yield this.conn.query(sqlQuery, (err, result) => {
-                return err ? Database.reject(err) : result.insertId;
-            });
         });
     }
     static reject(error) {
-        logger.log(error);
+        console.log(error);
         return false;
     }
 }
