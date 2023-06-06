@@ -1,39 +1,43 @@
 import express from "express";
 import bodyParser from "body-parser";
-import session, { SessionOptions } from 'express-session';
-import connectRedis from 'connect-redis';
-import Redis from 'ioredis';
+import RedisStore from "connect-redis"
+import session, {SessionOptions} from 'express-session';
+import {createClient} from "redis"
 import path from 'path';
 
 export const app = express();
 export const port = 3000;
 
-// Create Redis client
-const redisClient = new Redis();
+//Configure redis client
+const redisClient = createClient({ url: 'redis://localhost:6379'});
+redisClient.connect().catch(console.error);
 
-// Create Redis store
-const RedisStore = new connectRedis(session);
-// Middleware
+// @ts-ignore
+let redisStore = new RedisStore({
+  // @ts-ignore
+  client: redisClient,
+  prefix: "servertje",
+})
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Configure session middleware
-const sessionOptions: SessionOptions = {
-  store: RedisStore,
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 3600000, // Set the session expiration time (e.g., 1 hour)
-  },
-};
-app.use(session(sessionOptions));
+app.use(session({
+  secret: "blbbblsdf",
+  store: redisStore,
+}));
+
+redisClient.on('error', function (err) {
+  console.log('Could not establish a connection with redis. ' + err);
+});
+
+redisClient.on('connect', function (err) {
+  console.log('Connected to redis successfully');
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");

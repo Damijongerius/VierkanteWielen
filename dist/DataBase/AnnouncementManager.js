@@ -1,28 +1,45 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AnnouncementManager = void 0;
-const Database_1 = require("./Database");
+const Database_js_1 = require("./Database.js");
 class AnnouncementManager {
-    async addAnnouncement(title, content, footer) {
-        const sqlQuery = `INSERT INTO announcements (title, content, footer) VALUES ("${title}", "${content}", "${footer}")`;
-        await Database_1.Database.conn.query(sqlQuery);
+    addAnnouncement(title, content, footer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `INSERT INTO announcements (title, content, footer) VALUES ("${title}", "${content}", "${footer}")`;
+            yield Database_js_1.Database.conn.query(sqlQuery);
+        });
     }
-    async removeAnnouncement(id) {
-        const sqlQuery = `DELETE FROM announcements WHERE id = ${id}`;
-        await Database_1.Database.conn.query(sqlQuery);
+    removeAnnouncement(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `DELETE FROM announcements WHERE id = ${id}`;
+            yield Database_js_1.Database.conn.query(sqlQuery);
+        });
     }
-    async getAnnouncement(id) {
-        const sqlQuery = `SELECT * FROM announcements WHERE id = ${id}`;
-        const [rows] = await Database_1.Database.conn.query(sqlQuery);
-        if (rows.length > 0) {
-            const { id, title, content, footer } = rows[0];
-            return { id, title, content, footer };
-        }
-        return null;
+    getAnnouncement(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT * FROM announcements WHERE id = ${id}`;
+            const [rows] = yield Database_js_1.Database.conn.query(sqlQuery);
+            if (rows.length > 0) {
+                const { id, title, content, footer } = rows[0];
+                return { id, title, content, footer };
+            }
+            return null;
+        });
     }
-    async modifyAnnouncement(id, title, content, footer) {
-        const sqlQuery = `UPDATE announcements SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
-        await Database_1.Database.conn.query(sqlQuery);
+    modifyAnnouncement(id, title, content, footer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `UPDATE announcements SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
+            yield Database_js_1.Database.conn.query(sqlQuery);
+        });
     }
 }
 exports.AnnouncementManager = AnnouncementManager;
