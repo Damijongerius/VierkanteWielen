@@ -11,9 +11,9 @@ head
 .content
   .content-section-login
     h1 Log in op mijn account
-    form(action='')
-      input(type='email' placeholder='Email')
-      input(type='password' placeholder='Wachtoord')
+    form(action='/login', method="post")
+      input(type='email' name='email' placeholder='Email' value=email)
+      input(type='password' name='wachtwoord' placeholder='Wachtoord')
       input.login-button(type='submit' value='Log in')
     a(href='registreer') Heb je nog geen account?
     a(href='resetWachtwoord') Wachtwoord vergeten?

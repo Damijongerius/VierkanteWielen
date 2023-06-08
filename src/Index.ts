@@ -1,9 +1,13 @@
 import { Database } from "./DataBase/Database.js";
 import { UserManager } from "./DataBase/UserManager.js";
-import { app } from "./App.js";
+import { app, redisClient } from "./App.js";
+import session from "express-session";
 import path from "path";
 import { Logger } from "./Logger.js";
-import { EncryptPasswordASync } from "./encryption/Encryptor.js";
+import {
+  EncryptPasswordASync,
+  comparePassword,
+} from "./encryption/Encryptor.js";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
@@ -12,15 +16,27 @@ const logger = new Logger("index");
 
 const studentPermission = 1;
 
-app.get("/", function (req, res) {
+app.get("/", async function (req, res) {
+  const data = await redisClient.hGetAll(req.session.id);
+  if(data.id == null){
+    res.render("login");
+  }
   res.render("index");
 });
 
-app.get("/login", function (req, res) {
-  res.render("login");
+app.get("/login", async function (req, res) {
+  const data = await redisClient.hGetAll(req.session.id);
+  if(data.id == null){
+    res.render("login");
+  }
+  res.render("rooster");
 });
 
-app.get("/registreer", function (req, res) {
+app.get("/registreer", async function (req, res) {
+  const data = await redisClient.hGetAll(req.session.id);
+  if(data.id == null){
+    res.render("login");
+  }
   res.render("registreer");
 });
 
@@ -32,11 +48,19 @@ app.get("/pakket", function (req, res) {
   res.render("pakket");
 });
 
-app.get("/rooster", function (req, res) {
+app.get("/rooster", async function (req, res) {
+  const data = await redisClient.hGetAll(req.session.id);
+  if(data.id == null){
+    res.render("login");
+  }
   res.render("rooster");
 });
 
-app.post("/pakket_kopen", async (req, res) => {
+app.post("/pakket/kopen", async (req, res) => {
+  const data = await redisClient.hGetAll(req.session.id);
+  if(data.id == null){
+    res.render("login");
+  }
   //   const { bevestigen12 } = req.body;
   //   const query = "INSERT INTO subscriptions (subscriptionLevel) VALUES (?)";
   //   connection.query(query, [bevestigen12], (error, results) => {
@@ -50,24 +74,53 @@ app.post("/pakket_kopen", async (req, res) => {
 });
 
 app.post("/register", async function (req, res) {
-  console.log(req.body);
   const user = req.body;
-  userManager.addUser(
-    user.voornaam,
-    user.achternaam,
-    user.email,
-    studentPermission,
-    user.wachtwoord,
-    await EncryptPasswordASync(user.tussenvoegsel)
-  );
-
-  res.render("rooster");
+  const hashPassword = await EncryptPasswordASync(user.wachtwoord);
+  await userManager
+    .addUser(
+      user.voornaam,
+      user.achternaam,
+      user.email,
+      studentPermission,
+      hashPassword,
+      user.tussenvoegsel
+    )
+    .then((result) => {
+      res.redirect("rooster");
+    });
 });
 
-app.post("/login", function (req, res) {
-  console.log(req.body);
+app.post("/login", async function (req, res) {
+  const email: string = req.body.email;
+  const password: string = req.body.wachtwoord;
+  if(email === undefined || password === undefined){
+    res.render("login", { email });
+  }
+
+  const users: any[] = await userManager.getUser(email);
+
+  if(users.length == 0){
+    res.render("login", { email });
+  }
+  users.forEach(async (user) => {
+      const correct = await comparePassword(password, user.password );
+      console.log(correct);
+      if (correct) {     
+        await redisClient.hSet(req.session.id, {
+          email: user.email,
+          id: user.id,
+          permissionLevel: user.permissionLevel
+      })
+      res.redirect("rooster");
+      } else {
+        res.render("login", { email });
+      }
+  });
 });
 
-app.post("/logout", function (req, res) {
-  console.log(req.body);
+app.get("/logout", function (req, res) {
+  redisClient.hDel(req.session.id, 'email');
+  redisClient.hDel(req.session.id, 'id');
+  redisClient.hDel(req.session.id, 'permissionLevel');
+  res.redirect('login');
 });

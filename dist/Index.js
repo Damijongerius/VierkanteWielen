@@ -13,18 +13,37 @@ const Database_js_1 = require("./DataBase/Database.js");
 const UserManager_js_1 = require("./DataBase/UserManager.js");
 const App_js_1 = require("./App.js");
 const Logger_js_1 = require("./Logger.js");
+const Encryptor_js_1 = require("./encryption/Encryptor.js");
 Database_js_1.Database.connect("localhost", "dami", "dami", "vierkantewielen");
 const userManager = new UserManager_js_1.UserManager();
 const logger = new Logger_js_1.Logger("index");
 const studentPermission = 1;
 App_js_1.app.get("/", function (req, res) {
-    res.render("index");
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+        if (data.id == null) {
+            res.render("login");
+        }
+        res.render("index");
+    });
 });
 App_js_1.app.get("/login", function (req, res) {
-    res.render("login");
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+        if (data.id == null) {
+            res.render("login");
+        }
+        res.render("rooster");
+    });
 });
 App_js_1.app.get("/registreer", function (req, res) {
-    res.render("registreer");
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+        if (data.id == null) {
+            res.render("login");
+        }
+        res.render("registreer");
+    });
 });
 App_js_1.app.get("/resetWachtwoord", function (req, res) {
     res.render("resetWachtwoord");
@@ -33,9 +52,19 @@ App_js_1.app.get("/pakket", function (req, res) {
     res.render("pakket");
 });
 App_js_1.app.get("/rooster", function (req, res) {
-    res.render("rooster");
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+        if (data.id == null) {
+            res.render("login");
+        }
+        res.render("rooster");
+    });
 });
-App_js_1.app.post("/pakket_kopen", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+App_js_1.app.post("/pakket/kopen", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+    if (data.id == null) {
+        res.render("login");
+    }
     //   const { bevestigen12 } = req.body;
     //   const query = "INSERT INTO subscriptions (subscriptionLevel) VALUES (?)";
     //   connection.query(query, [bevestigen12], (error, results) => {
@@ -48,15 +77,48 @@ App_js_1.app.post("/pakket_kopen", (req, res) => __awaiter(void 0, void 0, void 
     //   });
 }));
 App_js_1.app.post("/register", function (req, res) {
-    console.log(req.body);
-    const user = req.body;
-    userManager.addUser(user.voornaam, user.achternaam, user.email, studentPermission, user.wachtwoord, user.tussenvoegsel);
-    res.render("rooster");
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = req.body;
+        const hashPassword = yield (0, Encryptor_js_1.EncryptPasswordASync)(user.wachtwoord);
+        yield userManager
+            .addUser(user.voornaam, user.achternaam, user.email, studentPermission, hashPassword, user.tussenvoegsel)
+            .then((result) => {
+            res.redirect("rooster");
+        });
+    });
 });
 App_js_1.app.post("/login", function (req, res) {
-    console.log(req.body);
+    return __awaiter(this, void 0, void 0, function* () {
+        const email = req.body.email;
+        const password = req.body.wachtwoord;
+        if (email === undefined || password === undefined) {
+            res.render("login", { email });
+        }
+        const users = yield userManager.getUser(email);
+        if (users.length == 0) {
+            res.render("login", { email });
+        }
+        users.forEach((user) => __awaiter(this, void 0, void 0, function* () {
+            const correct = yield (0, Encryptor_js_1.comparePassword)(password, user.password);
+            console.log(correct);
+            if (correct) {
+                yield App_js_1.redisClient.hSet(req.session.id, {
+                    email: user.email,
+                    id: user.id,
+                    permissionLevel: user.permissionLevel
+                });
+                res.redirect("rooster");
+            }
+            else {
+                res.render("login", { email });
+            }
+        }));
+    });
 });
-App_js_1.app.post("/logout", function (req, res) {
-    console.log(req.body);
+App_js_1.app.get("/logout", function (req, res) {
+    App_js_1.redisClient.hDel(req.session.id, 'email');
+    App_js_1.redisClient.hDel(req.session.id, 'id');
+    App_js_1.redisClient.hDel(req.session.id, 'permissionLevel');
+    res.redirect('login');
 });
 //# sourceMappingURL=Index.js.map

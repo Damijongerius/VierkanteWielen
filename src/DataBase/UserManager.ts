@@ -16,7 +16,8 @@ export class UserManager {
     sqlQuery = "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
     values = [firstName, infix, lastName, email, permissionLevel, password];
   
-    return await Database.query(sqlQuery, values);
+    const result : any = await Database.query(sqlQuery, values);
+    return result;
   }
   //  \\// \\// \\//
 

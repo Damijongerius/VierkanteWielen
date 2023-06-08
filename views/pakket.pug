@@ -11,10 +11,10 @@ head
 .content
   .content-section-pakket-kopen
     h1#pakket-text Weet je zeket dat je pakket [temp] wilt kopen?
-    form(action='/pakket_kopen', method="POST")
-      input(type='checkbox' name='bevestigen12' required='')
-      label(for='bevestigen12') Bevestigen
-      input.login-button(type='submit' value='Het pakket kopen')
+    form() 
+      input(type='checkbox' id="myInput" name='bevestigen' required='')
+      label(for='bevestigen') Bevestigen
+      input.login-button(type='submit' onclick="sendData()" value='Het pakket kopen')
 .alternating-content.footer
   .footer-content
     .footer-contact
@@ -42,4 +42,31 @@ script.
       element.innerText = "Weet je zeker dat je " + pakket + " wilt kopen?";
     });
   }
+
+  function sendData() {
+      const bevestigen = document.getElementById('myInput').value;
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.open('POST', '/pakket/kopen', true);
+
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log('Data sent successfully!');
+        } else {
+          console.log('Data sending failed.');
+        }
+      };
+
+      const data = {
+        bevestigen: bevestigen,
+        pakket: pakket
+      };
+
+      const jsonData = JSON.stringify(data);
+
+      xhr.send(jsonData);
+    }
 

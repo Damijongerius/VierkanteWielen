@@ -32,16 +32,28 @@ class Database {
     }
     static query(sqlQuery, values) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (values === undefined) {
-                yield this.conn.query(sqlQuery, (err, result) => {
-                    return err ? Database.reject(err) : result.insertId;
-                });
-            }
-            else {
-                yield this.conn.query(sqlQuery, values, (err, result) => {
-                    return err ? Database.reject(err) : result.insertId;
-                });
-            }
+            return new Promise((resolve, reject) => {
+                if (values === undefined) {
+                    this.conn.query(sqlQuery, (err, result) => {
+                        if (err) {
+                            reject(Database.reject(err));
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                }
+                else {
+                    this.conn.query(sqlQuery, values, (err, result) => {
+                        if (err) {
+                            reject(Database.reject(err));
+                        }
+                        else {
+                            resolve(result);
+                        }
+                    });
+                }
+            });
         });
     }
     static reject(error) {

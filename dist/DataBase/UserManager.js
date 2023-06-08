@@ -19,7 +19,8 @@ class UserManager {
             let values;
             sqlQuery = "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
             values = [firstName, infix, lastName, email, permissionLevel, password];
-            return yield Database_js_1.Database.query(sqlQuery, values);
+            const result = yield Database_js_1.Database.query(sqlQuery, values);
+            return result;
         });
     }
     //  \\// \\// \\//

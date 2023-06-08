@@ -9,16 +9,28 @@ export const app = express();
 export const port = 3000;
 
 //Configure redis client
-const redisClient = createClient({ url: 'redis://localhost:6379'});
+export const redisClient = createClient({ url: 'redis://localhost:6379'});
 redisClient.connect().catch(console.error);
 
 // @ts-ignore
-let redisStore = new RedisStore({
+export let redisStore = new RedisStore({
   // @ts-ignore
   client: redisClient,
   prefix: "servertje",
 })
 
+app.use(
+  session({
+    secret: 'superSecrete',
+    resave: false,
+    saveUninitialized: true,
+    store: redisStore,
+    cookie: {
+      secure: false,
+      maxAge: 3600000,
+    },
+  })
+);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -16,14 +16,15 @@ exports.comparePassword = exports.EncryptPasswordASync = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 function EncryptPasswordASync(password) {
     return __awaiter(this, void 0, void 0, function* () {
-        const hash = yield bcrypt_1.default.hash(password, 10);
+        const hash = yield bcrypt_1.default.hash(password, 12);
         return hash;
     });
 }
 exports.EncryptPasswordASync = EncryptPasswordASync;
-function comparePassword(password, hash, callback) {
+function comparePassword(password, hash) {
     return __awaiter(this, void 0, void 0, function* () {
-        callback(yield bcrypt_1.default.compare(password, hash));
+        const result = yield bcrypt_1.default.compare(password, hash);
+        return result;
     });
 }
 exports.comparePassword = comparePassword;
