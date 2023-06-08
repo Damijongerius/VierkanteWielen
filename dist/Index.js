@@ -20,10 +20,6 @@ const logger = new Logger_js_1.Logger("index");
 const studentPermission = 1;
 App_js_1.app.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield App_js_1.redisClient.hGetAll(req.session.id);
-        if (data.id == null) {
-            res.render("login");
-        }
         res.render("index");
     });
 });
@@ -33,16 +29,20 @@ App_js_1.app.get("/login", function (req, res) {
         if (data.id == null) {
             res.render("login");
         }
-        res.render("rooster");
+        else {
+            res.render("rooster");
+        }
     });
 });
 App_js_1.app.get("/registreer", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = yield App_js_1.redisClient.hGetAll(req.session.id);
-        if (data.id == null) {
-            res.render("login");
+        if (data.id != null) {
+            res.render("rooster");
         }
-        res.render("registreer");
+        else {
+            res.render("registreer");
+        }
     });
 });
 App_js_1.app.get("/resetWachtwoord", function (req, res) {
@@ -57,7 +57,9 @@ App_js_1.app.get("/rooster", function (req, res) {
         if (data.id == null) {
             res.render("login");
         }
-        res.render("rooster");
+        else {
+            res.render("rooster");
+        }
     });
 });
 App_js_1.app.post("/pakket/kopen", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
