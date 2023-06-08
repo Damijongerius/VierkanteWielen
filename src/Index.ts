@@ -20,24 +20,28 @@ app.get("/", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
   if(data.id == null){
     res.render("login");
+  }else{
+    res.render("index");
   }
-  res.render("index");
 });
 
 app.get("/login", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
   if(data.id == null){
     res.render("login");
+  }else{
+    res.render("rooster");
   }
-  res.render("rooster");
+  
 });
 
 app.get("/registreer", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
   if(data.id == null){
     res.render("login");
+  }else{
+    res.render("registreer");
   }
-  res.render("registreer");
 });
 
 app.get("/resetWachtwoord", function (req, res) {
@@ -52,8 +56,9 @@ app.get("/rooster", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
   if(data.id == null){
     res.render("login");
+  }else{
+    res.render("rooster");
   }
-  res.render("rooster");
 });
 
 app.post("/pakket/kopen", async (req, res) => {
