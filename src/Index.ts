@@ -17,12 +17,7 @@ const logger = new Logger("index");
 const studentPermission = 1;
 
 app.get("/", async function (req, res) {
-  const data = await redisClient.hGetAll(req.session.id);
-  if(data.id == null){
-    res.render("login");
-  }else{
     res.render("index");
-  }
 });
 
 app.get("/login", async function (req, res) {
@@ -37,8 +32,8 @@ app.get("/login", async function (req, res) {
 
 app.get("/registreer", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
-  if(data.id == null){
-    res.render("login");
+  if(data.id != null){
+    res.render("rooster");
   }else{
     res.render("registreer");
   }
