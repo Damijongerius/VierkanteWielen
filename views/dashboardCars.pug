@@ -1,0 +1,93 @@
+doctype html
+html
+  head
+    title Dashboard
+    style.
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 20px;
+      }
+      nav {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .container {
+        padding: 20px;
+      }
+      .box {
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+      }
+      .box h2 {
+        margin-top: 0;
+      }
+      form {
+        margin-bottom: 10px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button[type="submit"]:hover {
+        background-color: #555;
+      }
+      .line {
+        border-top: 1px solid #ccc;
+        margin-bottom: 10px;
+      }
+
+  body
+    nav
+      a(href="/dashboard") Dashboard
+      a(href="/dashboard/autos") auto's
+      a(href="/dashboard/studenten") studenten
+      a(href="/dashboard/docenten") docenten
+      a(href="/dashboard/aankondegingen") aankondegingen
+    .container
+      form(action="/dashboard/autos/add", method="POST")
+        input(type="text", name="kenteken", placeholder="kenteken")
+        input(type="text", name="fabrikant", placeholder="fabrikant")
+        input(type="text", name="kleur", placeholder="kleur")
+        button(type="submit") Add Car
+      .line
+
+      if cars && cars.length
+        each car in cars
+          .box
+            h2= car.kenteken
+            p= car.fabrikant
+            p= car.kleur
+            form(action="/dashboard/autos/remove", method="POST")
+              input(type="hidden", name="kenteken", value=car.kenteken)
+              button(type="submit") Remove
+      else
+        p No cars available.

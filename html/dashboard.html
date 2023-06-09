@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <style>
+    html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 20px;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      height: 80%;
+    }
+    .box {
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .box h2 {
+      margin-top: 0;
+    }
+
+    .sales-container{
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        border-radius: 5px;
+        gap: 20px;
+        margin: 20px;
+    }
+    .box p {
+      margin-bottom: 0;
+    }
+    .box-2 {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: 0.5fr 2fr;
+      gap: 20px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      grid-column: 1 / span 2;
+    }
+    .box-2 h2 {
+      margin-top: 0;
+    }
+    .box-2 div div {
+      margin-bottom: 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .box.full {
+      grid-column: 1 / span 3;
+    }
+    .box.warning {
+      background-color: #ffc107;
+    }
+    .box.danger {
+      background-color: #dc3545;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/dashboard/autos">auto's</a>
+    <a href="/dashbaord/studenten">studenten</a>
+    <a href="/dashboard/docenten">docenten</a>
+    <a href="/dashboard/aankondegingen">aankondegingen</a>
+  </nav>
+  <div class="container">
+    <div class="box-2">
+      <h2 style="grid-column: 1 / span 4;;">sales</h2>
+      <div class="sales-container">
+        <div style="">1</div>
+        <div>
+            <p>pakket 1</p>
+        </div>
+        <div>
+            <p>pakket 2</p>
+        </div>
+        <div>4
+            <p>pakket 3</p>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <h2>studenten</h2>
+      <p>This is the content of widget 3.</p>
+    </div>
+    <div class="box full">
+      <h2>Big Widget</h2>
+      <p>This is the content of the big widget that spans the entire row.</p>
+    </div>
+  </div>
+</body>
+</html>
