@@ -31,13 +31,26 @@ app.get("/login", async function (req, res) {
   }
 });
 
-app.get("/dashboard", function (req,res) {
-  res.render("dashboard");
+app.get("/dashboard", async function (req,res) {
+  const data = await redisClient.hGetAll(req.session.id);
+  const permissionLevel = parseInt(data.permissionLevel);
+  if(permissionLevel == 3){
+    res.render("dashboard");
+  }else{
+    res.redirect('/');
+  }
 })
 
-app.get("/dashboard/autos", function (req,res) {
+app.get("/dashboard/autos", async function (req,res) {
   const cars = [];
-  res.render("dashboardCars", cars);
+
+  const data = await redisClient.hGetAll(req.session.id);
+  const permissionLevel = parseInt(data.permissionLevel);
+  if(permissionLevel != 3){
+    res.redirect('/');
+  }else{
+    res.render("dashboardCars", cars);
+  }
 })
 
 app.get("/registreer", async function (req, res) {
