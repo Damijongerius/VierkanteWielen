@@ -2,6 +2,7 @@ import { Database } from "./Database.js";
 
 export class LessonManager {
   async addLesson(
+    lessonDate: Date,
     lessonDescription: string,
     lessonGoal: string,
     ophaalLocatie: string
