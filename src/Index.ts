@@ -2,6 +2,7 @@ import { Database } from "./DataBase/Database.js";
 import { UserManager } from "./DataBase/UserManager.js";
 import { app, redisClient } from "./App.js";
 import { SubscriptionManager } from "./manager/Subscription.js";
+import { DashboardManager } from "./manager/Dashboard.js"
 import session from "express-session";
 import path from "path";
 import { Logger } from "./Logger.js";
@@ -12,11 +13,21 @@ import {
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
+const dashboard : DashboardManager = new DashboardManager();
+
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
 const logger: Logger = new Logger("index");
 
 const studentPermission: number = 1;
+
+//dashboard calls
+// //\\//\\//\\
+app.get('/dashboard', dashboard.dashboard);
+
+app.get('/dashboard/autos', dashboard.dashboardAutos);
+
+// \\//\\//\\//
 
 app.get("/", async function (req, res) {
   res.render("index");
@@ -30,28 +41,6 @@ app.get("/login", async function (req, res) {
     res.redirect("rooster");
   }
 });
-
-app.get("/dashboard", async function (req,res) {
-  const data = await redisClient.hGetAll(req.session.id);
-  const permissionLevel = parseInt(data.permissionLevel);
-  if(permissionLevel == 3){
-    res.render("dashboard");
-  }else{
-    res.redirect('/');
-  }
-})
-
-app.get("/dashboard/autos", async function (req,res) {
-  const cars = [];
-
-  const data = await redisClient.hGetAll(req.session.id);
-  const permissionLevel = parseInt(data.permissionLevel);
-  if(permissionLevel != 3){
-    res.redirect('/');
-  }else{
-    res.render("dashboardCars", cars);
-  }
-})
 
 app.get("/registreer", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
@@ -110,11 +99,7 @@ app.post("/register", async function (req, res) {
       user.tussenvoegsel
     )
     .then(async (result) => {
-      await redisClient.hSet(req.session.id, {
-        email: user.voornaam,
-        id: user.id,
-        permissionLevel: user.studentPermission,
-      });
+      console.log(result);
       res.redirect("rooster");
     });
 });
