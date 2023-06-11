@@ -26,6 +26,32 @@ const studentPermission: number = 1;
 app.get('/dashboard', dashboard.dashboard);
 
 app.get('/dashboard/autos', dashboard.dashboardAutos);
+// //\\//\\//\\
+app.get('/dashboard/autos/add');
+app.get('/dashboard/autos/remove');
+app.get('/dashboard/autos/modify');
+// \\//\\//\\//
+
+app.get('/dashboard/studenten', dashboard.dashboardStudenten);
+// //\\//\\//\\
+app.get('/dashboard/studenten/add');
+app.get('/dashboard/studenten/remove');
+app.get('/dashboard/studenten/modify');
+// \\//\\//\\//
+
+app.get('/dashboard/docenten', dashboard.dashboardDocenten);
+// //\\//\\//\\
+app.get('/dashboard/docenten/add');
+app.get('/dashboard/docenten/remove');
+app.get('/dashboard/docenten/modify');
+// \\//\\//\\//
+
+app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
+// //\\//\\//\\
+app.get('/dashboard/Aankondigingen/add');
+app.get('/dashboard/Aankondigingen/remove');
+app.get('/dashboard/Aankondigingen/modify');
+// \\//\\//\\//
 
 // \\//\\//\\//
 

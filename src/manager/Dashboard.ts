@@ -34,9 +34,9 @@ export class DashboardManager{
         }
     }
 
-    async dashboardAankondiginen(req : Request,res : Response){
+    async dashboardAankondigingen(req : Request,res : Response){
         if(await hasPermissions(req.session.id)){
-            res.render('dashboardAankondiginen');
+            res.render('dashboardAankondigingen');
         }else{
             res.redirect('/');
         }
