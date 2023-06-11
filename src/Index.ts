@@ -27,30 +27,30 @@ app.get('/dashboard', dashboard.dashboard);
 
 app.get('/dashboard/autos', dashboard.dashboardAutos);
 // //\\//\\//\\
-app.get('/dashboard/autos/add');
-app.get('/dashboard/autos/remove');
-app.get('/dashboard/autos/modify');
+app.post('/dashboard/autos/add');
+app.post('/dashboard/autos/remove');
+app.post('/dashboard/autos/modify');
 // \\//\\//\\//
 
 app.get('/dashboard/studenten', dashboard.dashboardStudenten);
 // //\\//\\//\\
-app.get('/dashboard/studenten/add');
-app.get('/dashboard/studenten/remove');
-app.get('/dashboard/studenten/modify');
+app.post('/dashboard/studenten/add');
+app.post('/dashboard/studenten/remove');
+app.post('/dashboard/studenten/modify');
 // \\//\\//\\//
 
 app.get('/dashboard/docenten', dashboard.dashboardDocenten);
 // //\\//\\//\\
-app.get('/dashboard/docenten/add');
-app.get('/dashboard/docenten/remove');
-app.get('/dashboard/docenten/modify');
+app.post('/dashboard/docenten/add');
+app.post('/dashboard/docenten/remove');
+app.post('/dashboard/docenten/modify');
 // \\//\\//\\//
 
 app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
 // //\\//\\//\\
-app.get('/dashboard/Aankondigingen/add');
-app.get('/dashboard/Aankondigingen/remove');
-app.get('/dashboard/Aankondigingen/modify');
+app.post('/dashboard/Aankondigingen/add');
+app.post('/dashboard/Aankondigingen/remove');
+app.post('/dashboard/Aankondigingen/modify');
 // \\//\\//\\//
 
 // \\//\\//\\//
