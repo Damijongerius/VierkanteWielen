@@ -16,6 +16,14 @@ export class CarManager{
         }
         return null;
       }
+
+      async getCars() {
+        const sqlQuery = `SELECT * FROM cars`;
+        const rows = await Database.conn.query(sqlQuery);
+        if (rows.length > 0) {
+          return rows;
+        }
+      }
       
       async removeCar(licencePlate: string) {
         const sqlQuery = `DELETE FROM cars WHERE licencePlate = "${licencePlate}"`;

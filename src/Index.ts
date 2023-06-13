@@ -2,6 +2,7 @@ import { Database } from "./DataBase/Database.js";
 import { UserManager } from "./DataBase/UserManager.js";
 import { app, redisClient } from "./App.js";
 import { SubscriptionManager } from "./manager/Subscription.js";
+import { Dashboard } from "./manager/Dashboard.js"
 import session from "express-session";
 import path from "path";
 import { Logger } from "./Logger.js";
@@ -12,11 +13,47 @@ import {
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
+const dashboard : Dashboard = new Dashboard();
+
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
 const logger: Logger = new Logger("index");
 
 const studentPermission: number = 1;
+
+//dashboard calls
+// //\\//\\//\\
+app.get('/dashboard', dashboard.dashboard);
+
+app.get('/dashboard/autos', dashboard.Autos);
+// //\\//\\//\\
+app.post('/dashboard/autos/add', dashboard.AutosAdd);
+app.post('/dashboard/autos/remove');
+app.post('/dashboard/autos/modify');
+// \\//\\//\\//
+
+app.get('/dashboard/studenten', dashboard.dashboardStudenten);
+// //\\//\\//\\
+app.post('/dashboard/studenten/add');
+app.post('/dashboard/studenten/remove');
+app.post('/dashboard/studenten/modify');
+// \\//\\//\\//
+
+app.get('/dashboard/docenten', dashboard.dashboardDocenten);
+// //\\//\\//\\
+app.post('/dashboard/docenten/add');
+app.post('/dashboard/docenten/remove');
+app.post('/dashboard/docenten/modify');
+// \\//\\//\\//
+
+app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
+// //\\//\\//\\
+app.post('/dashboard/Aankondigingen/add');
+app.post('/dashboard/Aankondigingen/remove');
+app.post('/dashboard/Aankondigingen/modify');
+// \\//\\//\\//
+
+// \\//\\//\\//
 
 app.get("/", async function (req, res) {
   res.render("index");
@@ -30,15 +67,6 @@ app.get("/login", async function (req, res) {
     res.redirect("rooster");
   }
 });
-
-app.get("/dashboard", function (req,res) {
-  res.render("dashboard");
-})
-
-app.get("/dashboard/autos", function (req,res) {
-  const cars = [];
-  res.render("dashboardCars", cars);
-})
 
 app.get("/registreer", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
@@ -97,11 +125,7 @@ app.post("/register", async function (req, res) {
       user.tussenvoegsel
     )
     .then(async (result) => {
-      await redisClient.hSet(req.session.id, {
-        email: user.voornaam,
-        id: user.id,
-        permissionLevel: user.studentPermission,
-      });
+      console.log(result);
       res.redirect("rooster");
     });
 });

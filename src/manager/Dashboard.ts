@@ -9,6 +9,12 @@ export class Dashboard{
         hasPermissions(req.session.id,res,'dashboard');
     }
 
+    async Autos(req : Request,res : Response){
+        const currautos = await autos.getCars();
+        console.log(currautos);
+        hasPermissions(req.session.id,res,'dashboardAutos');
+    }
+
     async AutosAdd(req: Request, res: Response){
         console.log(req.body);
         await hasPermissions(req.session.id,res,'dashboardAutos');
