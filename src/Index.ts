@@ -48,9 +48,9 @@ app.post('/dashboard/docenten/modify');
 
 app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
 // //\\//\\//\\
-app.get('/dashboard/Aankondigingen/add');
-app.get('/dashboard/Aankondigingen/remove');
-app.get('/dashboard/Aankondigingen/modify');
+app.post('/dashboard/Aankondigingen/add');
+app.post('/dashboard/Aankondigingen/remove');
+app.post('/dashboard/Aankondigingen/modify');
 // \\//\\//\\//
 
 // \\//\\//\\//
