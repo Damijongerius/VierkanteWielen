@@ -30,6 +30,7 @@ export class SubscriptionManager{
     }
 
     async setSubscription(subscriber: number,subscription: Subscription): Promise<boolean>{
+        
         const result = await userManager.addSubscription(subscriber,subscription.subscriptieNummer);
         if(result instanceof Boolean){
             return false;
