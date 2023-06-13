@@ -1,55 +1,52 @@
 import { app, redisClient } from "../App";
 import {Request,Response} from 'express';
-export class DashboardManager{
+import { CarManager } from "../DataBase/CarManager";
+
+const autos : CarManager = new CarManager();
+export class Dashboard{
 
     async dashboard(req : Request,res : Response){
-        if(await hasPermissions(req.session.id)){
-            res.render("dashboard");
-        }else{
-            res.redirect("/");
-        }
+        hasPermissions(req.session.id,res,'dashboard');
     }
 
-    async dashboardAutos(req : Request,res : Response){
-        if(await hasPermissions(req.session.id)){
-            res.render('dashboardAutos');
-        }else{
-            res.redirect('/');
-        }
+    async Autos(req : Request,res : Response){
+        const currautos = await autos.getCars();
+        console.log(currautos);
+        hasPermissions(req.session.id,res,'dashboardAutos');
+    }
+
+    async AutosAdd(req: Request, res: Response){
+        console.log(req.body);
+        await hasPermissions(req.session.id,res,'dashboardAutos');
     }
 
     async dashboardStudenten(req : Request,res : Response){
-        if(await hasPermissions(req.session.id)){
-            res.render('dashboardStudenten');
-        }else{
-            res.redirect('/');
-        }
+        hasPermissions(req.session.id,res,'dashboardStudenten');
     }
 
     async dashboardDocenten(req : Request,res : Response){
-        if(await hasPermissions(req.session.id)){
-            res.render('dashboardDocenten');
-        }else{
-            res.redirect('/');
-        }
+        hasPermissions(req.session.id,res,'dashboardDocenten');
     }
 
     async dashboardAankondigingen(req : Request,res : Response){
-        if(await hasPermissions(req.session.id)){
-            res.render('dashboardAankondigingen');
-        }else{
-            res.redirect('/');
-        }
+        hasPermissions(req.session.id,res,'dashboardAankondigingen');
     }
+
 }
 
 
-async function hasPermissions(id : string):Promise<boolean>{
+async function hasPermissions(id : string, res : Response, render : string , extra? : object): Promise<void>{
     const data = await redisClient.hGetAll(id);
+    console.log(data);
     const permissionLevel = parseInt(data.permissionLevel);
+    console.log(permissionLevel);
     if(permissionLevel == 3){
-      return true;
+        if(extra){
+            res.render(render, extra);
+        }else{
+            res.render(render);
+        }
     }else{
-      return false;
+        res.redirect('/');
     }
 }

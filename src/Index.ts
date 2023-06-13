@@ -2,7 +2,7 @@ import { Database } from "./DataBase/Database.js";
 import { UserManager } from "./DataBase/UserManager.js";
 import { app, redisClient } from "./App.js";
 import { SubscriptionManager } from "./manager/Subscription.js";
-import { DashboardManager } from "./manager/Dashboard.js"
+import { Dashboard } from "./manager/Dashboard.js"
 import session from "express-session";
 import path from "path";
 import { Logger } from "./Logger.js";
@@ -13,7 +13,7 @@ import {
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
-const dashboard : DashboardManager = new DashboardManager();
+const dashboard : Dashboard = new Dashboard();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
@@ -25,25 +25,25 @@ const studentPermission: number = 1;
 // //\\//\\//\\
 app.get('/dashboard', dashboard.dashboard);
 
-app.get('/dashboard/autos', dashboard.dashboardAutos);
+app.get('/dashboard/autos', dashboard.Autos);
 // //\\//\\//\\
-app.get('/dashboard/autos/add');
-app.get('/dashboard/autos/remove');
-app.get('/dashboard/autos/modify');
+app.post('/dashboard/autos/add', dashboard.AutosAdd);
+app.post('/dashboard/autos/remove');
+app.post('/dashboard/autos/modify');
 // \\//\\//\\//
 
 app.get('/dashboard/studenten', dashboard.dashboardStudenten);
 // //\\//\\//\\
-app.get('/dashboard/studenten/add');
-app.get('/dashboard/studenten/remove');
-app.get('/dashboard/studenten/modify');
+app.post('/dashboard/studenten/add');
+app.post('/dashboard/studenten/remove');
+app.post('/dashboard/studenten/modify');
 // \\//\\//\\//
 
 app.get('/dashboard/docenten', dashboard.dashboardDocenten);
 // //\\//\\//\\
-app.get('/dashboard/docenten/add');
-app.get('/dashboard/docenten/remove');
-app.get('/dashboard/docenten/modify');
+app.post('/dashboard/docenten/add');
+app.post('/dashboard/docenten/remove');
+app.post('/dashboard/docenten/modify');
 // \\//\\//\\//
 
 app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
