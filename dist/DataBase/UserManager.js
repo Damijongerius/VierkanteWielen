@@ -102,7 +102,7 @@ class UserManager {
     addSubscription(id, subscriptionLevel) {
         return __awaiter(this, void 0, void 0, function* () {
             const currentDate = new Date();
-            const sqlQuery = `INSERT INTO subscriptions (user_id,subscriptionLevel,startDate) VALUES (${id},${subscriptionLevel},${currentDate.toISOString()})`;
+            const sqlQuery = `INSERT INTO subscriptions (user_id,subscriptionLevel,startDate, lessonsUsed) VALUES (${id},${subscriptionLevel},'${convertToSqlDate(currentDate)}', 0)`;
             return yield Database_js_1.Database.query(sqlQuery);
         });
     }
@@ -126,4 +126,10 @@ class UserManager {
     }
 }
 exports.UserManager = UserManager;
+function convertToSqlDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 //# sourceMappingURL=UserManager.js.map
