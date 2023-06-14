@@ -80,8 +80,8 @@ html
         button(type="submit") Add Car
       .line
 
-      if cars && cars.length
-        each car in cars
+      if currAutos && currAutos.length
+        each car in currAutos
           .box
             h2= car.kenteken
             p= car.fabrikant

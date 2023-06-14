@@ -52,9 +52,6 @@ export class UserManager {
       // modifyUser(id: number, firstName: string, infix: string, lastName: string) implementation
       sqlQuery = `UPDATE users SET firstname = "${arg1}", infix = "${arg2}", lastName = "${arg3}" WHERE id = ${id} `;
     } else if (typeof arg1 === "number" && typeof arg2 === "string") {
-      // modifyUser(id: number, password: string) implementation
-      sqlQuery = `UPDATE users SET password = "${arg1}" WHERE id = ${id} `;
-    } else if (typeof arg1 === "number" && typeof arg2 === "string") {
       // modifyUser(id: number, email: string) implementation
       sqlQuery = `UPDATE users SET email = "${arg1}" WHERE id = ${id} `;
     } else if (typeof arg1 === "number" && typeof arg2 === "number") {

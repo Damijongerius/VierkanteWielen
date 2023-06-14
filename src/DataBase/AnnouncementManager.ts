@@ -26,4 +26,12 @@ export class AnnouncementManager{
         const sqlQuery = `UPDATE announcements SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
         await Database.conn.query(sqlQuery);
       }
+
+      async addAnnouncementTo(){
+
+      }
+
+      async removeAnnouncementFrom(){
+        
+      }
 }
