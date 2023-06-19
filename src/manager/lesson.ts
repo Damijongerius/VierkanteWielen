@@ -5,9 +5,12 @@ import { Database } from "../DataBase/Database.js";
 
 export class Lesson {
   async Add(req: Request, res: Response) {
+    console.log("qs");
     if ((await hasPermissions(req.session.id)) == false) {
       res.render("/rooster");
     }
+
+    console.log(" big pp");
 
     const lessonDate = req.body.date;
     const isExam = req.body.examen;
@@ -32,6 +35,7 @@ export class Lesson {
     ];
 
     const result: any = await Database.query(sqlQuery, values);
+    console.log(result);
 
     const Lesson_lessonId = result.insertId;
     const user_id = req.body.student_id;
@@ -41,6 +45,8 @@ export class Lesson {
     values = [Lesson_lessonId, user_id];
 
     const result2: any = await Database.query(sqlQuery, values);
+
+    console.log(result2);
 
     res.redirect("/rooster");
   }

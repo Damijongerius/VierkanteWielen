@@ -17,7 +17,7 @@ head
 #myModal.modal
   .modal-content
     span.close &times;
-    form(action='/rooster' method='post')
+    form(action='/lesson/add' method='post')
       label(for='date') Date:
       input#date(type='datetime-local' name='date' step='3600' required='')
       br
