@@ -1,32 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reset wachtwoord</title>
-    <link rel="stylesheet" href="../dist/public/styles/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../dist/public/styles/style.css" />
+  </head>
+  <body>
     <div class="nav-menu">
-      <a class="nav-home" href="index.html"><h1 class="nav-heading">Vierkante Wielen</h1></a>
+      <a class="nav-home" href="index.html"
+        ><h1 class="nav-heading">Vierkante Wielen</h1></a
+      >
     </div>
-    <!--Add lesson form-->
-    <button id="openModal">Plan een les</button>
+    <div class="content">
+      <div class="content-section-rooster">
+        <div class="rooster-part rooster-menu"></div>
+        <div class="rooster-part rooster-rooster"></div>
+        <div class="rooster-part rooster-extra">
+          <button id="openModal">Plan een les</button>
+        </div>
+      </div>
+    </div>
 
     <div id="myModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <form action="lesson_booking.php" method="post">
+        <form action="/lesson/add" method="post">
           <label for="date">Date:</label>
-          <input type="datetime-local" id="date" name="date" step="3600" required>
-          <br><br>
+          <input
+            type="datetime-local"
+            id="date"
+            name="date"
+            step="3600"
+            required
+          />
+          <br /><br />
+          <label for="student-name">Naam student:</label>
+          <input type="text" id="student-name" name="student-name" required />
+          <br /><br />
+          <label for="examen">Is het een examen</label><br />
+          <input type="radio" name="examen" value="1" required />
+          <label for="examen1">Ja</label><br />
+          <input type="radio" name="examen" value="0" />
+          <label for="examen2">Nee</label><br /><br />
+
           <label for="description">Lesson Description:</label>
-          <input type="text" id="description" name="description" required>
-          <br><br>
+          <input type="text" id="description" name="description" required />
+          <br /><br />
           <label for="goal">Lesson Goal:</label>
-          <input type="text" id="goal" name="goal" required>
-          <br><br>
+          <input type="text" id="goal" name="goal" required />
+          <br /><br />
           <label for="pickup">Pickup Location:</label>
           <select id="pickup" name="pickup">
             <option value="location1">Location 1</option>
@@ -34,89 +58,158 @@
             <option value="location3">Location 3</option>
             <option value="location4">Location 4</option>
           </select>
-          <br><br>
-          <input type="submit" value="Book Lesson">
+          <br /><br />
+          <input type="submit" value="Book Lesson" />
         </form>
       </div>
     </div>
-    
-      <div class="alternating-content footer">
-        <div class="footer-content">
-            <div class="footer-contact">
-                <h2>Contact details</h2>
-                <p>Almere, Nederland</p>
-                <a href="tel:+31612345678">&#128222; 06 1234 5678</a>
-                <a href="mailto:info@vierkantewielen.nl">&#x2709; info@vierkantewielen.nl</a>
-            </div>
-            <div class="footer-legal">
-                <P>© Copyright 2023</P>
-                <a href="documenten/voorwaarden.pdf">Algemene Voorwaarden</a>
-                <a href="documenten/privacybeleid.pdf">Privacybeleid</a>
-            </div>
+
+    <div class="alternating-content footer">
+      <div class="footer-content">
+        <div class="footer-contact">
+          <h2>Contact details</h2>
+          <p>Almere, Nederland</p>
+          <a href="tel:+31612345678">&#128222; 06 1234 5678</a>
+          <a href="mailto:info@vierkantewielen.nl"
+            >&#x2709; info@vierkantewielen.nl</a
+          >
         </div>
+        <div class="footer-legal">
+          <p>© Copyright 2023</p>
+          <a href="documenten/voorwaarden.pdf">Algemene Voorwaarden</a>
+          <a href="documenten/privacybeleid.pdf">Privacybeleid</a>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
 <script>
-    const picker = document.getElementById('date');
+  //Dit zorgt dat je allen toegestaande datums kan kiezen
 
-    var now = new Date();
-    var nextMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + (7 - now.getDay()) % 7 + 1, 8);
-    var nextFriday = new Date(nextMonday.getFullYear(), nextMonday.getMonth(), nextMonday.getDate() + 4, 18);
+  const picker = document.getElementById("date");
 
-    // Format the dates to be compatible with the date input
-    var nextMondayFormatted = nextMonday.toISOString().slice(0, 16);
-    var nextFridayFormatted = nextFriday.toISOString().slice(0, 16);
+  var now = new Date();
+  var nextMonday = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + ((7 - now.getDay()) % 7) + 1,
+    8
+  );
+  var nextFriday = new Date(
+    nextMonday.getFullYear(),
+    nextMonday.getMonth(),
+    nextMonday.getDate() + 4,
+    18
+  );
 
-    // Set the min and max attributes of the date input
-    picker.min = nextMondayFormatted;
-    picker.max = nextFridayFormatted;
-    
-    picker.addEventListener('change', function(e) {
-  var selectedDate = new Date(this.value);
-  
-  // Adjust the hour based on specific ranges
-  if (selectedDate.getHours() < 8) {
-    selectedDate.setHours(10); // Set the hour to 08:00 for inputted hours 01:00 to 07:00
-  } else if (selectedDate.getHours() >= 19) {
-    selectedDate.setHours(20    ); // Set the hour to 18:00 for inputted hours 19:00 to 00:00
-  }
-  
-  var selectedDateFormatted = selectedDate.toISOString().slice(0, 14) + '00:00'; // Set the minute part to "00"
-  this.value = selectedDateFormatted; // Update the input value with the modified date
-  console.log(selectedDateFormatted)
-  var day = (selectedDate.getUTCDay() + 1) % 7; // Adjust the day value
-  if ([1, 2, 3, 4, 5].includes(day)) {
-    e.target.setCustomValidity(''); // Clear the custom validity
-  } else {
-    e.target.setCustomValidity('Weekends are not allowed'); // Set custom validity for weekends
-  }
-});
+  // Format the dates to be compatible with the date input
+  var nextMondayFormatted = nextMonday.toISOString().slice(0, 16);
+  var nextFridayFormatted = nextFriday.toISOString().slice(0, 16);
 
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("openModal");
-var span = document.getElementsByClassName("close")[0];
+  picker.min = nextMondayFormatted;
+  picker.max = nextFridayFormatted;
 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+  picker.addEventListener("change", function (e) {
+    var selectedDate = new Date(this.value);
 
-span.onclick = function() {
-  modal.style.display = "none";
-}
+    if (selectedDate.getHours() < 8) {
+      selectedDate.setHours(10);
+    } else if (selectedDate.getHours() >= 19) {
+      selectedDate.setHours(20);
+    }
 
-window.onclick = function(event) {
-  if (event.target == modal) {
+    var selectedDateFormatted =
+      selectedDate.toISOString().slice(0, 14) + "00:00";
+    this.value = selectedDateFormatted;
+    console.log(selectedDateFormatted);
+    var day = (selectedDate.getUTCDay() + 1) % 7;
+    if ([1, 2, 3, 4, 5].includes(day)) {
+      e.target.setCustomValidity("");
+    } else {
+      e.target.setCustomValidity("Weekends are not allowed");
+    }
+  });
+
+  //Dit laat de modal zien
+
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("openModal");
+  var span = document.getElementsByClassName("close")[0];
+
+  btn.onclick = function () {
+    modal.style.display = "block";
+  };
+
+  span.onclick = function () {
     modal.style.display = "none";
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // Dit laat de lessen zien
+
+  const newLes = [
+    ["2023-06-15T16:00:00", "this is a test desc1"],
+    ["2023-06-15T18:00:00", "this is a test desc2"],
+    ["2023-06-16T10:00:00", "this is a test desc3"],
+    ["2023-06-16T14:00:00", "this is a test desc4"],
+  ];
+
+  const roosterRooster = document.querySelector(".rooster-rooster");
+
+  // Group lessons by day
+  const groupedLessons = newLes.reduce((acc, [time, desc]) => {
+    const day = new Date(time).toLocaleDateString();
+    acc[day] = acc[day] || [];
+    acc[day].push([time, desc]);
+    return acc;
+  }, {});
+
+  for (const day in groupedLessons) {
+    const dayDiv = document.createElement("div");
+    dayDiv.classList.add("day");
+
+    const dayHeader = document.createElement("div");
+    dayHeader.textContent = day;
+    dayDiv.appendChild(dayHeader);
+
+    const lessons = groupedLessons[day];
+    for (let i = 0; i < lessons.length; i++) {
+      const [startTime, desc] = lessons[i];
+      const startHour = new Date(startTime).getHours();
+      let endTime = "";
+
+      if (i < lessons.length - 1) {
+        const nextStartTime = new Date(lessons[i + 1][0]);
+        const nextHour = nextStartTime.getHours();
+        endTime =
+          nextStartTime.getMinutes() === 0
+            ? `${nextHour}:00`
+            : `${nextHour}:00`;
+      } else {
+        const lastLessonEndTime = new Date(startTime);
+        lastLessonEndTime.setHours(lastLessonEndTime.getHours() + 1);
+        endTime = `${lastLessonEndTime.getHours()}:00`;
+      }
+
+      const row = document.createElement("div");
+      row.classList.add("lesson");
+
+      const timeColumn = document.createElement("div");
+      timeColumn.textContent = `${startHour}:00 - ${startHour + 1 + ":00"}`;
+      row.appendChild(timeColumn);
+
+      const descColumn = document.createElement("div");
+      descColumn.textContent = desc;
+      row.appendChild(descColumn);
+
+      dayDiv.appendChild(row);
+    }
+
+    roosterRooster.appendChild(dayDiv);
   }
-}
-
-const newLes = [
-  ["2023-06-15T16:00:00", "this is a test desc1"],
-  ["2023-06-15T18:00:00", "this is a test desc2"],
-  ["2023-06-16T10:00:00", "this is a test desc3"],
-  ["2023-06-16T14:00:00", "this is a test desc4"]
-]
-
-console.log(newLes)
 </script>

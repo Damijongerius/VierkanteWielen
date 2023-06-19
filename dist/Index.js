@@ -14,9 +14,11 @@ const UserManager_js_1 = require("./DataBase/UserManager.js");
 const App_js_1 = require("./App.js");
 const Logger_js_1 = require("./Logger.js");
 const Encryptor_js_1 = require("./encryption/Encryptor.js");
+const lesson_js_1 = require("./manager/lesson.js");
 Database_js_1.Database.connect("localhost", "dami", "dami", "vierkantewielen");
 const userManager = new UserManager_js_1.UserManager();
 const logger = new Logger_js_1.Logger("index");
+const lesson = new lesson_js_1.Lesson();
 const studentPermission = 1;
 App_js_1.app.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -107,7 +109,7 @@ App_js_1.app.post("/login", function (req, res) {
                 yield App_js_1.redisClient.hSet(req.session.id, {
                     email: user.email,
                     id: user.id,
-                    permissionLevel: user.permissionLevel
+                    permissionLevel: user.permissionLevel,
                 });
                 res.redirect("rooster");
             }
@@ -118,9 +120,10 @@ App_js_1.app.post("/login", function (req, res) {
     });
 });
 App_js_1.app.get("/logout", function (req, res) {
-    App_js_1.redisClient.hDel(req.session.id, 'email');
-    App_js_1.redisClient.hDel(req.session.id, 'id');
-    App_js_1.redisClient.hDel(req.session.id, 'permissionLevel');
-    res.redirect('login');
+    App_js_1.redisClient.hDel(req.session.id, "email");
+    App_js_1.redisClient.hDel(req.session.id, "id");
+    App_js_1.redisClient.hDel(req.session.id, "permissionLevel");
+    res.redirect("login");
 });
+App_js_1.app.post("/lesson/add", lesson.Add);
 //# sourceMappingURL=Index.js.map

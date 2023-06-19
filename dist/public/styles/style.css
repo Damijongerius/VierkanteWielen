@@ -319,3 +319,23 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+.content-section-rooster {
+  display: flex;
+  position: relative;
+  left: 50vw;
+  transform: translateX(-50%);
+}
+
+.rooster-part {
+  width: 300px;
+}
+
+.rooster-rooster {
+  width: 600px;
+}
+
+.lesson {
+  display: grid;
+  grid-template-columns: 120px auto;
+}

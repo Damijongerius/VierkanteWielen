@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LessonManager = void 0;
 const Database_js_1 = require("./Database.js");
 class LessonManager {
-    addLesson(lessonDescription, lessonGoal, ophaalLocatie) {
+    addLesson(lessonDate, lessonDescription, lessonGoal, ophaalLocatie) {
         return __awaiter(this, void 0, void 0, function* () { });
     }
     deleteLesson(lessonId) {

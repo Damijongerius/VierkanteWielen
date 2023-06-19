@@ -8,33 +8,34 @@ import {
   EncryptPasswordASync,
   comparePassword,
 } from "./encryption/Encryptor.js";
+import { Lesson } from "./manager/lesson.js";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
 const userManager = new UserManager();
 const logger = new Logger("index");
+const lesson = new Lesson();
 
 const studentPermission = 1;
 
 app.get("/", async function (req, res) {
-    res.render("index");
+  res.render("index");
 });
 
 app.get("/login", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
-  if(data.id == null){
+  if (data.id == null) {
     res.render("login");
-  }else{
+  } else {
     res.render("rooster");
   }
-  
 });
 
 app.get("/registreer", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
-  if(data.id != null){
+  if (data.id != null) {
     res.render("rooster");
-  }else{
+  } else {
     res.render("registreer");
   }
 });
@@ -49,16 +50,16 @@ app.get("/pakket", function (req, res) {
 
 app.get("/rooster", async function (req, res) {
   const data = await redisClient.hGetAll(req.session.id);
-  if(data.id == null){
+  if (data.id == null) {
     res.render("login");
-  }else{
+  } else {
     res.render("rooster");
   }
 });
 
 app.post("/pakket/kopen", async (req, res) => {
   const data = await redisClient.hGetAll(req.session.id);
-  if(data.id == null){
+  if (data.id == null) {
     res.render("login");
   }
   //   const { bevestigen12 } = req.body;
@@ -93,34 +94,36 @@ app.post("/register", async function (req, res) {
 app.post("/login", async function (req, res) {
   const email: string = req.body.email;
   const password: string = req.body.wachtwoord;
-  if(email === undefined || password === undefined){
+  if (email === undefined || password === undefined) {
     res.render("login", { email });
   }
 
   const users: any[] = await userManager.getUser(email);
 
-  if(users.length == 0){
+  if (users.length == 0) {
     res.render("login", { email });
   }
   users.forEach(async (user) => {
-      const correct = await comparePassword(password, user.password );
-      console.log(correct);
-      if (correct) {     
-        await redisClient.hSet(req.session.id, {
-          email: user.email,
-          id: user.id,
-          permissionLevel: user.permissionLevel
-      })
+    const correct = await comparePassword(password, user.password);
+    console.log(correct);
+    if (correct) {
+      await redisClient.hSet(req.session.id, {
+        email: user.email,
+        id: user.id,
+        permissionLevel: user.permissionLevel,
+      });
       res.redirect("rooster");
-      } else {
-        res.render("login", { email });
-      }
+    } else {
+      res.render("login", { email });
+    }
   });
 });
 
 app.get("/logout", function (req, res) {
-  redisClient.hDel(req.session.id, 'email');
-  redisClient.hDel(req.session.id, 'id');
-  redisClient.hDel(req.session.id, 'permissionLevel');
-  res.redirect('login');
+  redisClient.hDel(req.session.id, "email");
+  redisClient.hDel(req.session.id, "id");
+  redisClient.hDel(req.session.id, "permissionLevel");
+  res.redirect("login");
 });
+
+app.post("/lesson/add", lesson.Add);
