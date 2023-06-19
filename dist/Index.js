@@ -60,7 +60,12 @@ App_js_1.app.get("/rooster", function (req, res) {
             res.render("login");
         }
         else {
-            res.render("rooster");
+            let sqlQuery;
+            sqlQuery =
+                "SELECT id, firstName, lastName FROM users WHERE permissionLevel = 1";
+            const result = yield Database_js_1.Database.query(sqlQuery);
+            const allStudents = result;
+            res.render("rooster", { allStudents });
         }
     });
 });

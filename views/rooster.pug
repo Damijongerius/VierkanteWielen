@@ -17,13 +17,15 @@ head
 #myModal.modal
   .modal-content
     span.close &times;
-    form(action='/lesson/add' method='post')
+    form(action='/rooster' method='post')
       label(for='date') Date:
       input#date(type='datetime-local' name='date' step='3600' required='')
       br
       br
       label(for='student-name') Naam student:
-      input#student-name(type='text' name='student_name' required='')
+      select#student-name(name='student_id' required='')
+        each student in allStudents
+          option(value=student.id)= student.firstName + ' ' + student.lastName
       br
       br
       label(for='examen') Is het een examen
@@ -44,11 +46,7 @@ head
       br
       br
       label(for='pickup') Pickup Location:
-      select#pickup(name='pickup')
-        option(value='location1') Location 1
-        option(value='location2') Location 2
-        option(value='location3') Location 3
-        option(value='location4') Location 4
+      input#pickup(type='text' name='pickup' required='')
       br
       br
       input(type='submit' value='Book Lesson')

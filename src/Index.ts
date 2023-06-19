@@ -9,6 +9,7 @@ import {
   comparePassword,
 } from "./encryption/Encryptor.js";
 import { Lesson } from "./manager/lesson.js";
+import { Request, Response } from "express";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
@@ -48,12 +49,18 @@ app.get("/pakket", function (req, res) {
   res.render("pakket");
 });
 
-app.get("/rooster", async function (req, res) {
+app.get("/rooster", async function (req, res: Response) {
   const data = await redisClient.hGetAll(req.session.id);
   if (data.id == null) {
     res.render("login");
   } else {
-    res.render("rooster");
+    let sqlQuery: string;
+
+    sqlQuery =
+      "SELECT id, firstName, lastName FROM users WHERE permissionLevel = 1";
+    const result: any = await Database.query(sqlQuery);
+    const allStudents = result;
+    res.render("rooster", { allStudents });
   }
 });
 
