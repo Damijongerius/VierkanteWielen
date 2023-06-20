@@ -67,7 +67,8 @@ app.get("/rooster", async function (req, res: Response) {
     const result2: any = await Database.query(sqlQuery);
 
     const roosterPlanning = result2;
-    res.render("rooster", { allStudents, roosterPlanning });
+    if(data.permissionLevel == "1"){res.render("rooster", { roosterPlanning });} else if (data.permissionLevel == "2"){res.render("rooster-docent", { allStudents, roosterPlanning})}
+    
   }
 });
 

@@ -15,13 +15,6 @@ head
 .nav-menu
   a.nav-home(href='index.html')
     h1.nav-heading Vierkante Wielen
-.content
-  .content-section-rooster
-    .rooster-part.rooster-menu
-    .rooster-part.rooster-rooster
-    .rooster-part.rooster-extra
-      button#openModal Plan een les
-
 
   table#lessonsTable
     thead
@@ -110,44 +103,6 @@ head
                 textarea.form-control(name="Negative", rows="3", required=true)
                 input.btn.btn-primary(type="submit" value="Submit results")
 
-
-#myModal.modal
-  .modal-content
-    span.close &times;
-    form(action='/lesson/add' method='post')
-      label(for='date') Date:
-      input#date(type='datetime-local' name='date' step='3600' required='')
-      br
-      br
-      label(for='student-name') Naam student:
-      select#student-name(name='student_id' required='')
-        if allStudents && allStudents.length
-          each student in allStudents
-            option(value=student.id)= student.firstName + ' ' + student.lastName
-      br
-      br
-      label(for='examen') Is het een examen
-      br
-      input(type='radio' name='examen' value='1' required='')
-      label(for='examen1') Ja
-      br
-      input(type='radio' name='examen' value='0')
-      label(for='examen2') Nee
-      br
-      br
-      label(for='description') Lesson Description:
-      input#description(type='text' name='description' required='')
-      br
-      br
-      label(for='goal') Lesson Goal:
-      input#goal(type='text' name='goal' required='')
-      br
-      br
-      label(for='pickup') Pickup Location:
-      input#pickup(type='text' name='pickup' required='')
-      br
-      br
-      input(type='submit' value='Book Lesson')
 .alternating-content.footer
   .footer-content
     .footer-contact
@@ -198,21 +153,6 @@ script.
   e.target.setCustomValidity("Weekends are not allowed");
   }
   });
-  //Dit laat de modal zien
-  var modal = document.getElementById("myModal");
-  var btn = document.getElementById("openModal");
-  var span = document.getElementsByClassName("close")[0];
-  btn.onclick = function () {
-  modal.style.display = "block";
-  };
-  span.onclick = function () {
-  modal.style.display = "none";
-  };
-  window.onclick = function (event) {
-  if (event.target == modal) {
-  modal.style.display = "none";
-  }
-  };
 
   document.addEventListener('DOMContentLoaded', function() {
     // Open Cancel Lesson Modal
