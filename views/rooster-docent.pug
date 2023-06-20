@@ -1,0 +1,251 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Reset wachtwoord
+  link(rel='stylesheet' href='./styles/style.css')
+  // jQuery
+  script(src='https://code.jquery.com/jquery-3.6.0.min.js')
+  // Bootstrap
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js')
+
+.nav-menu
+  a.nav-home(href='index.html')
+    h1.nav-heading Vierkante Wielen
+.content
+  .content-section-rooster
+    .rooster-part.rooster-menu
+    .rooster-part.rooster-rooster
+    .rooster-part.rooster-extra
+      button#openModal Plan een les
+
+
+  table#lessonsTable
+    thead
+      tr
+        th Lesson Date
+        th Lesson Description
+        th Is Exam
+        th Lesson Goal
+        th Ophaal Locatie
+        th Name
+        th Actions
+
+    tbody
+      each lesson in roosterPlanning
+        tr(class=lesson.isCanceled === 1 ? 'cancelled' : '')
+          td #{lesson.lessonDate.toLocaleDateString('en-US', { timeZone: 'UTC' })}
+          td #{lesson.lessonDescription}
+          td #{lesson.isExam}
+          td #{lesson.lessonGoal}
+          td #{lesson.ophaalLocatie}
+          td #{lesson.firstName} #{lesson.lastName}
+          td
+            // Cancel Lesson Modal
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#cancelModal-${lesson.lessonId}`) Cancel Lesson
+
+            // Change Options Modal
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#changeOptionsModal-${lesson.lessonId}`) Change Options
+
+            // Results
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#resultsModal-${lesson.lessonId}`) Result
+
+    // Modals
+    each lesson in roosterPlanning
+      // Cancel Lesson Modal
+      .modal.fade(id=`cancelModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`cancelModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`cancelModalLabel-${lesson.lessonId}`) Cancel Lesson
+            .modal-body
+              form(action="/cancelLesson", method="POST")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
+                label(for=`cancelReason-${lesson.lessonId}`) Cancel Reason
+                textarea.form-control(id=`cancelReason-${lesson.lessonId}`, name="cancelReason", rows="3", required)
+                label(for=`isSick-${lesson.lessonId}`) Are you sick?
+                select.form-control(id=`isSick-${lesson.lessonId}`, name="isSick", required)
+                  option(value="1") Yes
+                  option(value="0") No
+                input.btn.btn-primary(type="submit" value="Cancel lesson")
+
+      // Change Options Modal
+      .modal.fade(id=`changeOptionsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`changeOptionsModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`changeOptionsModalLabel-${lesson.lessonId}`) Change Options
+            .modal-body
+              form(action="/changeOptions", method="post")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
+                label(for=`lessonGoal-${lesson.lessonId}`) Lesson Goal
+                input.form-control(type="text", name="lessonGoal", value=lesson.lessonGoal, required)
+                label(for=`isExam-${lesson.lessonId}`) Is Exam
+                select.form-control(name="isExam", required)
+                  option(value="1") Yes
+                  option(value="0") No
+                label(for=`ophaalLocatiec`) Ophaal Locatie
+                input.form-control(type="text", name="ophaalLocatie", value=lesson.ophaalLocatie, required=true)
+                label(for=`lessonDescription`) Lesson Description
+                textarea.form-control(name="lessonDescription", rows="3", required=true)= lesson.lessonDescription
+                input.btn.btn-primary(type="submit" value="Save changes")
+
+      // Put in results
+      .modal.fade(id=`resultsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`resultsModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`resultsModalLabel-${lesson.lessonId}`) Change Options
+            .modal-body
+              form(action="/results", method="post")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
+                label(for=`Result`) Result
+                textarea.form-control(name="Result", rows="3", required=true)
+                label(for=`Positive`) Positive
+                textarea.form-control(name="Positive", rows="3", required=true)
+                label(for=`Negative`) Negative
+                textarea.form-control(name="Negative", rows="3", required=true)
+                input.btn.btn-primary(type="submit" value="Submit results")
+
+
+#myModal.modal
+  .modal-content
+    span.close &times;
+    form(action='/lesson/add' method='post')
+      label(for='date') Date:
+      input#date(type='datetime-local' name='date' step='3600' required='')
+      br
+      br
+      label(for='student-name') Naam student:
+      select#student-name(name='student_id' required='')
+        if allStudents && allStudents.length
+          each student in allStudents
+            option(value=student.id)= student.firstName + ' ' + student.lastName
+      br
+      br
+      label(for='examen') Is het een examen
+      br
+      input(type='radio' name='examen' value='1' required='')
+      label(for='examen1') Ja
+      br
+      input(type='radio' name='examen' value='0')
+      label(for='examen2') Nee
+      br
+      br
+      label(for='description') Lesson Description:
+      input#description(type='text' name='description' required='')
+      br
+      br
+      label(for='goal') Lesson Goal:
+      input#goal(type='text' name='goal' required='')
+      br
+      br
+      label(for='pickup') Pickup Location:
+      input#pickup(type='text' name='pickup' required='')
+      br
+      br
+      input(type='submit' value='Book Lesson')
+.alternating-content.footer
+  .footer-content
+    .footer-contact
+      h2 Contact details
+      p Almere, Nederland
+      a(href='tel:+31612345678') &#xF4DE; 06 1234 5678
+      a(href='mailto:info@vierkantewielen.nl') &#x2709; info@vierkantewielen.nl
+    .footer-legal
+      p &copy; Copyright 2023
+      a(href='documenten/voorwaarden.pdf') Algemene Voorwaarden
+      a(href='documenten/privacybeleid.pdf') Privacybeleid
+script.
+  //Dit zorgt dat je allen toegestaande datums kan kiezen
+  const picker = document.getElementById("date");
+  var now = new Date();
+  var nextMonday = new Date(
+  now.getFullYear(),
+  now.getMonth(),
+  now.getDate() + ((7 - now.getDay()) % 7) + 1,
+  8
+  );
+  var nextFriday = new Date(
+  nextMonday.getFullYear(),
+  nextMonday.getMonth(),
+  nextMonday.getDate() + 4,
+  18
+  );
+  // Format the dates to be compatible with the date input
+  var nextMondayFormatted = nextMonday.toISOString().slice(0, 16);
+  var nextFridayFormatted = nextFriday.toISOString().slice(0, 16);
+  picker.min = nextMondayFormatted;
+  picker.max = nextFridayFormatted;
+  picker.addEventListener("change", function (e) {
+  var selectedDate = new Date(this.value);
+  if (selectedDate.getHours() < 8) {
+  selectedDate.setHours(10);
+  } else if (selectedDate.getHours() >= 19) {
+  selectedDate.setHours(20);
+  }
+  var selectedDateFormatted =
+  selectedDate.toISOString().slice(0, 14) + "00:00";
+  this.value = selectedDateFormatted;
+  console.log(selectedDateFormatted);
+  var day = (selectedDate.getUTCDay() + 1) % 7;
+  if ([1, 2, 3, 4, 5].includes(day)) {
+  e.target.setCustomValidity("");
+  } else {
+  e.target.setCustomValidity("Weekends are not allowed");
+  }
+  });
+  //Dit laat de modal zien
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("openModal");
+  var span = document.getElementsByClassName("close")[0];
+  btn.onclick = function () {
+  modal.style.display = "block";
+  };
+  span.onclick = function () {
+  modal.style.display = "none";
+  };
+  window.onclick = function (event) {
+  if (event.target == modal) {
+  modal.style.display = "none";
+  }
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Open Cancel Lesson Modal
+    var cancelLessonButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target^="#cancelModal"]');
+    cancelLessonButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetModalId = button.getAttribute('data-bs-target');
+        var targetModal = new bootstrap.Modal(document.querySelector(targetModalId));
+        targetModal.show();
+        });
+      });
+    });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Open Change Options Modal
+    var changeOptionsButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target^="#changeOptionsModal"]');
+    changeOptionsButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetModalId = button.getAttribute('data-bs-target');
+        var targetModal = new bootstrap.Modal(document.querySelector(targetModalId));
+        targetModal.show();
+      });
+    });
+  });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Open Change Options Modal
+    var changeOptionsButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target^="#resultsModal"]');
+    changeOptionsButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetModalId = button.getAttribute('data-bs-target');
+        var targetModal = new bootstrap.Modal(document.querySelector(targetModalId));
+        targetModal.show();
+      });
+    });
+  });

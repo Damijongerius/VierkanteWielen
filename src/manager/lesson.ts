@@ -6,7 +6,7 @@ import { Database } from "../DataBase/Database.js";
 export class Lesson {
   async Add(req: Request, res: Response) {
     if ((await hasPermissions(req.session.id)) == false) {
-      res.render("/rooster");
+      res.redirect("/rooster");
     }
 
     const lessonDate = req.body.date;
@@ -39,6 +39,11 @@ export class Lesson {
     sqlQuery =
       "INSERT INTO UserLessons (Lesson_lessonId, user_id) VALUES (?, ?)";
     values = [Lesson_lessonId, user_id];
+
+    await Database.query(sqlQuery, values);
+
+    const data = await redisClient.hGetAll(req.session.id);
+    values = [Lesson_lessonId, data.id];
 
     await Database.query(sqlQuery, values);
 
