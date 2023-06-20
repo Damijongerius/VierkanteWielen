@@ -15,7 +15,7 @@ head
 .nav-menu
   a.nav-home(href='index.html')
     h1.nav-heading Vierkante Wielen
-
+.content
   table#lessonsTable
     thead
       tr
@@ -42,9 +42,6 @@ head
 
             // Change Options Modal
             button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#changeOptionsModal-${lesson.lessonId}`) Change Options
-
-            // Results
-            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#resultsModal-${lesson.lessonId}`) Result
 
     // Modals
     each lesson in roosterPlanning
@@ -85,23 +82,6 @@ head
                 label(for=`lessonDescription`) Lesson Description
                 textarea.form-control(name="lessonDescription", rows="3", required=true)= lesson.lessonDescription
                 input.btn.btn-primary(type="submit" value="Save changes")
-
-      // Put in results
-      .modal.fade(id=`resultsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`resultsModalLabel-${lesson.lessonId}`, aria-hidden="true")
-        .modal-dialog
-          .modal-content
-            .modal-header
-              h5.modal-title(id=`resultsModalLabel-${lesson.lessonId}`) Change Options
-            .modal-body
-              form(action="/results", method="post")
-                input(type="hidden", name="lessonId", value=lesson.lessonId)
-                label(for=`Result`) Result
-                textarea.form-control(name="Result", rows="3", required=true)
-                label(for=`Positive`) Positive
-                textarea.form-control(name="Positive", rows="3", required=true)
-                label(for=`Negative`) Negative
-                textarea.form-control(name="Negative", rows="3", required=true)
-                input.btn.btn-primary(type="submit" value="Submit results")
 
 .alternating-content.footer
   .footer-content

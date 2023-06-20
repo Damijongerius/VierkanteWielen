@@ -70,7 +70,12 @@ App_js_1.app.get("/rooster", function (req, res) {
                 "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";";
             const result2 = yield Database_js_1.Database.query(sqlQuery);
             const roosterPlanning = result2;
-            res.render("rooster", { allStudents, roosterPlanning });
+            if (data.permissionLevel == "1") {
+                res.render("rooster", { roosterPlanning });
+            }
+            else if (data.permissionLevel == "2") {
+                res.render("rooster-docent", { allStudents, roosterPlanning });
+            }
         }
     });
 });
