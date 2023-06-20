@@ -5,12 +5,9 @@ import { Database } from "../DataBase/Database.js";
 
 export class Lesson {
   async Add(req: Request, res: Response) {
-    console.log("qs");
     if ((await hasPermissions(req.session.id)) == false) {
       res.render("/rooster");
     }
-
-    console.log(" big pp");
 
     const lessonDate = req.body.date;
     const isExam = req.body.examen;
@@ -35,7 +32,6 @@ export class Lesson {
     ];
 
     const result: any = await Database.query(sqlQuery, values);
-    console.log(result);
 
     const Lesson_lessonId = result.insertId;
     const user_id = req.body.student_id;
@@ -44,11 +40,83 @@ export class Lesson {
       "INSERT INTO UserLessons (Lesson_lessonId, user_id) VALUES (?, ?)";
     values = [Lesson_lessonId, user_id];
 
-    const result2: any = await Database.query(sqlQuery, values);
-
-    console.log(result2);
+    await Database.query(sqlQuery, values);
 
     res.redirect("/rooster");
+  }
+
+  async Update(req: Request, res: Response) {
+
+    let sqlQuery: string;
+    let values: any[];    
+
+    const lessonId = req.body.lessonId;
+    const lessonGoal = req.body.lessonGoal;
+    const isExam = req.body.isExam;
+    const ophaalLocatie = req.body.ophaalLocatie;
+    const lessonDescription = req.body.lessonDescription;
+
+    values = [
+      lessonGoal,
+      isExam,
+      ophaalLocatie,
+      lessonDescription,
+      lessonId
+    ];
+
+    sqlQuery = 
+    "UPDATE Lessons SET lessonGoal = ?, isExam = ?, ophaalLocatie = ?, lessonDescription = ? WHERE lessonId = ?;"
+
+    const asd = await Database.query(sqlQuery, values);
+    console.log(asd)
+    res.redirect("/rooster")
+  }
+
+  async Cancel(req: Request, res: Response) {
+    let sqlQuery: string;
+    let values: any[];  
+
+    const lessonId = req.body.lessonId;
+    const cancelReason = req.body.cancelReason;
+    const isSick = req.body.isSick;
+
+    values = [
+      cancelReason,
+      lessonId
+    ]
+
+    sqlQuery = 
+    "UPDATE Lessons SET cancelReason = ?, isCanceled = 1 WHERE lessonId = ?;";
+
+    const asd = await Database.query(sqlQuery, values);
+    console.log(asd)
+    res.redirect("/rooster")
+  }
+
+  async Results(req: Request, res: Response) {
+    let sqlQuery: string;
+    let values: any[];  
+
+    console.log(req.body)
+
+    const Result = req.body.Result;
+    const Positive = req.body.Positive;
+    const Negative = req.body.Negative;
+    const lessonId = req.body.lessonId;
+
+    values = [
+      Result,
+      Positive,
+      Negative,
+      lessonId
+    ]
+
+    sqlQuery =
+    "INSERT INTO results (result, positive, negative, Lessons_lessonId) VALUES (?, ?, ?, ?)";
+
+    const asd = await Database.query(sqlQuery, values);
+    console.log(asd)
+    res.redirect("/rooster")
   }
 }
 

@@ -65,7 +65,7 @@ app.get("/rooster", async function (req, res: Response) {
     sqlQuery =
     "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";"
     const result2: any = await Database.query(sqlQuery);
-    console.log(result2)
+
     const roosterPlanning = result2;
     res.render("rooster", { allStudents, roosterPlanning });
   }
@@ -141,3 +141,9 @@ app.get("/logout", function (req, res) {
 });
 
 app.post("/lesson/add", lesson.Add);
+
+app.post("/changeOptions", lesson.Update);
+
+app.post("/cancelLesson", lesson.Cancel);
+
+app.post("/results", lesson.Results);

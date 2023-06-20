@@ -10,6 +10,7 @@ head
   // Bootstrap
   link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js')
 
 .nav-menu
   a.nav-home(href='index.html')
@@ -22,87 +23,92 @@ head
       button#openModal Plan een les
 
 
-table#lessonsTable
-  thead
-    tr
-      th Lesson Date
-      th Lesson Description
-      th Is Exam
-      th Lesson Goal
-      th Ophaal Locatie
-      th Name
-      th Actions
-
-  tbody
-    each lesson in roosterPlanning
+  table#lessonsTable
+    thead
       tr
-        td #{lesson.lessonDate.toLocaleDateString('en-US', { timeZone: 'UTC' })}
-        td #{lesson.lessonDescription}
-        td #{lesson.isExam}
-        td #{lesson.lessonGoal}
-        td #{lesson.ophaalLocatie}
-        td #{lesson.firstName} #{lesson.lastName}
-        td
-          // Cancel Lesson Modal
-          button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#cancelModal-${lesson.lessonId}`) Cancel Lesson
+        th Lesson Date
+        th Lesson Description
+        th Is Exam
+        th Lesson Goal
+        th Ophaal Locatie
+        th Name
+        th Actions
 
-          // Change Options Modal
-          button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#changeOptionsModal-${lesson.lessonId}`) Change Options
+    tbody
+      each lesson in roosterPlanning
+        tr(class=lesson.isCanceled === 1 ? 'cancelled' : '')
+          td #{lesson.lessonDate.toLocaleDateString('en-US', { timeZone: 'UTC' })}
+          td #{lesson.lessonDescription}
+          td #{lesson.isExam}
+          td #{lesson.lessonGoal}
+          td #{lesson.ophaalLocatie}
+          td #{lesson.firstName} #{lesson.lastName}
+          td
+            // Cancel Lesson Modal
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#cancelModal-${lesson.lessonId}`) Cancel Lesson
 
-  // Modals
-  each lesson in roosterPlanning
-    // Cancel Lesson Modal
-    .modal.fade(id=`cancelModal-  son.lessonId}`, tabindex="-1", aria-labelledby=`cancelModalLabel-${lesson.lessonId}`, aria-hidden="true")
-      .modal-dialog
-        .modal-content
-          .modal-header
-            h5.modal-title(id=`cancelModalLabel-${lesson.lessonId}`) Cancel Lesson
-            button.btn-close(type="button", data-bs-dismiss="modal", aria-label="Close")
-          .modal-body
-            form(action="/cancelLesson", method="POST")
-              input(type="hidden", name="lessonId", value=lesson.lessonId)
-              div.form-group
+            // Change Options Modal
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#changeOptionsModal-${lesson.lessonId}`) Change Options
+
+            // Results
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#resultsModal-${lesson.lessonId}`) Result
+
+    // Modals
+    each lesson in roosterPlanning
+      // Cancel Lesson Modal
+      .modal.fade(id=`cancelModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`cancelModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`cancelModalLabel-${lesson.lessonId}`) Cancel Lesson
+            .modal-body
+              form(action="/cancelLesson", method="POST")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
                 label(for=`cancelReason-${lesson.lessonId}`) Cancel Reason
                 textarea.form-control(id=`cancelReason-${lesson.lessonId}`, name="cancelReason", rows="3", required)
-              div.form-group
                 label(for=`isSick-${lesson.lessonId}`) Are you sick?
                 select.form-control(id=`isSick-${lesson.lessonId}`, name="isSick", required)
-                  option(value="Yes") Yes
-                  option(value="No") No
-          .modal-footer
-            button.btn.btn-secondary(type="button", data-bs-dismiss="modal") Close
-            button.btn.btn-primary(type="submit") Cancel Lesson
+                  option(value="1") Yes
+                  option(value="0") No
+                input.btn.btn-primary(type="submit" value="Cancel lesson")
 
-
-    // Change Options Modal
-    .modal.fade(id=`changeOptionsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`changeOptionsModalLabel-${lesson.lessonId}`, aria-hidden="true")
-      .modal-dialog
-        .modal-content
-          .modal-header
-            h5.modal-title(id=`changeOptionsModalLabel-${lesson.lessonId}`) Change Options
-            button.btn-close(type="button", data-bs-dismiss="modal", aria-label="Close")
-          .modal-body
-            form(action="/changeOptions", method="POST")
-              input(type="hidden", name="lessonId", value=lesson.lessonId)
-              div.form-group
+      // Change Options Modal
+      .modal.fade(id=`changeOptionsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`changeOptionsModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`changeOptionsModalLabel-${lesson.lessonId}`) Change Options
+            .modal-body
+              form(action="/changeOptions", method="post")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
                 label(for=`lessonGoal-${lesson.lessonId}`) Lesson Goal
-                input.form-control(id=`lessonGoal-${lesson.lessonId}`, type="text", name="lessonGoal", value=lesson.lessonGoal, required)
-              div.form-group
+                input.form-control(type="text", name="lessonGoal", value=lesson.lessonGoal, required)
                 label(for=`isExam-${lesson.lessonId}`) Is Exam
-                select.form-control(id=`isExam-${lesson.lessonId}`, name="isExam", required)
-                  option(value="lesson.isExam") Yes
-              div.form-group
-                label(for=`ophaalLocatie-${lesson.lessonId}`) Ophaal Locatie
-                - var ophaalLocatieId = 'ophaalLocatie-' + String(lesson.lessonId)
-                input.form-control(id=ophaalLocatieId, type="text", name="ophaalLocatie", value=lesson.ophaalLocatie, required=true)
-              div.form-group
-                label(for=`lessonDescription-${lesson.lessonId}`) Lesson Description
-                - var lessonDescriptionId = 'lessonDescription-' + String(lesson.lessonId)
-              textarea.form-control(id=lessonDescriptionId, name="lessonDescription", rows="3", required=true)= lesson.lessonDescription
-          .modal-footer
-            button.btn.btn-secondary(type="button", data-bs-dismiss="modal") Close
-            button.btn.btn-primary(type="submit") Save Changes
+                select.form-control(name="isExam", required)
+                  option(value="1") Yes
+                  option(value="0") No
+                label(for=`ophaalLocatiec`) Ophaal Locatie
+                input.form-control(type="text", name="ophaalLocatie", value=lesson.ophaalLocatie, required=true)
+                label(for=`lessonDescription`) Lesson Description
+                textarea.form-control(name="lessonDescription", rows="3", required=true)= lesson.lessonDescription
+                input.btn.btn-primary(type="submit" value="Save changes")
 
+      // Put in results
+      .modal.fade(id=`resultsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`resultsModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`resultsModalLabel-${lesson.lessonId}`) Change Options
+            .modal-body
+              form(action="/results", method="post")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
+                label(for=`Result`) Result
+                textarea.form-control(name="Result", rows="3", required=true)
+                label(for=`Positive`) Positive
+                textarea.form-control(name="Positive", rows="3", required=true)
+                label(for=`Negative`) Negative
+                textarea.form-control(name="Negative", rows="3", required=true)
+                input.btn.btn-primary(type="submit" value="Submit results")
 
 
 #myModal.modal
@@ -207,3 +213,39 @@ script.
   modal.style.display = "none";
   }
   };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Open Cancel Lesson Modal
+    var cancelLessonButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target^="#cancelModal"]');
+    cancelLessonButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetModalId = button.getAttribute('data-bs-target');
+        var targetModal = new bootstrap.Modal(document.querySelector(targetModalId));
+        targetModal.show();
+        });
+      });
+    });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Open Change Options Modal
+    var changeOptionsButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target^="#changeOptionsModal"]');
+    changeOptionsButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetModalId = button.getAttribute('data-bs-target');
+        var targetModal = new bootstrap.Modal(document.querySelector(targetModalId));
+        targetModal.show();
+      });
+    });
+  });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Open Change Options Modal
+    var changeOptionsButtons = document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target^="#resultsModal"]');
+    changeOptionsButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var targetModalId = button.getAttribute('data-bs-target');
+        var targetModal = new bootstrap.Modal(document.querySelector(targetModalId));
+        targetModal.show();
+      });
+    });
+  });

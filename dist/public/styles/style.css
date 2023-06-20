@@ -382,3 +382,7 @@ body {
     font-size: 14px;
   }
 }
+
+.cancelled{
+  background-color: red;
+}
