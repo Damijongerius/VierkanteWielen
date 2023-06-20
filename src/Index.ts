@@ -34,6 +34,7 @@ app.post('/dashboard/autos/remove', dashboard.autosRemove);
 app.get('/dashboard/studenten', dashboard.studenten);
 // //\\//\\//\\
 app.post('/dashboard/studenten/remove', dashboard.studentenRemove);
+app.post('/dashboard/studenten/modify', dashboard.studentenModify);
 // \\//\\//\\//
 
 app.get('/dashboard/docenten', dashboard.docenten);
@@ -41,10 +42,11 @@ app.get('/dashboard/docenten', dashboard.docenten);
 app.post('/dashboard/docenten/remove', dashboard.docentenRemove);
 // \\//\\//\\//
 
-app.get('/dashboard/Aankondigingen', dashboard.aankondigingen);
+app.get('/dashboard/aankondegingen', dashboard.aankondigingen);
 // //\\//\\//\\
-app.post('/dashboard/Aankondigingen/add', dashboard.aankondegingenAdd);
-app.post('/dashboard/Aankondigingen/remove', dashboard.aankondegingenRemove);
+app.post('/dashboard/aankondegingen/add', dashboard.aankondegingenAdd);
+app.post('/dashboard/aankondegingen/remove', dashboard.aankondegingenRemove);
+app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
 // \\//\\//\\//
 
 // \\//\\//\\//
@@ -109,6 +111,7 @@ app.post("/pakket/kopen", async (req, res) => {
 app.post("/register", async function (req, res) {
   const user = req.body;
   const hashPassword = await EncryptPasswordASync(user.wachtwoord);
+  console.log(user);
   await userManager
     .addUser(
       user.voornaam,
@@ -116,7 +119,7 @@ app.post("/register", async function (req, res) {
       user.email,
       studentPermission,
       hashPassword,
-      user.tussenvoegsel
+      user.tussenvoegesel
     )
     .then(async (result) => {
       console.log(result);

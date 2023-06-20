@@ -27,7 +27,8 @@ class Dashboard {
         return __awaiter(this, void 0, void 0, function* () {
             if (hasPermission(req.session.id)) {
                 const currAutos = yield autos.getCars();
-                res.render('dashboardautos', currAutos);
+                console.log(currAutos);
+                res.render('dashboardautos', { currAutos });
             }
         });
     }
@@ -36,7 +37,7 @@ class Dashboard {
             if (yield hasPermission(req.session.id)) {
                 const autoInfo = req.body;
                 autos.addCar(autoInfo.kenteken, autoInfo.fabrikant, autoInfo.kleur);
-                res.redirect('dashboard/autos');
+                res.redirect('/dashboard/autos');
             }
         });
     }
@@ -44,8 +45,8 @@ class Dashboard {
         return __awaiter(this, void 0, void 0, function* () {
             if (yield hasPermission(req.session.id)) {
                 const autoInfo = req.body;
-                autos.removeCar(autoInfo.kenteken);
-                res.redirect('dashboard/autos');
+                autos.removeCar(autoInfo.licencePlate);
+                res.redirect('/dashboard/autos');
             }
         });
     }
@@ -53,7 +54,8 @@ class Dashboard {
         return __awaiter(this, void 0, void 0, function* () {
             if (hasPermission(req.session.id)) {
                 const currStudenten = yield user.getUsers(1);
-                res.render('DashboardStudenten', currStudenten);
+                console.log(currStudenten);
+                res.render('DashboardStudenten', { currStudenten });
             }
         });
     }
@@ -62,7 +64,17 @@ class Dashboard {
             if (yield hasPermission(req.session.id)) {
                 const UserInfo = req.body;
                 user.deleteUser(UserInfo.id);
-                res.redirect('dashboard/studenten');
+                res.redirect('/dashboard/studenten');
+            }
+        });
+    }
+    studentenModify(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (yield hasPermission(req.session.id)) {
+                const UserInfo = req.body;
+                console.log(UserInfo);
+                user.modifyUser(UserInfo.id, UserInfo.PermissionLevel);
+                res.redirect('/dashboard/studenten');
             }
         });
     }
@@ -70,7 +82,7 @@ class Dashboard {
         return __awaiter(this, void 0, void 0, function* () {
             if (yield hasPermission(req.session.id)) {
                 const UserInfo = req.body;
-                res.redirect('dashboard/studenten');
+                res.redirect('/dashboard/studenten');
             }
         });
     }
@@ -78,7 +90,7 @@ class Dashboard {
         return __awaiter(this, void 0, void 0, function* () {
             if (hasPermission(req.session.id)) {
                 const currDocenten = yield user.getUsers(2);
-                res.render('DashboardDocenten', currDocenten);
+                res.render('DashboardDocenten', { currDocenten });
             }
         });
     }
@@ -94,8 +106,9 @@ class Dashboard {
     aankondigingen(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             if (hasPermission(req.session.id)) {
-                const currStudenten = yield user.getUsers(1);
-                res.render('DashboardAankondigingen', currStudenten);
+                const currAankondegingen = yield announcment.getAnnouncements();
+                console.log(currAankondegingen);
+                res.render('DashboardAankondigingen', { currAankondegingen });
             }
         });
     }
@@ -104,7 +117,7 @@ class Dashboard {
             if (yield hasPermission(req.session.id)) {
                 const aankondiging = req.body;
                 announcment.removeAnnouncement(aankondiging.id);
-                res.redirect('dashboard/aankondigingen');
+                res.redirect('/dashboard/aankondegingen');
             }
         });
     }
@@ -113,7 +126,16 @@ class Dashboard {
             if (yield hasPermission(req.session.id)) {
                 const aankondiging = req.body;
                 announcment.addAnnouncement(aankondiging.title, aankondiging.content, aankondiging.footer);
-                res.redirect('dashboard/aankondigingen');
+                res.redirect('/dashboard/aankondegingen');
+            }
+        });
+    }
+    aankondegingenModify(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (yield hasPermission(req.session.id)) {
+                const aankondiging = req.body;
+                announcment.modifyAnnouncement(aankondiging.id, aankondiging.title, aankondiging.content, aankondiging.footer);
+                res.redirect('/dashboard/aankondegingen');
             }
         });
     }

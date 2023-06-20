@@ -10,6 +10,7 @@ export class UserManager {
     password: string,
     infix?: string
   ) {
+    console.log(infix);
     let sqlQuery: string;
     let values: any[];
   
@@ -29,38 +30,9 @@ export class UserManager {
   }
   //  //\\ //\\ //\\
   async modifyUser(id: number, permissionLevel: number);
-  async modifyUser(
-    id: number,
-    firstName: string,
-    infix: string,
-    lastName: string
-  );
-  async modifyUser(id: number, email: string);
-  async modifyUser(id: number, gender: number);
-  async modifyUser(id: number, isSick: boolean);
+  
   async modifyUser(id: number, arg1?: any, arg2?: any, arg3?: any) {
-    let sqlQuery: string;
-    if (typeof arg1 === "number" && typeof arg2 === "number") {
-      // modifyUser(id: number, permissionLevel: number) implementation
-      sqlQuery = `UPDATE users SET permissionLevel = ${arg1} WHERE id = ${id} `;
-    } else if (
-      typeof arg1 === "number" &&
-      typeof arg2 === "string" &&
-      typeof arg3 === "string"
-    ) {
-      // modifyUser(id: number, firstName: string, infix: string, lastName: string) implementation
-      sqlQuery = `UPDATE users SET firstname = "${arg1}", infix = "${arg2}", lastName = "${arg3}" WHERE id = ${id} `;
-    } else if (typeof arg1 === "number" && typeof arg2 === "string") {
-      // modifyUser(id: number, email: string) implementation
-      sqlQuery = `UPDATE users SET email = "${arg1}" WHERE id = ${id} `;
-    } else if (typeof arg1 === "number" && typeof arg2 === "number") {
-      // modifyUser(id: number, gender: number) implementation
-      sqlQuery = `UPDATE users SET gender = ${arg1} WHERE id = ${id} `;
-    } else if (typeof arg1 === "number" && typeof arg2 === "boolean") {
-      // modifyUser(id: number, isSick: boolean) implementation
-      sqlQuery = `UPDATE users SET isSick = ${arg1} WHERE id = ${id} `;
-    }
-
+    let sqlQuery: string = `UPDATE users SET permissionLevel = ${arg1} WHERE id = ${id} `;
     return await Database.query(sqlQuery);
   }
 
@@ -119,6 +91,12 @@ export class UserManager {
 
   async getSubscription(id: number) {
     const sqlQuery = `Select * FROM subscriptions WHERE user_id = ${id}`;
+
+    return await Database.query(sqlQuery);
+  }
+
+  async getSubscriptions() {
+    const sqlQuery = `Select * FROM subscriptions`;
 
     return await Database.query(sqlQuery);
   }

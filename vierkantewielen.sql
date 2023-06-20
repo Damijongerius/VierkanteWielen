@@ -123,7 +123,7 @@ ENGINE = InnoDB;
 -- Table `vierkantewielen`.`announcments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vierkantewielen`.`announcments` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NULL,
   `content` TEXT(1028) NULL,
   `footer` VARCHAR(255) NULL,

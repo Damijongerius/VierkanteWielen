@@ -33,15 +33,17 @@ App_js_1.app.post('/dashboard/autos/remove', dashboard.autosRemove);
 App_js_1.app.get('/dashboard/studenten', dashboard.studenten);
 // //\\//\\//\\
 App_js_1.app.post('/dashboard/studenten/remove', dashboard.studentenRemove);
+App_js_1.app.post('/dashboard/studenten/modify', dashboard.studentenModify);
 // \\//\\//\\//
 App_js_1.app.get('/dashboard/docenten', dashboard.docenten);
 // //\\//\\//\\
 App_js_1.app.post('/dashboard/docenten/remove', dashboard.docentenRemove);
 // \\//\\//\\//
-App_js_1.app.get('/dashboard/Aankondigingen', dashboard.aankondigingen);
+App_js_1.app.get('/dashboard/aankondegingen', dashboard.aankondigingen);
 // //\\//\\//\\
-App_js_1.app.post('/dashboard/Aankondigingen/add', dashboard.aankondegingenAdd);
-App_js_1.app.post('/dashboard/Aankondigingen/remove', dashboard.aankondegingenRemove);
+App_js_1.app.post('/dashboard/aankondegingen/add', dashboard.aankondegingenAdd);
+App_js_1.app.post('/dashboard/aankondegingen/remove', dashboard.aankondegingenRemove);
+App_js_1.app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
 // \\//\\//\\//
 // \\//\\//\\//
 App_js_1.app.get("/", function (req, res) {
@@ -112,8 +114,9 @@ App_js_1.app.post("/register", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = req.body;
         const hashPassword = yield (0, Encryptor_js_1.EncryptPasswordASync)(user.wachtwoord);
+        console.log(user);
         yield userManager
-            .addUser(user.voornaam, user.achternaam, user.email, studentPermission, hashPassword, user.tussenvoegsel)
+            .addUser(user.voornaam, user.achternaam, user.email, studentPermission, hashPassword, user.tussenvoegesel)
             .then((result) => __awaiter(this, void 0, void 0, function* () {
             console.log(result);
             res.redirect("rooster");

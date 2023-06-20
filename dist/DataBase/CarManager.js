@@ -14,28 +14,20 @@ const Database_js_1 = require("./Database.js");
 class CarManager {
     addCar(licencePlate, manufacturer, color) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `INSERT INTO cars (licencePlate, manufacturer, color) VALUES ("${licencePlate}", "${manufacturer}", "${color}")`;
+            const sqlQuery = `INSERT INTO cars (licencePlate, manufacturers, color) VALUES ("${licencePlate}", "${manufacturer}", "${color}")`;
             yield Database_js_1.Database.conn.query(sqlQuery);
         });
     }
     getCar(licencePlate) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `SELECT * FROM cars WHERE licencePlate = "${licencePlate}"`;
-            const [rows] = yield Database_js_1.Database.conn.query(sqlQuery);
-            if (rows.length > 0) {
-                const { licencePlate, manufacturer, color } = rows[0];
-                return { licencePlate, manufacturer, color };
-            }
-            return null;
+            return yield Database_js_1.Database.conn.query(sqlQuery);
         });
     }
     getCars() {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `SELECT * FROM cars`;
-            const rows = yield Database_js_1.Database.conn.query(sqlQuery);
-            if (rows.length > 0) {
-                return rows;
-            }
+            return yield Database_js_1.Database.query(sqlQuery);
         });
     }
     removeCar(licencePlate) {

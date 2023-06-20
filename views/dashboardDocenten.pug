@@ -49,7 +49,15 @@ html
         border-radius: 4px;
         box-sizing: border-box;
       }
+      input[type="checkbox"] {
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
       button[type="submit"] {
+        width: auto;
         background-color: #333;
         color: #fff;
         border: none;
@@ -73,20 +81,29 @@ html
       a(href="/dashboard/docenten") docenten
       a(href="/dashboard/aankondegingen") aankondegingen
     .container
-
-      if currStudenten && currStudenten.length
-        each student in currStudenten
+      if currDocenten && currDocenten.length
+        each docent in currDocenten
           .box
-            h2= student.email
-            p= student.firstname
-            p= student.infix
-            p= student.lastname
-            p= student.isSick
-            form(action="/dashboard/studenten/modify", method="post")
-              input(type="text", name="PermissionLevel", value=1)
+            h2= docent.email
+            form(action="/dashboard/docenten/modify", method="POST")
+              div
+                label(for="firstName") naam
+                input(type="text", id="firstName", name="firstName", value=docent.firstName, readonly)
+                input(type="text", id="infix", name="infix", value=docent.infix, readonly)
+                input(type="text", id="lastName", name="lastName", value=docent.lastName, readonly)
+                input(type="hidden", name="id", value=docent.id)
+              div
+                label(for="PermissionLevel") Permissie
+                input(type="text", id="PermissionLevel", name="PermissionLevel", value=2)
+              div
+                label(for="isSick") Ziek
+                if docent.isSick
+                  input(type="checkbox", id="isSick", name="isSick", checked, value=docent.isSick, readonly)
+                else
+                  input(type="checkbox", id="isSick", name="isSick", value=docent.isSick)
               button(type="submit") Update
-            form(action="/dashboard/studenten/remove", method="POST")
-              input(type="hidden", name="id", value=student.id)
+            form(action="/dashboard/docenten/remove", method="POST")
+              input(type="hidden", name="id", value=docent.id)
               button(type="submit") Remove
       else
-        p geen student beschrikbaar.
+        p geen docent beschikbaar.

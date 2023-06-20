@@ -83,11 +83,11 @@ html
       if currAutos && currAutos.length
         each car in currAutos
           .box
-            h2= car.kenteken
-            p= car.fabrikant
-            p= car.kleur
+            h2= car.licencePlate
             form(action="/dashboard/autos/remove", method="POST")
-              input(type="hidden", name="kenteken", value=car.kenteken)
+              input(type="hidden", name="licencePlate", value=car.licencePlate)
+              input(type="text", name="manufacturers", value=car.manufacturers)
+              input(type="text", name="color", value=car.color)
               button(type="submit") Remove
       else
         p geen auto's beschrikbaar.
