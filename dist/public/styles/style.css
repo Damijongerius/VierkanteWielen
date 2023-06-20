@@ -339,3 +339,46 @@ body {
   display: grid;
   grid-template-columns: 120px auto;
 }
+
+/* Add this CSS in your style sheet or within a <style> tag */
+
+#lessonsTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#lessonsTable th,
+#lessonsTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#lessonsTable th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#lessonsTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#lessonsTable tbody tr:hover {
+  background-color: #e6f2ff;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  #lessonsTable {
+    font-size: 14px;
+  }
+  
+  #lessonsTable th,
+  #lessonsTable td {
+    padding: 6px;
+  }
+  
+  #lessonsTable th {
+    font-size: 14px;
+  }
+}

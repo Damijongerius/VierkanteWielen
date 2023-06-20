@@ -60,7 +60,14 @@ app.get("/rooster", async function (req, res: Response) {
       "SELECT id, firstName, lastName FROM users WHERE permissionLevel = 1";
     const result: any = await Database.query(sqlQuery);
     const allStudents = result;
-    res.render("rooster", { allStudents });
+    const data = await redisClient.hGetAll(req.session.id);
+
+    sqlQuery =
+    "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";"
+    const result2: any = await Database.query(sqlQuery);
+    console.log(result2)
+    const roosterPlanning = result2;
+    res.render("rooster", { allStudents, roosterPlanning });
   }
 });
 

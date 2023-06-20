@@ -65,7 +65,13 @@ App_js_1.app.get("/rooster", function (req, res) {
                 "SELECT id, firstName, lastName FROM users WHERE permissionLevel = 1";
             const result = yield Database_js_1.Database.query(sqlQuery);
             const allStudents = result;
-            res.render("rooster", { allStudents });
+            const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+            sqlQuery =
+                "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";";
+            const result2 = yield Database_js_1.Database.query(sqlQuery);
+            console.log(result2);
+            const roosterPlanning = result2;
+            res.render("rooster", { allStudents, roosterPlanning });
         }
     });
 });
