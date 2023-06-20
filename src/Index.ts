@@ -5,7 +5,6 @@ import { SubscriptionManager } from "./manager/Subscription.js";
 import { Dashboard } from "./manager/Dashboard.js"
 import session from "express-session";
 import path from "path";
-import { Logger } from "./Logger.js";
 import {
   EncryptPasswordASync,
   comparePassword,
@@ -17,7 +16,6 @@ const dashboard : Dashboard = new Dashboard();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
-const logger: Logger = new Logger("index");
 
 const studentPermission: number = 1;
 
@@ -25,32 +23,28 @@ const studentPermission: number = 1;
 // //\\//\\//\\
 app.get('/dashboard', dashboard.dashboard);
 
-app.get('/dashboard/autos', dashboard.Autos);
+app.get('/dashboard/autos', dashboard.autos);
 // //\\//\\//\\
-app.post('/dashboard/autos/add', dashboard.AutosAdd);
-app.post('/dashboard/autos/remove');
-app.post('/dashboard/autos/modify');
+app.post('/dashboard/autos/add', dashboard.autosAdd);
+app.post('/dashboard/autos/remove', dashboard.autosRemove);
 // \\//\\//\\//
 
-app.get('/dashboard/studenten', dashboard.dashboardStudenten);
+app.get('/dashboard/studenten', dashboard.studenten);
 // //\\//\\//\\
-app.post('/dashboard/studenten/add');
-app.post('/dashboard/studenten/remove');
-app.post('/dashboard/studenten/modify');
+app.post('/dashboard/studenten/remove', dashboard.studentenRemove);
+app.post('/dashboard/studenten/modify', dashboard.studentenModify);
 // \\//\\//\\//
 
-app.get('/dashboard/docenten', dashboard.dashboardDocenten);
+app.get('/dashboard/docenten', dashboard.docenten);
 // //\\//\\//\\
-app.post('/dashboard/docenten/add');
-app.post('/dashboard/docenten/remove');
-app.post('/dashboard/docenten/modify');
+app.post('/dashboard/docenten/remove', dashboard.docentenRemove);
 // \\//\\//\\//
 
-app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
+app.get('/dashboard/aankondegingen', dashboard.aankondigingen);
 // //\\//\\//\\
-app.post('/dashboard/Aankondigingen/add');
-app.post('/dashboard/Aankondigingen/remove');
-app.post('/dashboard/Aankondigingen/modify');
+app.post('/dashboard/aankondegingen/add', dashboard.aankondegingenAdd);
+app.post('/dashboard/aankondegingen/remove', dashboard.aankondegingenRemove);
+app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
 // \\//\\//\\//
 
 // \\//\\//\\//
@@ -95,7 +89,6 @@ app.get("/rooster", async function (req, res) {
 });
 
 app.post("/pakket/kopen", async (req, res) => {
-  console.log(req.body);
   const data = await redisClient.hGetAll(req.session.id);
   if (req.body.bevestigen !== "on") {
     res.redirect("pakket");
@@ -122,10 +115,9 @@ app.post("/register", async function (req, res) {
       user.email,
       studentPermission,
       hashPassword,
-      user.tussenvoegsel
+      user.tussenvoegesel
     )
     .then(async (result) => {
-      console.log(result);
       res.redirect("rooster");
     });
 });
@@ -144,7 +136,6 @@ app.post("/login", async function (req, res) {
   }
   users.forEach(async (user) => {
     const correct = await comparePassword(password, user.password);
-    console.log(correct);
     if (correct) {
       await redisClient.hSet(req.session.id, {
         email: user.email,

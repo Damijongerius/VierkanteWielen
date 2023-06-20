@@ -14,9 +14,9 @@ const UserManager_1 = require("../DataBase/UserManager");
 const userManager = new UserManager_1.UserManager();
 class SubscriptionManager {
     constructor() {
-        this.subscription1 = new Subscription(1, 10, true, false, false);
-        this.subscription2 = new Subscription(1, 20, true, true, false);
-        this.subscription3 = new Subscription(1, 30, true, true, true);
+        this.subscription1 = new Subscription(1, 10, true, false, false, 500);
+        this.subscription2 = new Subscription(1, 20, true, true, false, 800);
+        this.subscription3 = new Subscription(1, 30, true, true, true, 1000);
     }
     subscribe(subscriber, pakket) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -53,15 +53,23 @@ class SubscriptionManager {
             }
         });
     }
+    getSubscriptionPrice(number) {
+        switch (number) {
+            case 1: return this.subscription1.prijs;
+            case 2: return this.subscription2.prijs;
+            case 3: return this.subscription3.prijs;
+        }
+    }
 }
 exports.SubscriptionManager = SubscriptionManager;
 class Subscription {
-    constructor(subscriptieNummer, lessen, examen, theorieCursus, tussentijdseToets) {
+    constructor(subscriptieNummer, lessen, examen, theorieCursus, tussentijdseToets, prijs) {
         this.subscriptieNummer = subscriptieNummer;
         this.lessen = lessen;
         this.examen = examen;
         this.theorieCursus = theorieCursus;
         this.tussentijdseToets = tussentijdseToets;
+        this.prijs = prijs;
     }
 }
 //# sourceMappingURL=Subscription.js.map

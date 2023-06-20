@@ -14,8 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Database = void 0;
 const mysql_1 = __importDefault(require("mysql"));
-const Logger_js_1 = require("../Logger.js");
-const logger = new Logger_js_1.Logger("databaseErr.txt");
 class Database {
     static connect(host, user, password, database) {
         Database.conn = mysql_1.default.createConnection({

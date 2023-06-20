@@ -123,40 +123,18 @@ ENGINE = InnoDB;
 -- Table `vierkantewielen`.`announcments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vierkantewielen`.`announcments` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NULL,
   `content` TEXT(1028) NULL,
   `footer` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `vierkantewielen`.`userAnnouncements`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `vierkantewielen`.`userAnnouncements` (
-  `user_id` INT NOT NULL,
-  `announcment_id` INT NOT NULL,
-  PRIMARY KEY (`user_id`, `announcment_id`),
-  INDEX `fk_user_has_announcment_announcment1_idx` (`announcment_id` ASC),
-  INDEX `fk_user_has_announcment_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_user_has_announcment_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `vierkantewielen`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_has_announcment_announcment1`
-    FOREIGN KEY (`announcment_id`)
-    REFERENCES `vierkantewielen`.`announcments` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `vierkantewielen`.`results`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vierkantewielen`.`results` (
+  `geslaagd` TINYINT NULL,
   `result` VARCHAR(255) NULL,
   `positive` TEXT(512) NULL,
   `negative` TEXT(512) NULL,

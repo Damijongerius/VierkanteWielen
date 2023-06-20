@@ -2,9 +2,9 @@ import { UserManager } from "../DataBase/UserManager";
 
 const userManager : UserManager = new UserManager();
 export class SubscriptionManager{
-    subscription1: Subscription = new Subscription(1,10,true,false,false); 
-    subscription2: Subscription = new Subscription(1,20,true,true,false); 
-    subscription3: Subscription = new Subscription(1,30,true,true,true); 
+    subscription1: Subscription = new Subscription(1,10,true,false,false,500); 
+    subscription2: Subscription = new Subscription(1,20,true,true,false,800); 
+    subscription3: Subscription = new Subscription(1,30,true,true,true,1000); 
 
     async subscribe(subscriber: number, pakket: string){
         let result: boolean = false;
@@ -38,6 +38,14 @@ export class SubscriptionManager{
             true;
         }
     }
+
+     getSubscriptionPrice(number : number){
+        switch(number){
+            case 1: return this.subscription1.prijs;
+            case 2: return this.subscription2.prijs;
+            case 3: return this.subscription3.prijs;
+        }
+    }
 }
 
 class Subscription{
@@ -46,18 +54,21 @@ class Subscription{
     examen: boolean;
     theorieCursus: boolean;
     tussentijdseToets: boolean;
+    prijs: number;
      
     constructor(
         subscriptieNummer: number,
         lessen: number,
         examen: boolean,
         theorieCursus: boolean,
-        tussentijdseToets: boolean
+        tussentijdseToets: boolean,
+        prijs: number
     ){
         this.subscriptieNummer = subscriptieNummer;
         this.lessen = lessen;
         this.examen = examen; 
         this.theorieCursus = theorieCursus;
         this.tussentijdseToets = tussentijdseToets;
+        this.prijs = prijs;
     }
 }

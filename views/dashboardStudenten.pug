@@ -49,7 +49,15 @@ html
         border-radius: 4px;
         box-sizing: border-box;
       }
+      input[type="checkbox"] {
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
       button[type="submit"] {
+        width: auto;
         background-color: #333;
         color: #fff;
         border: none;
@@ -73,21 +81,30 @@ html
       a(href="/dashboard/docenten") docenten
       a(href="/dashboard/aankondegingen") aankondegingen
     .container
-      form(action="/dashboard/autos/add", method="POST")
-        input(type="text", name="kenteken", placeholder="kenteken")
-        input(type="text", name="fabrikant", placeholder="fabrikant")
-        input(type="text", name="kleur", placeholder="kleur")
-        button(type="submit") Add Car
-      .line
-
-      if currAutos && currAutos.length
-        each car in currAutos
+      if currStudenten && currStudenten.length
+        each student in currStudenten
           .box
-            h2= car.licencePlate
-            form(action="/dashboard/autos/remove", method="POST")
-              input(type="hidden", name="licencePlate", value=car.licencePlate)
-              input(type="text", name="manufacturers", value=car.manufacturers)
-              input(type="text", name="color", value=car.color)
+            h2= student.email
+            form(action="/dashboard/studenten/modify", method="POST")
+              div
+                label(for="firstName") naam
+                input(type="text", id="firstName", name="firstName", value=student.firstName, readonly)
+                input(type="text", id="infix", name="infix", value=student.infix, readonly)
+                input(type="text", id="lastName", name="lastName", value=student.lastName, readonly)
+                input(type="hidden", name="id", value=student.id)
+                
+              div
+                label(for="PermissionLevel") Permissie
+                input(type="text", id="PermissionLevel", name="PermissionLevel", value=1)
+              div
+                label(for="isSick") Ziek
+                if student.isSick
+                  input(type="checkbox", id="isSick", name="isSick", checked, value=student.isSick, readonly)
+                else
+                  input(type="checkbox", id="isSick", name="isSick", value=student.isSick)
+              button(type="submit") Update
+            form(action="/dashboard/studenten/remove", method="POST")
+              input(type="hidden", name="id", value=student.id)
               button(type="submit") Remove
       else
-        p geen auto's beschrikbaar.
+        p geen student beschikbaar.

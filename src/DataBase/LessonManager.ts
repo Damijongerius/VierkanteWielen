@@ -47,7 +47,21 @@ export class LessonManager {
       throw new Error("Invalid argument provided");
     }
 
-    await Database.conn.query(sqlQuery);
+    await Database.query(sqlQuery);
+  }
+
+  async getGeslaagde() {
+    const sqlQuery = `
+    SELECT
+    COUNT(CASE WHEN r.geslaagd = 1 THEN 1 END) AS passedCount,
+    COUNT(CASE WHEN r.geslaagd = 0 THEN 1 END) AS failedCount
+  FROM results r
+  JOIN Lessons l ON l.lessonId = r.Lessons_lessonId
+  JOIN UserLessons ul ON ul.Lesson_lessonId = l.lessonId
+  JOIN users u ON u.id = ul.user_id
+  WHERE l.isExam = 1 AND u.permissionLevel = 1;
+    `;
+    return await Database.query(sqlQuery);
   }
 
   async getLessons(arg1: GetLessonsArgument, arg2?: any) {

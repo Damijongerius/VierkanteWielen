@@ -73,21 +73,25 @@ html
       a(href="/dashboard/docenten") docenten
       a(href="/dashboard/aankondegingen") aankondegingen
     .container
-      form(action="/dashboard/autos/add", method="POST")
-        input(type="text", name="kenteken", placeholder="kenteken")
-        input(type="text", name="fabrikant", placeholder="fabrikant")
-        input(type="text", name="kleur", placeholder="kleur")
-        button(type="submit") Add Car
+      form(action="/dashboard/aankondegingen/add", method="POST")
+        input(type="text", name="title", placeholder="title")
+        input(type="text", name="content", placeholder="content")
+        input(type="text", name="footer", placeholder="footer")
+        button(type="submit") Voeg Aankondiging Toe
       .line
 
-      if currAutos && currAutos.length
-        each car in currAutos
+      if currAankondegingen && currAankondegingen.length
+        each aankondiging in currAankondegingen
           .box
-            h2= car.licencePlate
-            form(action="/dashboard/autos/remove", method="POST")
-              input(type="hidden", name="licencePlate", value=car.licencePlate)
-              input(type="text", name="manufacturers", value=car.manufacturers)
-              input(type="text", name="color", value=car.color)
+
+            form(action="/dashboard/aankondegingen/modify", method="POST")
+              input(type="hidden", name="id", value=aankondiging.id)
+              input(type="text", name="title", value=aankondiging.title)
+              input(type="text", name="content", value=aankondiging.content)
+              input(type="text", name="footer", value=aankondiging.footer)
+              button(type="submit") Update
+            form(action="/dashboard/aankondegingen/remove", method="POST")
+              input(type="hidden", name="id", value=aankondiging.id)
               button(type="submit") Remove
       else
-        p geen auto's beschrikbaar.
+        p geen aankondigignen beschikbaar.

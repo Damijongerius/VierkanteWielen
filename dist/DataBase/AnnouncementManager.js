@@ -14,19 +14,19 @@ const Database_js_1 = require("./Database.js");
 class AnnouncementManager {
     addAnnouncement(title, content, footer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `INSERT INTO announcements (title, content, footer) VALUES ("${title}", "${content}", "${footer}")`;
+            const sqlQuery = `INSERT INTO announcments (title, content, footer) VALUES ("${title}", "${content}", "${footer}")`;
             yield Database_js_1.Database.conn.query(sqlQuery);
         });
     }
     removeAnnouncement(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `DELETE FROM announcements WHERE id = ${id}`;
-            yield Database_js_1.Database.conn.query(sqlQuery);
+            const sqlQuery = `DELETE FROM announcments WHERE id = ${id}`;
+            yield Database_js_1.Database.query(sqlQuery);
         });
     }
     getAnnouncement(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `SELECT * FROM announcements WHERE id = ${id}`;
+            const sqlQuery = `SELECT * FROM announcments WHERE id = ${id}`;
             const [rows] = yield Database_js_1.Database.conn.query(sqlQuery);
             if (rows.length > 0) {
                 const { id, title, content, footer } = rows[0];
@@ -35,10 +35,24 @@ class AnnouncementManager {
             return null;
         });
     }
+    getAnnouncements() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT * FROM announcments`;
+            return yield Database_js_1.Database.query(sqlQuery);
+        });
+    }
     modifyAnnouncement(id, title, content, footer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `UPDATE announcements SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
+            const sqlQuery = `UPDATE announcments SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
             yield Database_js_1.Database.conn.query(sqlQuery);
+        });
+    }
+    addAnnouncementTo() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+    removeAnnouncementFrom() {
+        return __awaiter(this, void 0, void 0, function* () {
         });
     }
 }

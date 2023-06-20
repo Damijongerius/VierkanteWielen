@@ -15,6 +15,7 @@ class UserManager {
     //  //\\ //\\ //\\
     addUser(firstName, lastName, email, permissionLevel, password, infix) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(infix);
             let sqlQuery;
             let values;
             sqlQuery = "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
@@ -33,33 +34,7 @@ class UserManager {
     }
     modifyUser(id, arg1, arg2, arg3) {
         return __awaiter(this, void 0, void 0, function* () {
-            let sqlQuery;
-            if (typeof arg1 === "number" && typeof arg2 === "number") {
-                // modifyUser(id: number, permissionLevel: number) implementation
-                sqlQuery = `UPDATE users SET permissionLevel = ${arg1} WHERE id = ${id} `;
-            }
-            else if (typeof arg1 === "number" &&
-                typeof arg2 === "string" &&
-                typeof arg3 === "string") {
-                // modifyUser(id: number, firstName: string, infix: string, lastName: string) implementation
-                sqlQuery = `UPDATE users SET firstname = "${arg1}", infix = "${arg2}", lastName = "${arg3}" WHERE id = ${id} `;
-            }
-            else if (typeof arg1 === "number" && typeof arg2 === "string") {
-                // modifyUser(id: number, password: string) implementation
-                sqlQuery = `UPDATE users SET password = "${arg1}" WHERE id = ${id} `;
-            }
-            else if (typeof arg1 === "number" && typeof arg2 === "string") {
-                // modifyUser(id: number, email: string) implementation
-                sqlQuery = `UPDATE users SET email = "${arg1}" WHERE id = ${id} `;
-            }
-            else if (typeof arg1 === "number" && typeof arg2 === "number") {
-                // modifyUser(id: number, gender: number) implementation
-                sqlQuery = `UPDATE users SET gender = ${arg1} WHERE id = ${id} `;
-            }
-            else if (typeof arg1 === "number" && typeof arg2 === "boolean") {
-                // modifyUser(id: number, isSick: boolean) implementation
-                sqlQuery = `UPDATE users SET isSick = ${arg1} WHERE id = ${id} `;
-            }
+            let sqlQuery = `UPDATE users SET permissionLevel = ${arg1} WHERE id = ${id} `;
             return yield Database_js_1.Database.query(sqlQuery);
         });
     }
@@ -86,6 +61,12 @@ class UserManager {
             return yield Database_js_1.Database.query(sqlQuery, values);
         });
     }
+    getUsers(permissionLevel) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT * FROM users WHERE permissionLevel = ${permissionLevel}`;
+            return yield Database_js_1.Database.query(sqlQuery);
+        });
+    }
     //  \\// \\// \\//
     addLessonToUser(userId, lessonId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -109,6 +90,12 @@ class UserManager {
     getSubscription(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `Select * FROM subscriptions WHERE user_id = ${id}`;
+            return yield Database_js_1.Database.query(sqlQuery);
+        });
+    }
+    getSubscriptions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `Select * FROM subscriptions`;
             return yield Database_js_1.Database.query(sqlQuery);
         });
     }
