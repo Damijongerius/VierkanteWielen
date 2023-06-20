@@ -25,29 +25,23 @@ const studentPermission = 1;
 //dashboard calls
 // //\\//\\//\\
 App_js_1.app.get('/dashboard', dashboard.dashboard);
-App_js_1.app.get('/dashboard/autos', dashboard.Autos);
+App_js_1.app.get('/dashboard/autos', dashboard.autos);
 // //\\//\\//\\
-App_js_1.app.post('/dashboard/autos/add', dashboard.AutosAdd);
-App_js_1.app.post('/dashboard/autos/remove');
-App_js_1.app.post('/dashboard/autos/modify');
+App_js_1.app.post('/dashboard/autos/add', dashboard.autosAdd);
+App_js_1.app.post('/dashboard/autos/remove', dashboard.autosRemove);
 // \\//\\//\\//
-App_js_1.app.get('/dashboard/studenten', dashboard.dashboardStudenten);
+App_js_1.app.get('/dashboard/studenten', dashboard.studenten);
 // //\\//\\//\\
-App_js_1.app.post('/dashboard/studenten/add');
-App_js_1.app.post('/dashboard/studenten/remove');
-App_js_1.app.post('/dashboard/studenten/modify');
+App_js_1.app.post('/dashboard/studenten/remove', dashboard.studentenRemove);
 // \\//\\//\\//
-App_js_1.app.get('/dashboard/docenten', dashboard.dashboardDocenten);
+App_js_1.app.get('/dashboard/docenten', dashboard.docenten);
 // //\\//\\//\\
-App_js_1.app.post('/dashboard/docenten/add');
-App_js_1.app.post('/dashboard/docenten/remove');
-App_js_1.app.post('/dashboard/docenten/modify');
+App_js_1.app.post('/dashboard/docenten/remove', dashboard.docentenRemove);
 // \\//\\//\\//
-App_js_1.app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
+App_js_1.app.get('/dashboard/Aankondigingen', dashboard.aankondigingen);
 // //\\//\\//\\
-App_js_1.app.post('/dashboard/Aankondigingen/add');
-App_js_1.app.post('/dashboard/Aankondigingen/remove');
-App_js_1.app.post('/dashboard/Aankondigingen/modify');
+App_js_1.app.post('/dashboard/Aankondigingen/add', dashboard.aankondegingenAdd);
+App_js_1.app.post('/dashboard/Aankondigingen/remove', dashboard.aankondegingenRemove);
 // \\//\\//\\//
 // \\//\\//\\//
 App_js_1.app.get("/", function (req, res) {

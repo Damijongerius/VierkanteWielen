@@ -77,17 +77,21 @@ html
         input(type="text", name="kenteken", placeholder="kenteken")
         input(type="text", name="fabrikant", placeholder="fabrikant")
         input(type="text", name="kleur", placeholder="kleur")
-        button(type="submit") Add Car
+        button(type="submit") Voeg Aankondiging Toe
       .line
 
-      if currAutos && currAutos.length
-        each car in currAutos
+      if currAankondigingen && currAankondiging.length
+        each aankondiging in currAankondiging
           .box
-            h2= car.kenteken
-            p= car.fabrikant
-            p= car.kleur
-            form(action="/dashboard/autos/remove", method="POST")
-              input(type="hidden", name="kenteken", value=car.kenteken)
+          aankondiging.title,aankondiging.content,aankondiging.footer
+
+            form(action="/dashboard/aankondigingen/modify", method="post")
+              input(type="text", name="title", value=aankondiging.title)
+              input(type="text", name="content", value=aankondiging.content)
+              input(type="text", name="footer", value=aankondiging.footer)
+              button(type="submit") Update
+            form(action="/dashboard/aankondigingen/remove", method="POST")
+              input(type="hidden", name="id", value=aankondiginng.id)
               button(type="submit") Remove
       else
-        p geen auto's beschrikbaar.
+        p geen aankondigignen beschikbaar.

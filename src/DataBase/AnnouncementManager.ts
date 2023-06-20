@@ -9,7 +9,7 @@ export class AnnouncementManager{
       
       async removeAnnouncement(id: number) {
         const sqlQuery = `DELETE FROM announcements WHERE id = ${id}`;
-        await Database.conn.query(sqlQuery);
+        await Database.query(sqlQuery);
       }
       
       async getAnnouncement(id: number) {
@@ -20,6 +20,11 @@ export class AnnouncementManager{
           return { id, title, content, footer };
         }
         return null;
+      }
+
+      async getAnnouncements(){
+        const sqlQuery = `SELECT * FROM announcements`
+        await Database.query(sqlQuery);
       }
       
       async modifyAnnouncement(id: number, title: string, content: string, footer: string) {

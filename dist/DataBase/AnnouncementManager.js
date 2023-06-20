@@ -21,7 +21,7 @@ class AnnouncementManager {
     removeAnnouncement(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `DELETE FROM announcements WHERE id = ${id}`;
-            yield Database_js_1.Database.conn.query(sqlQuery);
+            yield Database_js_1.Database.query(sqlQuery);
         });
     }
     getAnnouncement(id) {
@@ -35,10 +35,24 @@ class AnnouncementManager {
             return null;
         });
     }
+    getAnnouncements() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT * FROM announcements`;
+            yield Database_js_1.Database.query(sqlQuery);
+        });
+    }
     modifyAnnouncement(id, title, content, footer) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `UPDATE announcements SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
             yield Database_js_1.Database.conn.query(sqlQuery);
+        });
+    }
+    addAnnouncementTo() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+    removeAnnouncementFrom() {
+        return __awaiter(this, void 0, void 0, function* () {
         });
     }
 }

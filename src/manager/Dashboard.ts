@@ -6,6 +6,7 @@ import { AnnouncementManager } from "../DataBase/AnnouncementManager";
 
 const autos : CarManager = new CarManager();
 const user : UserManager = new UserManager();
+
 const announcment : AnnouncementManager = new AnnouncementManager();
 
 export class Dashboard{
@@ -38,7 +39,10 @@ export class Dashboard{
     }
 
     async studenten(req : Request,res : Response){
-        hasPermissions(req.session.id,res,'dashboardStudenten');
+        if(hasPermission(req.session.id)){
+            const currStudenten = await user.getUsers(1);
+            res.render('DashboardStudenten', currStudenten);
+        }
     }
 
     async studentenRemove(req: Request, res: Response){
@@ -57,7 +61,10 @@ export class Dashboard{
     }
 
     async docenten(req : Request,res : Response){
-        hasPermissions(req.session.id,res,'dashboardDocenten');
+        if(hasPermission(req.session.id)){
+            const currDocenten = await user.getUsers(2);
+            res.render('DashboardDocenten', currDocenten);
+        }
     }
 
     async docentenRemove(req: Request, res: Response){
@@ -69,7 +76,10 @@ export class Dashboard{
     }
 
     async aankondigingen(req : Request,res : Response){
-        hasPermissions(req.session.id,res,'dashboardAankondigingen');
+        if(hasPermission(req.session.id)){
+            const currStudenten = await user.getUsers(1);
+            res.render('DashboardAankondigingen', currStudenten);
+        }
     }
 
     async aankondegingenRemove(req: Request, res: Response){

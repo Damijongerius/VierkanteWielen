@@ -35,7 +35,6 @@ export class UserManager {
     infix: string,
     lastName: string
   );
-  async modifyUser(id: number, password: string);
   async modifyUser(id: number, email: string);
   async modifyUser(id: number, gender: number);
   async modifyUser(id: number, isSick: boolean);
@@ -91,6 +90,11 @@ export class UserManager {
     }
 
     return await Database.query(sqlQuery, values);
+  }
+
+  async getUsers(permissionLevel : number){
+    const sqlQuery = `SELECT * FROM users WHERE permissionLevel = ${permissionLevel}`
+    return await Database.query(sqlQuery);
   }
   //  \\// \\// \\//
 

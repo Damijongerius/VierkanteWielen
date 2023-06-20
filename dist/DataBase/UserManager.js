@@ -45,10 +45,6 @@ class UserManager {
                 sqlQuery = `UPDATE users SET firstname = "${arg1}", infix = "${arg2}", lastName = "${arg3}" WHERE id = ${id} `;
             }
             else if (typeof arg1 === "number" && typeof arg2 === "string") {
-                // modifyUser(id: number, password: string) implementation
-                sqlQuery = `UPDATE users SET password = "${arg1}" WHERE id = ${id} `;
-            }
-            else if (typeof arg1 === "number" && typeof arg2 === "string") {
                 // modifyUser(id: number, email: string) implementation
                 sqlQuery = `UPDATE users SET email = "${arg1}" WHERE id = ${id} `;
             }
@@ -84,6 +80,12 @@ class UserManager {
                 values = [arg1];
             }
             return yield Database_js_1.Database.query(sqlQuery, values);
+        });
+    }
+    getUsers(permissionLevel) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT * FROM users WHERE permissionLevel = ${permissionLevel}`;
+            return yield Database_js_1.Database.query(sqlQuery);
         });
     }
     //  \\// \\// \\//

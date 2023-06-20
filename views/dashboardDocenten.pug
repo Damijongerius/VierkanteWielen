@@ -73,21 +73,20 @@ html
       a(href="/dashboard/docenten") docenten
       a(href="/dashboard/aankondegingen") aankondegingen
     .container
-      form(action="/dashboard/autos/add", method="POST")
-        input(type="text", name="kenteken", placeholder="kenteken")
-        input(type="text", name="fabrikant", placeholder="fabrikant")
-        input(type="text", name="kleur", placeholder="kleur")
-        button(type="submit") Add Car
-      .line
 
-      if currAutos && currAutos.length
-        each car in currAutos
+      if currStudenten && currStudenten.length
+        each student in currStudenten
           .box
-            h2= car.kenteken
-            p= car.fabrikant
-            p= car.kleur
-            form(action="/dashboard/autos/remove", method="POST")
-              input(type="hidden", name="kenteken", value=car.kenteken)
+            h2= student.email
+            p= student.firstname
+            p= student.infix
+            p= student.lastname
+            p= student.isSick
+            form(action="/dashboard/studenten/modify", method="post")
+              input(type="text", name="PermissionLevel", value=1)
+              button(type="submit") Update
+            form(action="/dashboard/studenten/remove", method="POST")
+              input(type="hidden", name="id", value=student.id)
               button(type="submit") Remove
       else
-        p geen auto's beschrikbaar.
+        p geen student beschrikbaar.
