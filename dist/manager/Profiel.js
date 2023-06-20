@@ -11,8 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Profiel = void 0;
 const App_1 = require("../App");
+const LessonManager_1 = require("../DataBase/LessonManager");
 const UserManager_1 = require("../DataBase/UserManager");
 const user = new UserManager_1.UserManager();
+const lesson = new LessonManager_1.LessonManager();
 class Profiel {
     render(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -20,8 +22,9 @@ class Profiel {
                 const data = yield App_1.redisClient.hGetAll(req.session.id);
                 const id = parseInt(data.id);
                 const thisUser = yield user.getUser(id);
-                console.log(thisUser);
-                res.render("profiel", { thisUser });
+                const results = yield lesson.getResultWithUser(id);
+                console.log(results);
+                res.render("profiel", { thisUser, results });
             }
         });
     }

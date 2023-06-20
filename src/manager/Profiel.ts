@@ -1,7 +1,10 @@
 import { redisClient } from "../App";
+import { LessonManager } from "../DataBase/LessonManager";
 import { UserManager } from "../DataBase/UserManager";
+import { SubscriptionManager } from "./Subscription";
 
 const user: UserManager = new UserManager();
+const lesson : LessonManager = new LessonManager();
 
 export class Profiel {
   async render(req, res) {
@@ -9,8 +12,9 @@ export class Profiel {
       const data = await redisClient.hGetAll(req.session.id);
       const id: number = parseInt(data.id);
       const thisUser = await user.getUser(id);
-      console.log(thisUser);
-      res.render("profiel", { thisUser });
+      const results = await lesson.getResultWithUser(id);
+      console.log(results);
+      res.render("profiel", { thisUser, results });
     }
   }
 }

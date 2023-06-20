@@ -96,6 +96,14 @@ class LessonManager {
             return null;
         });
     }
+    getResultWithUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT * FROM results AS r JOIN Lessons AS l ON r.Lessons_lessonId = l.lessonId JOIN UserLessons AS ul ON l.lessonId = ul.Lesson_lessonId JOIN users AS u ON ul.user_id = u.id WHERE u.id = ${userId};`;
+            const res = yield Database_js_1.Database.query(sqlQuery);
+            console.log(res);
+            return res;
+        });
+    }
     setNote(lessonId, note) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `UPDATE lessons SET note = "${note}" WHERE lessonId = ${lessonId}`;

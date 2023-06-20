@@ -56,31 +56,28 @@ head
     color: #666;
     font-size: 16px;
     }
-h1 Mijn Profiel
-img(src='https://img.parool.nl/16c1b04d7112d4a1f8a01c454abcdb8afd87ea12/alberto-stegeman-in-utrecht-aangehouden' alt='Profielfoto')
-each user in thisUser 
-  p #{user.firstName} #{user.infix} #{user.lastName}
-.achievements
-  .achievement
-    h3 Prestatie 1
-    p Ik heb de eerste prijs gewonnen in de programmeerwedstrijd.
-  .achievement
-    h3 Prestatie 2
-    p
-      | Ik heb mijn eerste open-source bijdrage geleverd aan een populaire
-      | repository.
-  .achievement
-    h3 Prestatie 3
-    p
-      | Ik heb met succes een project afgerond binnen de gestelde deadline.
-.alternating-content.footer
-  .footer-content
-    .footer-contact
-      h2 Contact details
-      p Almere, Nederland
-      a(href='tel:+31612345678') &#xF4DE; 06 1234 5678
-      a(href='mailto:info@vierkantewielen.nl') &#x2709; info@vierkantewielen.nl
-    .footer-legal
-      p &copy; Copyright 2023
+  body
+    h1 Mijn Profiel
+    img(src='https://img.parool.nl/16c1b04d7112d4a1f8a01c454abcdb8afd87ea12/alberto-stegeman-in-utrecht-aangehouden' alt='Profielfoto')
+    each user in thisUser 
+      p #{user.firstName} #{user.infix} #{user.lastName}
+    .achievements
+    if results && results.length > 0
+      each result in results
+        .achievement
+          h3 #{result.result}
+          if result.positive
+            p #{result.positive}
+          if result.negative
+            p #{result.negative}
+    .alternating-content.footer
+      .footer-content
+        .footer-contact
+          h2 Contact details
+          p Almere, Nederland
+          a(href='tel:+31612345678') &#xF4DE; 06 1234 5678
+          a(href='mailto:info@vierkantewielen.nl') &#x2709; info@vierkantewielen.nl
+        .footer-legal
+          p &copy; Copyright 2023
       a(href='documenten/voorwaarden.pdf') Algemene Voorwaarden
       a(href='documenten/privacybeleid.pdf') Privacybeleid
