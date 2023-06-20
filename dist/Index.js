@@ -14,13 +14,11 @@ const UserManager_js_1 = require("./DataBase/UserManager.js");
 const App_js_1 = require("./App.js");
 const Subscription_js_1 = require("./manager/Subscription.js");
 const Dashboard_js_1 = require("./manager/Dashboard.js");
-const Logger_js_1 = require("./Logger.js");
 const Encryptor_js_1 = require("./encryption/Encryptor.js");
 Database_js_1.Database.connect("localhost", "dami", "dami", "vierkantewielen");
 const dashboard = new Dashboard_js_1.Dashboard();
 const userManager = new UserManager_js_1.UserManager();
 const subscriptionManager = new Subscription_js_1.SubscriptionManager();
-const logger = new Logger_js_1.Logger("index");
 const studentPermission = 1;
 //dashboard calls
 // //\\//\\//\\

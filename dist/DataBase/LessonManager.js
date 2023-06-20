@@ -47,7 +47,61 @@ class LessonManager {
             else {
                 throw new Error("Invalid argument provided");
             }
-            yield Database_js_1.Database.conn.query(sqlQuery);
+            yield Database_js_1.Database.query(sqlQuery);
+        });
+    }
+    getExams(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("---------| getExams");
+            console.log(userId);
+            const sqlQuery = `SELECT * FROM UserLessons WHERE user_id = ${userId}`;
+            const lessons = yield Database_js_1.Database.query(sqlQuery);
+            console.log("---------| lessons");
+            console.log(lessons);
+            let ids = [];
+            lessons.forEach((lesson) => {
+                ids.push(lesson.Lesson_lessonId);
+            });
+            console.log(lessons);
+            const sqlQuery2 = `SELECT * FROM lessons WHERE lessonId IN (${ids.join(',')}) and isExam = 1`;
+            return yield Database_js_1.Database.query(sqlQuery2);
+        });
+    }
+    getExamResults(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.getExams(userId);
+            let ids = [];
+            result.forEach((lesson) => {
+                if (lesson.isCanceled != 1) {
+                    ids.push(lesson.lessonId);
+                }
+            });
+            const sqlQuery2 = `SELECT * FROM results WHERE Lessons.lesson_Id in (${ids.join(',')})`;
+            return yield Database_js_1.Database.query(sqlQuery2);
+        });
+    }
+    getExamsResults(userIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let lessonIds = [];
+            console.log("--------------|userids");
+            console.log(userIds);
+            console.log("--------------|result");
+            userIds.forEach((user) => __awaiter(this, void 0, void 0, function* () {
+                const result = yield this.getExams(user);
+                console.log(result);
+                result.forEach((lesson) => {
+                    console.log("--------------|lessson");
+                    console.log(lesson);
+                    if (lesson.isCanceled != 1) {
+                        lessonIds.push(lesson.lessonId);
+                    }
+                });
+            }));
+            if (lessonIds.length == 0) {
+                return [];
+            }
+            const sqlQuery2 = `SELECT * FROM results WHERE Lessons.lesson_Id in (${lessonIds.join(',')})`;
+            return yield Database_js_1.Database.query(sqlQuery2);
         });
     }
     getLessons(arg1, arg2) {

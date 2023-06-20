@@ -4,9 +4,11 @@ import { CarManager } from "../DataBase/CarManager";
 import { UserManager } from "../DataBase/UserManager";
 import { AnnouncementManager } from "../DataBase/AnnouncementManager";
 import { SubscriptionManager } from "./Subscription";
+import { LessonManager } from "../DataBase/LessonManager";
 
 const autos: CarManager = new CarManager();
 const user: UserManager = new UserManager();
+const lesson: LessonManager = new LessonManager();
 
 const subscription: SubscriptionManager = new SubscriptionManager();
 const announcment: AnnouncementManager = new AnnouncementManager();
@@ -14,51 +16,11 @@ const announcment: AnnouncementManager = new AnnouncementManager();
 export class Dashboard {
   async dashboard(req: Request, res: Response) {
     if (hasPermission(req.session.id)) {
-    }
-  }
+        const activeUsers = await getActiveUsers();
+        const slaagPercentage = await getSlaagPercentage();
+        const sortSubs = await sortSubscriptions();
 
-  async sortSubscriptions() {
-    const subscriptions: any[] = await user.getSubscriptions();
-    const values = {
-      Pakket1: 0,
-      Pakket2: 0,
-      Pakket3: 0,
-      Totaal: 0,
-    };
-    if (subscriptions.length != 0) {
-      subscriptions.forEach((sub) => {
-        switch (sub.subscriptionLevel) {
-          case 1:
-            {
-              const val = subscription.getSubscriptionPrice(
-                sub.subscriptionLevel
-              );
-              values.Pakket1 += val;
-              values.Totaal += val;
-            }
-            break;
-          case 2:
-            {
-              const val = subscription.getSubscriptionPrice(
-                sub.subscriptionLevel
-              );
-              values.Pakket1 += val;
-              values.Totaal += val;
-            }
-            break;
-          case 3:
-            {
-              const val = subscription.getSubscriptionPrice(
-                sub.subscriptionLevel
-              );
-              values.Pakket1 += val;
-              values.Totaal += val;
-            }
-            break;
-        }
-      });
-    } else {
-      return values;
+        res.render('dashboard', {activeUsers, slaagPercentage, sortSubs});
     }
   }
 
@@ -204,3 +166,73 @@ async function hasPermissions(
     res.redirect("/");
   }
 }
+
+async function getActiveUsers(){
+    const users = await user.getUsers(1);
+    console.log(users.length);
+    return users.length;
+  }
+
+  async function getSlaagPercentage(){
+    const users = await user.getUsers(1);
+    //get userLessons where is exam and not canceled
+    let ids : number[] = [];
+    users.forEach((user) =>{
+      ids.push(user.id);
+    })
+    const result = await lesson.getExamsResults(ids);
+
+    let geslaagde = 0;
+    result.forEach((res) =>{
+        if(res.geslaagd == 1){
+            geslaagde ++;
+        }
+    })
+
+    return (100 / result.length) * geslaagde;
+  }
+
+  async function sortSubscriptions() {
+    const subscriptions: any[] = await user.getSubscriptions();
+    const values = {
+      Pakket1: 0,
+      Pakket2: 0,
+      Pakket3: 0,
+      Totaal: 0,
+    };
+    if (subscriptions.length != 0) {
+      subscriptions.forEach((sub) => {
+        switch (sub.subscriptionLevel) {
+          case 1:
+            {
+              const val = subscription.getSubscriptionPrice(
+                sub.subscriptionLevel
+              );
+              values.Pakket1 += val;
+              values.Totaal += val;
+            }
+            break;
+          case 2:
+            {
+              const val = subscription.getSubscriptionPrice(
+                sub.subscriptionLevel
+              );
+              values.Pakket1 += val;
+              values.Totaal += val;
+            }
+            break;
+          case 3:
+            {
+              const val = subscription.getSubscriptionPrice(
+                sub.subscriptionLevel
+              );
+              values.Pakket1 += val;
+              values.Totaal += val;
+            }
+            break;
+        }
+      });
+    } else {
+      return values;
+    }
+  }

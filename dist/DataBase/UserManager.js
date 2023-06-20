@@ -93,6 +93,12 @@ class UserManager {
             return yield Database_js_1.Database.query(sqlQuery);
         });
     }
+    getSubscriptions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `Select * FROM subscriptions`;
+            return yield Database_js_1.Database.query(sqlQuery);
+        });
+    }
     deleteSubsciption(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `Delete FROM subscriptions WHERE user_id = ${id}`;

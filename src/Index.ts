@@ -5,7 +5,6 @@ import { SubscriptionManager } from "./manager/Subscription.js";
 import { Dashboard } from "./manager/Dashboard.js"
 import session from "express-session";
 import path from "path";
-import { Logger } from "./Logger.js";
 import {
   EncryptPasswordASync,
   comparePassword,
@@ -17,7 +16,6 @@ const dashboard : Dashboard = new Dashboard();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
-const logger: Logger = new Logger("index");
 
 const studentPermission: number = 1;
 
