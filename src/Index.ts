@@ -9,10 +9,15 @@ import {
   EncryptPasswordASync,
   comparePassword,
 } from "./encryption/Encryptor.js";
+import { Lesson } from "./manager/lesson.js";
+import { Request, Response } from "express";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
 const dashboard : Dashboard = new Dashboard();
+const userManager = new UserManager();
+const logger = new Logger("index");
+const lesson = new Lesson();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
@@ -79,12 +84,26 @@ app.get("/pakket", function (req, res) {
   res.render("pakket");
 });
 
-app.get("/rooster", async function (req, res) {
+app.get("/rooster", async function (req, res: Response) {
   const data = await redisClient.hGetAll(req.session.id);
   if (data.id == null) {
     res.redirect("login");
   } else {
-    res.render("rooster");
+    let sqlQuery: string;
+
+    sqlQuery =
+      "SELECT id, firstName, lastName FROM users WHERE permissionLevel = 1";
+    const result: any = await Database.query(sqlQuery);
+    const allStudents = result;
+    const data = await redisClient.hGetAll(req.session.id);
+
+    sqlQuery =
+    "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";"
+    const result2: any = await Database.query(sqlQuery);
+
+    const roosterPlanning = result2;
+    if(data.permissionLevel == "1"){res.render("rooster", { roosterPlanning });} else if (data.permissionLevel == "2"){res.render("rooster-docent", { allStudents, roosterPlanning})}
+    
   }
 });
 
@@ -155,3 +174,11 @@ app.get("/logout", function (req, res) {
   redisClient.hDel(req.session.id, "permissionLevel");
   res.redirect("login");
 });
+
+app.post("/lesson/add", lesson.Add);
+
+app.post("/changeOptions", lesson.Update);
+
+app.post("/cancelLesson", lesson.Cancel);
+
+app.post("/results", lesson.Results);

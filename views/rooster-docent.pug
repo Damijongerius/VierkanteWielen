@@ -18,6 +18,13 @@ head
   a.nav-link(href='/profiel')
     span.nav-text profiel
 .content
+  .content-section-rooster
+    .rooster-part.rooster-menu
+    .rooster-part.rooster-rooster
+    .rooster-part.rooster-extra
+      button#openModal Plan een les
+
+
   table#lessonsTable
     thead
       tr
@@ -44,6 +51,9 @@ head
 
             // Change Options Modal
             button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#changeOptionsModal-${lesson.lessonId}`) Change Options
+
+            // Results
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#resultsModal-${lesson.lessonId}`) Result
 
     // Modals
     each lesson in roosterPlanning
@@ -85,6 +95,61 @@ head
                 textarea.form-control(name="lessonDescription", rows="3", required=true)= lesson.lessonDescription
                 input.btn.btn-primary(type="submit" value="Save changes")
 
+      // Put in results
+      .modal.fade(id=`resultsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`resultsModalLabel-${lesson.lessonId}`, aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h5.modal-title(id=`resultsModalLabel-${lesson.lessonId}`) Change Options
+            .modal-body
+              form(action="/results", method="post")
+                input(type="hidden", name="lessonId", value=lesson.lessonId)
+                label(for=`Result`) Result
+                textarea.form-control(name="Result", rows="3", required=true)
+                label(for=`Positive`) Positive
+                textarea.form-control(name="Positive", rows="3", required=true)
+                label(for=`Negative`) Negative
+                textarea.form-control(name="Negative", rows="3", required=true)
+                input.btn.btn-primary(type="submit" value="Submit results")
+
+
+#myModal.modal
+  .modal-content
+    span.close &times;
+    form(action='/lesson/add' method='post')
+      label(for='date') Date:
+      input#date(type='datetime-local' name='date' step='3600' required='')
+      br
+      br
+      label(for='student-name') Naam student:
+      select#student-name(name='student_id' required='')
+        if allStudents && allStudents.length
+          each student in allStudents
+            option(value=student.id)= student.firstName + ' ' + student.lastName
+      br
+      br
+      label(for='examen') Is het een examen
+      br
+      input(type='radio' name='examen' value='1' required='')
+      label(for='examen1') Ja
+      br
+      input(type='radio' name='examen' value='0')
+      label(for='examen2') Nee
+      br
+      br
+      label(for='description') Lesson Description:
+      input#description(type='text' name='description' required='')
+      br
+      br
+      label(for='goal') Lesson Goal:
+      input#goal(type='text' name='goal' required='')
+      br
+      br
+      label(for='pickup') Pickup Location:
+      input#pickup(type='text' name='pickup' required='')
+      br
+      br
+      input(type='submit' value='Book Lesson')
 .alternating-content.footer
   .footer-content
     .footer-contact
@@ -135,6 +200,21 @@ script.
   e.target.setCustomValidity("Weekends are not allowed");
   }
   });
+  //Dit laat de modal zien
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("openModal");
+  var span = document.getElementsByClassName("close")[0];
+  btn.onclick = function () {
+  modal.style.display = "block";
+  };
+  span.onclick = function () {
+  modal.style.display = "none";
+  };
+  window.onclick = function (event) {
+  if (event.target == modal) {
+  modal.style.display = "none";
+  }
+  };
 
   document.addEventListener('DOMContentLoaded', function() {
     // Open Cancel Lesson Modal

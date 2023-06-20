@@ -15,10 +15,16 @@ const App_js_1 = require("./App.js");
 const Subscription_js_1 = require("./manager/Subscription.js");
 const Dashboard_js_1 = require("./manager/Dashboard.js");
 const Encryptor_js_1 = require("./encryption/Encryptor.js");
+const lesson_js_1 = require("./manager/lesson.js");
 Database_js_1.Database.connect("localhost", "dami", "dami", "vierkantewielen");
 const dashboard = new Dashboard_js_1.Dashboard();
 const userManager = new UserManager_js_1.UserManager();
+<<<<<<< HEAD
 const subscriptionManager = new Subscription_js_1.SubscriptionManager();
+=======
+const logger = new Logger_js_1.Logger("index");
+const lesson = new lesson_js_1.Lesson();
+>>>>>>> rooster
 const studentPermission = 1;
 //dashboard calls
 // //\\//\\//\\
@@ -84,7 +90,22 @@ App_js_1.app.get("/rooster", function (req, res) {
             res.redirect("login");
         }
         else {
-            res.render("rooster");
+            let sqlQuery;
+            sqlQuery =
+                "SELECT id, firstName, lastName FROM users WHERE permissionLevel = 1";
+            const result = yield Database_js_1.Database.query(sqlQuery);
+            const allStudents = result;
+            const data = yield App_js_1.redisClient.hGetAll(req.session.id);
+            sqlQuery =
+                "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";";
+            const result2 = yield Database_js_1.Database.query(sqlQuery);
+            const roosterPlanning = result2;
+            if (data.permissionLevel == "1") {
+                res.render("rooster", { roosterPlanning });
+            }
+            else if (data.permissionLevel == "2") {
+                res.render("rooster-docent", { allStudents, roosterPlanning });
+            }
         }
     });
 });
@@ -155,4 +176,8 @@ App_js_1.app.get("/logout", function (req, res) {
     App_js_1.redisClient.hDel(req.session.id, "permissionLevel");
     res.redirect("login");
 });
+App_js_1.app.post("/lesson/add", lesson.Add);
+App_js_1.app.post("/changeOptions", lesson.Update);
+App_js_1.app.post("/cancelLesson", lesson.Cancel);
+App_js_1.app.post("/results", lesson.Results);
 //# sourceMappingURL=Index.js.map

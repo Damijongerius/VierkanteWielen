@@ -1,341 +1,388 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  html,
-  body {
-    width: 100%;
-    max-width: 100%;
-    margin: 0px;
-    padding: 0px;
-    min-height: 100vh;
-  }
-  
-  body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .alternating-content,
-  .content {
-    flex: 1;
-  }
-  
-  .nav-menu {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 700px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding-top: 20px;
-  }
-  
-  .nav-heading {
-    margin-right: auto;
-  }
-  
-  .nav-link {
-    color: black;
-    text-decoration: none;
-    padding: 12px 25px;
-    display: inline-block;
-    position: relative;
-  }
-  
-  .nav-text {
-    display: inline-block;
-    transition: transform 400ms;
-  }
-  
-  .nav-link:hover .nav-text {
-    transform: translateY(-10px) scale(1.2);
-  }
-  
-  .nav-login {
-    color: white;
-    background-color: black;
-    border: 1px solid black;
-    margin-left: 15px;
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.3s, color 0.3s;
-    z-index: 1;
-  }
-  
-  .nav-login::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 1;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    transition: transform 0.3s;
-    transform: translateX(100%);
-    z-index: -1; /* Adjusted z-index */
-  }
-  
-  .nav-home {
-    color: black;
-    text-decoration: none;
-  }
-  
-  .nav-login:hover {
-    background-color: white;
-    color: black;
-  }
-  
-  .nav-login:hover::before {
-    transform: translateX(0);
-  }
-  
-  .alternating-content {
-    width: 100%;
-    background-color: #9ebcff;
-    padding: 100px 0;
-    margin: 20px 0;
-  }
-  
-  .content {
-    width: 100%;
-    padding: 100px 0;
-    margin: 20px 0;
-  }
-  
-  .content-section-over-ons {
-    width: 400px;
-    font-size: 20px;
-    position: relative;
-    left: 40vw;
-    transform: translateX(-50%);
-  }
-  
-  .content-section-pakketten {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 900px;
-    font-size: 20px;
-    position: relative;
-    left: 50vw;
-    transform: translateX(-50%);
-  }
-  
-  .content-section-pakketten > h1 {
-    text-align: center;
-    width: 100%;
-    margin: 0px;
-  }
-  
-  .pakket > p {
-    font-size: 16px;
-    height: 22.5px;
-  }
-  
-  .pakket {
-    min-width: 300px;
-    text-align: center;
-    margin-bottom: 80px;
-  }
-  
-  .button-pakket {
-    text-decoration: none;
-    color: white;
-    background-color: #3898ec;
-    padding: 9px 15px;
-    margin-top: 20px;
-    position: absolute;
-    transform: translateX(-50%);
-    transition: transform 200ms;
-  }
-  
-  .button-pakket:hover {
-    transform: translateX(-50%) scale(1.2);
-  }
-  
-  .footer-content {
-    display: flex;
-    position: relative;
-    width: auto;
-    max-width: 600px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .footer-content > div {
-    width: 200px;
-  }
-  
-  .footer-legal > a,
-  .footer-contact > a {
-    color: blueviolet;
-    margin: 16px 0;
-    display: block;
-    height: 20px;
-    color: black;
-  }
-  
-  .footer-legal > a {
-    color: #0088c7;
-  }
-  
-  .footer-contact > a {
-    text-decoration: none;
-  }
-  
-  .footer-legal {
-    padding: 54px 0 0;
-  }
-  
-  .footer-contact {
-    margin-right: auto;
-  }
-  
-  .footer {
-    margin: 20px 0 0;
-    flex-shrink: 0;
-  }
-  
-  .content-section-login {
-    display: grid;
-    grid-template-columns: 1fr;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: fit-content;
-    min-width: 400px;
-  }
-  
-  .content-section-login > h1,
-  .content-section-registeer > h1 {
-    grid-column: span 2;
-    text-align: center;
-    font-size: 38px;
-  }
-  
-  .content-section-login > form,
-  .content-section-registeer > form {
-    display: grid;
-    grid-column: span 2;
-    grid-template-rows: repeat(3, 1fr);
-    grid-gap: 10px;
-  }
-  
-  .login-button {
-    background-color: #3898ec !important;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .content-section-login > form > input,
-  .content-section-registeer > form > input,
-  .content-section-pakket-kopen > form > input {
-    padding: 8px 12px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0px;
+  padding: 0px;
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.alternating-content,
+.content {
+  flex: 1;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 700px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 20px;
+}
+
+.nav-heading {
+  margin-right: auto;
+}
+
+.nav-link {
+  color: black;
+  text-decoration: none;
+  padding: 12px 25px;
+  display: inline-block;
+  position: relative;
+}
+
+.nav-text {
+  display: inline-block;
+  transition: transform 400ms;
+}
+
+.nav-link:hover .nav-text {
+  transform: translateY(-10px) scale(1.2);
+}
+
+.nav-login {
+  color: white;
+  background-color: black;
+  border: 1px solid black;
+  margin-left: 15px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s;
+  z-index: 1;
+}
+
+.nav-login::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 1;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transition: transform 0.3s;
+  transform: translateX(100%);
+  z-index: -1; /* Adjusted z-index */
+}
+
+.nav-home {
+  color: black;
+  text-decoration: none;
+}
+
+.nav-login:hover {
+  background-color: white;
+  color: black;
+}
+
+.nav-login:hover::before {
+  transform: translateX(0);
+}
+
+.alternating-content {
+  width: 100%;
+  background-color: #9ebcff;
+  padding: 100px 0;
+  margin: 20px 0;
+}
+
+.content {
+  width: 100%;
+  padding: 100px 0;
+  margin: 20px 0;
+}
+
+.content-section-over-ons {
+  width: 400px;
+  font-size: 20px;
+  position: relative;
+  left: 40vw;
+  transform: translateX(-50%);
+}
+
+.content-section-pakketten {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 900px;
+  font-size: 20px;
+  position: relative;
+  left: 50vw;
+  transform: translateX(-50%);
+}
+
+.content-section-pakketten > h1 {
+  text-align: center;
+  width: 100%;
+  margin: 0px;
+}
+
+.pakket > p {
+  font-size: 16px;
+  height: 22.5px;
+}
+
+.pakket {
+  min-width: 300px;
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.button-pakket {
+  text-decoration: none;
+  color: white;
+  background-color: #3898ec;
+  padding: 9px 15px;
+  margin-top: 20px;
+  position: absolute;
+  transform: translateX(-50%);
+  transition: transform 200ms;
+}
+
+.button-pakket:hover {
+  transform: translateX(-50%) scale(1.2);
+}
+
+.footer-content {
+  display: flex;
+  position: relative;
+  width: auto;
+  max-width: 600px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.footer-content > div {
+  width: 200px;
+}
+
+.footer-legal > a,
+.footer-contact > a {
+  color: blueviolet;
+  margin: 16px 0;
+  display: block;
+  height: 20px;
+  color: black;
+}
+
+.footer-legal > a {
+  color: #0088c7;
+}
+
+.footer-contact > a {
+  text-decoration: none;
+}
+
+.footer-legal {
+  padding: 54px 0 0;
+}
+
+.footer-contact {
+  margin-right: auto;
+}
+
+.footer {
+  margin: 20px 0 0;
+  flex-shrink: 0;
+}
+
+.content-section-login {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  min-width: 400px;
+}
+
+.content-section-login > h1,
+.content-section-registeer > h1 {
+  grid-column: span 2;
+  text-align: center;
+  font-size: 38px;
+}
+
+.content-section-login > form,
+.content-section-registeer > form {
+  display: grid;
+  grid-column: span 2;
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.login-button {
+  background-color: #3898ec !important;
+  color: white;
+  cursor: pointer;
+}
+
+.content-section-login > form > input,
+.content-section-registeer > form > input,
+.content-section-pakket-kopen > form > input {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  background-color: #eee;
+}
+
+.content-section-login > form > input:focus,
+.content-section-registeer > form > input:focus {
+  outline: none;
+}
+
+.content-section-login > a,
+.content-section-registeer > a {
+  margin-top: 20px;
+  color: black;
+  grid-row: 3 / 3;
+  height: fit-content;
+}
+
+.content-section-registeer {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  min-width: 400px;
+}
+
+.content-section-pakket-kopen {
+  position: relative;
+  width: fit-content;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.content-section-pakket-kopen > h1 {
+  text-align: center;
+}
+
+.content-section-pakket-kopen > form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+}
+
+.content-section-pakket-kopen > form > .login-button {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+}
+
+#openModal {
+  width: fit-content;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.content-section-rooster {
+  display: flex;
+  position: relative;
+  left: 50vw;
+  transform: translateX(-50%);
+}
+
+.rooster-part {
+  width: 300px;
+}
+
+.rooster-rooster {
+  width: 600px;
+}
+
+.lesson {
+  display: grid;
+  grid-template-columns: 120px auto;
+}
+
+/* Add this CSS in your style sheet or within a <style> tag */
+
+#lessonsTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#lessonsTable th,
+#lessonsTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#lessonsTable th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#lessonsTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#lessonsTable tbody tr:hover {
+  background-color: #e6f2ff;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  #lessonsTable {
     font-size: 14px;
-    border: none;
-    background-color: #eee;
   }
   
-  .content-section-login > form > input:focus,
-  .content-section-registeer > form > input:focus {
-    outline: none;
+  #lessonsTable th,
+  #lessonsTable td {
+    padding: 6px;
   }
   
-  .content-section-login > a,
-  .content-section-registeer > a {
-    margin-top: 20px;
-    color: black;
-    grid-row: 3 / 3;
-    height: fit-content;
+  #lessonsTable th {
+    font-size: 14px;
   }
-  
-  .content-section-registeer {
-    display: grid;
-    grid-template-columns: 1fr;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: fit-content;
-    min-width: 400px;
-  }
-  
-  .content-section-pakket-kopen {
-    position: relative;
-    width: fit-content;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .content-section-pakket-kopen > h1 {
-    text-align: center;
-  }
-  
-  .content-section-pakket-kopen > form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-  }
-  
-  .content-section-pakket-kopen > form > .login-button {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-  }
-  
-  #openModal {
-    width: fit-content;
-  }
-  
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-  }
-  
-  .close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  .content-section-rooster {
-    display: flex;
-    position: relative;
-    left: 50vw;
-    transform: translateX(-50%);
-  }
-  
-  .rooster-part {
-    width: 300px;
-  }
-  
-  .rooster-rooster {
-    width: 600px;
-  }
-  
-  .lesson {
-    display: grid;
-    grid-template-columns: 80px auto;
-  }
+}
+
+.cancelled{
+  background-color: red;
+}
