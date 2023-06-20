@@ -1,0 +1,86 @@
+doctype html
+head
+  link(rel='stylesheet' href='./styles/style.css')
+  title Mijn Profiel
+  style.
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    }
+    h1 {
+    color: #333;
+    margin-top: 20px;
+    }
+    img {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    left: 50%;
+    transform: translateX(-50%);
+    }
+    p {
+    color: #666;
+    font-size: 18px;
+    }
+    .achievements {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    }
+    .achievement {
+    margin: 10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    transition: transform 0.3s ease;
+    }
+    .achievement:hover {
+    transform: translateY(-5px);
+    }
+    .achievement h3 {
+    color: #333;
+    font-size: 20px;
+    margin-top: 0;
+    }
+    .achievement p {
+    color: #666;
+    font-size: 16px;
+    }
+h1 Mijn Profiel
+img(src='https://img.parool.nl/16c1b04d7112d4a1f8a01c454abcdb8afd87ea12/alberto-stegeman-in-utrecht-aangehouden' alt='Profielfoto')
+each user in thisUser 
+  p #{user.firstName} #{user.infix} #{user.lastName}
+.achievements
+  .achievement
+    h3 Prestatie 1
+    p Ik heb de eerste prijs gewonnen in de programmeerwedstrijd.
+  .achievement
+    h3 Prestatie 2
+    p
+      | Ik heb mijn eerste open-source bijdrage geleverd aan een populaire
+      | repository.
+  .achievement
+    h3 Prestatie 3
+    p
+      | Ik heb met succes een project afgerond binnen de gestelde deadline.
+.alternating-content.footer
+  .footer-content
+    .footer-contact
+      h2 Contact details
+      p Almere, Nederland
+      a(href='tel:+31612345678') &#xF4DE; 06 1234 5678
+      a(href='mailto:info@vierkantewielen.nl') &#x2709; info@vierkantewielen.nl
+    .footer-legal
+      p &copy; Copyright 2023
+      a(href='documenten/voorwaarden.pdf') Algemene Voorwaarden
+      a(href='documenten/privacybeleid.pdf') Privacybeleid

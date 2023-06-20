@@ -2,7 +2,7 @@ import { Database } from "./DataBase/Database.js";
 import { UserManager } from "./DataBase/UserManager.js";
 import { app, redisClient } from "./App.js";
 import { SubscriptionManager } from "./manager/Subscription.js";
-import { Dashboard } from "./manager/Dashboard.js"
+import { Dashboard } from "./manager/Dashboard.js";
 import session from "express-session";
 import path from "path";
 import { Logger } from "./Logger.js";
@@ -10,49 +10,51 @@ import {
   EncryptPasswordASync,
   comparePassword,
 } from "./encryption/Encryptor.js";
+import { Profiel } from "./manager/Profiel.js";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
-const dashboard : Dashboard = new Dashboard();
+const dashboard: Dashboard = new Dashboard();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
+const profiel = new Profiel();
 const logger: Logger = new Logger("index");
 
 const studentPermission: number = 1;
 
 //dashboard calls
 // //\\//\\//\\
-app.get('/dashboard', dashboard.dashboard);
+app.get("/dashboard", dashboard.dashboard);
 
-app.get('/dashboard/autos', dashboard.Autos);
+app.get("/dashboard/autos", dashboard.Autos);
 // //\\//\\//\\
-app.post('/dashboard/autos/add', dashboard.AutosAdd);
-app.post('/dashboard/autos/remove');
-app.post('/dashboard/autos/modify');
+app.post("/dashboard/autos/add", dashboard.AutosAdd);
+app.post("/dashboard/autos/remove");
+app.post("/dashboard/autos/modify");
 // \\//\\//\\//
 
-app.get('/dashboard/studenten', dashboard.dashboardStudenten);
+app.get("/dashboard/studenten", dashboard.dashboardStudenten);
 // //\\//\\//\\
-app.post('/dashboard/studenten/add');
-app.post('/dashboard/studenten/remove');
-app.post('/dashboard/studenten/modify');
+app.post("/dashboard/studenten/add");
+app.post("/dashboard/studenten/remove");
+app.post("/dashboard/studenten/modify");
 // \\//\\//\\//
 
-app.get('/dashboard/docenten', dashboard.dashboardDocenten);
+app.get("/dashboard/docenten", dashboard.dashboardDocenten);
 // //\\//\\//\\
-app.post('/dashboard/docenten/add');
-app.post('/dashboard/docenten/remove');
-app.post('/dashboard/docenten/modify');
+app.post("/dashboard/docenten/add");
+app.post("/dashboard/docenten/remove");
+app.post("/dashboard/docenten/modify");
 // \\//\\//\\//
 
-app.get('/dashboard/Aankondigingen', dashboard.dashboardAankondigingen);
+app.get("/dashboard/Aankondigingen", dashboard.dashboardAankondigingen);
 // //\\//\\//\\
-app.post('/dashboard/Aankondigingen/add');
-app.post('/dashboard/Aankondigingen/remove');
-app.post('/dashboard/Aankondigingen/modify');
+app.post("/dashboard/Aankondigingen/add");
+app.post("/dashboard/Aankondigingen/remove");
+app.post("/dashboard/Aankondigingen/modify");
 // \\//\\//\\//
-
+app.get("/profiel", profiel.render);
 // \\//\\//\\//
 
 app.get("/", async function (req, res) {

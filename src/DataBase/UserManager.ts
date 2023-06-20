@@ -12,11 +12,12 @@ export class UserManager {
   ) {
     let sqlQuery: string;
     let values: any[];
-  
-    sqlQuery = "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
+
+    sqlQuery =
+      "INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?);";
     values = [firstName, infix, lastName, email, permissionLevel, password];
-  
-    const result : any = await Database.query(sqlQuery, values);
+
+    const result: any = await Database.query(sqlQuery, values);
     return result;
   }
   //  \\// \\// \\//
@@ -78,7 +79,6 @@ export class UserManager {
   async getUser(arg1: any, arg2?: string, arg3?: string) {
     let sqlQuery: string;
     let values: any[];
-
     if (arg2 !== undefined && arg3 !== undefined) {
       sqlQuery = `SELECT * FROM users WHERE firstName = ? AND infix = ? AND lastName = ?`;
       values = [arg1, arg2, arg3];
@@ -92,7 +92,6 @@ export class UserManager {
       sqlQuery = `SELECT * FROM users WHERE email = ?`;
       values = [arg1];
     }
-
     return await Database.query(sqlQuery, values);
   }
   //  \\// \\// \\//
@@ -111,7 +110,9 @@ export class UserManager {
 
   async addSubscription(id: number, subscriptionLevel: number) {
     const currentDate = new Date();
-    const sqlQuery = `INSERT INTO subscriptions (user_id,subscriptionLevel,startDate, lessonsUsed) VALUES (${id},${subscriptionLevel},'${convertToSqlDate(currentDate)}', 0)`;
+    const sqlQuery = `INSERT INTO subscriptions (user_id,subscriptionLevel,startDate, lessonsUsed) VALUES (${id},${subscriptionLevel},'${convertToSqlDate(
+      currentDate
+    )}', 0)`;
 
     return await Database.query(sqlQuery);
   }
@@ -137,8 +138,8 @@ export class UserManager {
 
 function convertToSqlDate(date) {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
   return `${year}-${month}-${day}`;
 }
