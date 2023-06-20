@@ -50,66 +50,18 @@ export class LessonManager {
     await Database.query(sqlQuery);
   }
 
-  async getExams(userId : number){
-    const sqlQuery = `SELECT * FROM UserLessons WHERE user_id = ${userId}`
-    const lessons : any[] = await Database.query(sqlQuery);
-    let ids : number[] = [];
-    lessons.forEach((lesson) =>{
-      ids.push(lesson.Lesson_lessonId);
-    })
-    const sqlQuery2 = `SELECT * FROM lessons WHERE lessonId IN (${ids.join(',')}) and isExam = 1`;
-    return await Database.query(sqlQuery2);
-  }
-
-  async getIdsExams(userId : number[]){
-    const sqlQuery = `SELECT * FROM UserLessons WHERE user_id in (${userId.join(',')})`
-    const lessons : any[] = await Database.query(sqlQuery);
-    let ids : number[] = [];
-    lessons.forEach((lesson) =>{
-      ids.push(lesson.Lesson_lessonId);
-    })
-    const sqlQuery2 = `SELECT * FROM lessons WHERE lessonId IN (${ids.join(',')}) and isExam = 1`;
-    return await Database.query(sqlQuery2);
-  }
-
-  async getExamResults(userId : number){
-    const result = await this.getExams(userId);
-
-    let ids : number[] = [];
-    result.forEach((lesson) =>{
-      if(lesson.isCanceled != 1){
-        ids.push(lesson.lessonId);
-      }
-    })
-
-    const sqlQuery2 = `SELECT * FROM results WHERE Lessons.lesson_Id in (${ids.join(',')})`
-    return await Database.query(sqlQuery2);
-  }
-
-  async getExamsResults(userIds : number[]){
-    let lessonIds : number[] = []; 
-    console.log("--------------|userids");
-    console.log(userIds);
-    console.log("--------------|result");
-
-    userIds.forEach(async (user) => {
-      const result = await this.getExams(user);
-      console.log(result);
-
-      result.forEach((lesson) =>{
-        console.log("--------------|lessson");
-        console.log(lesson);
-        if(lesson.isCanceled != 1){
-          lessonIds.push(lesson.lessonId);
-        }
-      })
-
-    })
-    if(lessonIds.length == 0){
-      return [];
-    }
-    const sqlQuery2 = `SELECT * FROM results WHERE Lessons.lesson_Id in (${lessonIds.join(',')})`
-    return await Database.query(sqlQuery2);
+  async getGeslaagde() {
+    const sqlQuery = `
+    SELECT
+    COUNT(CASE WHEN r.geslaagd = 1 THEN 1 END) AS passedCount,
+    COUNT(CASE WHEN r.geslaagd = 0 THEN 1 END) AS failedCount
+  FROM results r
+  JOIN Lessons l ON l.lessonId = r.Lessons_lessonId
+  JOIN UserLessons ul ON ul.Lesson_lessonId = l.lessonId
+  JOIN users u ON u.id = ul.user_id
+  WHERE l.isExam = 1 AND u.permissionLevel = 1;
+    `;
+    return await Database.query(sqlQuery);
   }
 
   async getLessons(arg1: GetLessonsArgument, arg2?: any) {

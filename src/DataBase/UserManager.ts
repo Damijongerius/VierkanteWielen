@@ -10,7 +10,6 @@ export class UserManager {
     password: string,
     infix?: string
   ) {
-    console.log(infix);
     let sqlQuery: string;
     let values: any[];
   

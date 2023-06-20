@@ -27,7 +27,7 @@ export class Dashboard {
   async autos(req: Request, res: Response) {
     if (hasPermission(req.session.id)) {
       const currAutos = await autos.getCars();
-      console.log(currAutos);
+
       res.render("dashboardautos", { currAutos });
     }
   }
@@ -51,7 +51,6 @@ export class Dashboard {
   async studenten(req: Request, res: Response) {
     if (hasPermission(req.session.id)) {
       const currStudenten = await user.getUsers(1);
-      console.log(currStudenten);
       res.render("DashboardStudenten", { currStudenten });
     }
   }
@@ -67,7 +66,6 @@ export class Dashboard {
   async studentenModify(req: Request, res: Response) {
     if (await hasPermission(req.session.id)) {
       const UserInfo = req.body;
-      console.log(UserInfo);
       user.modifyUser(UserInfo.id, UserInfo.PermissionLevel);
       res.redirect("/dashboard/studenten");
     }
@@ -98,7 +96,6 @@ export class Dashboard {
   async aankondigingen(req: Request, res: Response) {
     if (hasPermission(req.session.id)) {
       const currAankondegingen = await announcment.getAnnouncements();
-      console.log(currAankondegingen);
       res.render("DashboardAankondigingen", { currAankondegingen });
     }
   }
@@ -153,9 +150,7 @@ async function hasPermissions(
   extra?: object
 ): Promise<void> {
   const data = await redisClient.hGetAll(id);
-  console.log(data);
   const permissionLevel = parseInt(data.permissionLevel);
-  console.log(permissionLevel);
   if (permissionLevel == 3) {
     if (extra) {
       res.render(render, extra);
@@ -169,70 +164,41 @@ async function hasPermissions(
 
 async function getActiveUsers(){
     const users = await user.getUsers(1);
-    console.log(users.length);
     return users.length;
   }
 
   async function getSlaagPercentage(){
-    const users = await user.getUsers(1);
-    //get userLessons where is exam and not canceled
-    let ids : number[] = [];
-    users.forEach((user) =>{
-      ids.push(user.id);
-    })
-    const result = await lesson.getExamsResults(ids);
 
-    let geslaagde = 0;
-    result.forEach((res) =>{
-        if(res.geslaagd == 1){
-            geslaagde ++;
-        }
-    })
-
-    return (100 / result.length) * geslaagde;
+    const result = await lesson.getGeslaagde();
+    return (100 / (result[0].passedCount + result[0].failedCount)) * result[0].passedCount;
   }
 
   async function sortSubscriptions() {
     const subscriptions: any[] = await user.getSubscriptions();
     const values = {
-      Pakket1: 0,
-      Pakket2: 0,
-      Pakket3: 0,
-      Totaal: 0,
+      pakket1: 0,
+      pakket2: 0,
+      pakket3: 0,
+      totaal: 0,
     };
-    if (subscriptions.length != 0) {
+    
+    if (subscriptions.length !== 0) {
       subscriptions.forEach((sub) => {
+        const val = subscription.getSubscriptionPrice(sub.subscriptionLevel);
         switch (sub.subscriptionLevel) {
           case 1:
-            {
-              const val = subscription.getSubscriptionPrice(
-                sub.subscriptionLevel
-              );
-              values.Pakket1 += val;
-              values.Totaal += val;
-            }
+            values.pakket1 += val;
             break;
           case 2:
-            {
-              const val = subscription.getSubscriptionPrice(
-                sub.subscriptionLevel
-              );
-              values.Pakket1 += val;
-              values.Totaal += val;
-            }
+            values.pakket2 += val;
             break;
           case 3:
-            {
-              const val = subscription.getSubscriptionPrice(
-                sub.subscriptionLevel
-              );
-              values.Pakket1 += val;
-              values.Totaal += val;
-            }
+            values.pakket3 += val;
             break;
         }
+        values.totaal += val;
       });
-    } else {
-      return values;
     }
+    
+    return values;
   }

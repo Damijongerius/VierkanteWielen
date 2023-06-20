@@ -28,6 +28,7 @@ class Dashboard {
                 const activeUsers = yield getActiveUsers();
                 const slaagPercentage = yield getSlaagPercentage();
                 const sortSubs = yield sortSubscriptions();
+                console.log(sortSubs);
                 res.render('dashboard', { activeUsers, slaagPercentage, sortSubs });
             }
         });
@@ -182,67 +183,42 @@ function hasPermissions(id, res, render, extra) {
 function getActiveUsers() {
     return __awaiter(this, void 0, void 0, function* () {
         const users = yield user.getUsers(1);
-        console.log(users.length);
         return users.length;
     });
 }
 function getSlaagPercentage() {
     return __awaiter(this, void 0, void 0, function* () {
-        const users = yield user.getUsers(1);
-        //get userLessons where is exam and not canceled
-        let ids = [];
-        users.forEach((user) => {
-            ids.push(user.id);
-        });
-        const result = yield lesson.getExamsResults(ids);
-        let geslaagde = 0;
-        result.forEach((res) => {
-            if (res.geslaagd == 1) {
-                geslaagde++;
-            }
-        });
-        return (100 / result.length) * geslaagde;
+        const result = yield lesson.getGeslaagde();
+        return (100 / (result[0].passedCount + result[0].failedCount)) * result[0].passedCount;
     });
 }
 function sortSubscriptions() {
     return __awaiter(this, void 0, void 0, function* () {
         const subscriptions = yield user.getSubscriptions();
         const values = {
-            Pakket1: 0,
-            Pakket2: 0,
-            Pakket3: 0,
-            Totaal: 0,
+            pakket1: 0,
+            pakket2: 0,
+            pakket3: 0,
+            totaal: 0,
         };
-        if (subscriptions.length != 0) {
+        if (subscriptions.length !== 0) {
             subscriptions.forEach((sub) => {
+                const val = subscription.getSubscriptionPrice(sub.subscriptionLevel);
                 switch (sub.subscriptionLevel) {
                     case 1:
-                        {
-                            const val = subscription.getSubscriptionPrice(sub.subscriptionLevel);
-                            values.Pakket1 += val;
-                            values.Totaal += val;
-                        }
+                        values.pakket1 += val;
                         break;
                     case 2:
-                        {
-                            const val = subscription.getSubscriptionPrice(sub.subscriptionLevel);
-                            values.Pakket1 += val;
-                            values.Totaal += val;
-                        }
+                        values.pakket2 += val;
                         break;
                     case 3:
-                        {
-                            const val = subscription.getSubscriptionPrice(sub.subscriptionLevel);
-                            values.Pakket1 += val;
-                            values.Totaal += val;
-                        }
+                        values.pakket3 += val;
                         break;
                 }
+                values.totaal += val;
             });
         }
-        else {
-            return values;
-        }
+        return values;
     });
 }
 //# sourceMappingURL=Dashboard.js.map

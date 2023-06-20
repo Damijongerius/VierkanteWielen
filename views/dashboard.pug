@@ -89,16 +89,20 @@ html
       a(href="/dashboard/aankondegingen") aankondegingen
     .container
       .box-2
-        h2(style="grid-column: 1 / span 4;") Sales
+        h2 Sales
         .sales-container
-          div
-            p= sortSubscriptions['pakket-1']
-          div
-            p= sortSubscriptions['pakket-2']
-          div
-            p= sortSubscriptions['pakket-3']
-          div
-            p= sortSubscriptions['totaal']
+          div.box
+            h2 Pakket 1
+            p= sortSubs['pakket1']
+          div.box
+            h2 Pakket 2
+            p= sortSubs['pakket2']
+          div.box
+            h2 Pakket 3
+            p= sortSubs['pakket3']
+          div.box
+            h2 Totaal
+            p= sortSubs['totaal']
       .box
         h2 Studenten
         p Slaagpercentage: #{slaagPercentage}%

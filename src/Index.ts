@@ -89,7 +89,6 @@ app.get("/rooster", async function (req, res) {
 });
 
 app.post("/pakket/kopen", async (req, res) => {
-  console.log(req.body);
   const data = await redisClient.hGetAll(req.session.id);
   if (req.body.bevestigen !== "on") {
     res.redirect("pakket");
@@ -109,7 +108,6 @@ app.post("/pakket/kopen", async (req, res) => {
 app.post("/register", async function (req, res) {
   const user = req.body;
   const hashPassword = await EncryptPasswordASync(user.wachtwoord);
-  console.log(user);
   await userManager
     .addUser(
       user.voornaam,
@@ -120,7 +118,6 @@ app.post("/register", async function (req, res) {
       user.tussenvoegesel
     )
     .then(async (result) => {
-      console.log(result);
       res.redirect("rooster");
     });
 });
@@ -139,7 +136,6 @@ app.post("/login", async function (req, res) {
   }
   users.forEach(async (user) => {
     const correct = await comparePassword(password, user.password);
-    console.log(correct);
     if (correct) {
       await redisClient.hSet(req.session.id, {
         email: user.email,
