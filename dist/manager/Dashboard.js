@@ -24,20 +24,21 @@ const announcment = new AnnouncementManager_1.AnnouncementManager();
 class Dashboard {
     dashboard(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (hasPermission(req.session.id)) {
+            if (yield hasPermission(req.session.id)) {
                 const activeUsers = yield getActiveUsers();
                 const slaagPercentage = yield getSlaagPercentage();
                 const sortSubs = yield sortSubscriptions();
-                console.log(sortSubs);
                 res.render('dashboard', { activeUsers, slaagPercentage, sortSubs });
+            }
+            else {
+                res.redirect("/");
             }
         });
     }
     autos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (hasPermission(req.session.id)) {
+            if (yield hasPermission(req.session.id)) {
                 const currAutos = yield autos.getCars();
-                console.log(currAutos);
                 res.render("dashboardautos", { currAutos });
             }
         });
@@ -62,9 +63,8 @@ class Dashboard {
     }
     studenten(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (hasPermission(req.session.id)) {
+            if (yield hasPermission(req.session.id)) {
                 const currStudenten = yield user.getUsers(1);
-                console.log(currStudenten);
                 res.render("DashboardStudenten", { currStudenten });
             }
         });
@@ -82,7 +82,6 @@ class Dashboard {
         return __awaiter(this, void 0, void 0, function* () {
             if (yield hasPermission(req.session.id)) {
                 const UserInfo = req.body;
-                console.log(UserInfo);
                 user.modifyUser(UserInfo.id, UserInfo.PermissionLevel);
                 res.redirect("/dashboard/studenten");
             }
@@ -98,7 +97,7 @@ class Dashboard {
     }
     docenten(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (hasPermission(req.session.id)) {
+            if (yield hasPermission(req.session.id)) {
                 const currDocenten = yield user.getUsers(2);
                 res.render("DashboardDocenten", { currDocenten });
             }
@@ -115,9 +114,8 @@ class Dashboard {
     }
     aankondigingen(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (hasPermission(req.session.id)) {
+            if (yield hasPermission(req.session.id)) {
                 const currAankondegingen = yield announcment.getAnnouncements();
-                console.log(currAankondegingen);
                 res.render("DashboardAankondigingen", { currAankondegingen });
             }
         });
@@ -158,15 +156,15 @@ function hasPermission(id) {
         if (permissionLevel == 3) {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     });
 }
 function hasPermissions(id, res, render, extra) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = yield App_1.redisClient.hGetAll(id);
-        console.log(data);
         const permissionLevel = parseInt(data.permissionLevel);
-        console.log(permissionLevel);
         if (permissionLevel == 3) {
             if (extra) {
                 res.render(render, extra);

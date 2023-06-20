@@ -16,13 +16,12 @@ import { Request, Response } from "express";
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
 const dashboard : Dashboard = new Dashboard();
-const userManager = new UserManager();
-const logger = new Logger("index");
 const lesson = new Lesson();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
-const logger: Logger = new Logger("index");
+
+const profiel : Profiel = new Profiel();
 
 const studentPermission: number = 1;
 
@@ -104,7 +103,7 @@ app.get("/rooster", async function (req, res: Response) {
     const result2: any = await Database.query(sqlQuery);
 
     const roosterPlanning = result2;
-    if(data.permissionLevel == "1"){res.render("rooster", { roosterPlanning });} else if (data.permissionLevel == "2"){res.render("rooster-docent", { allStudents, roosterPlanning})}
+    if(data.permissionLevel == "1"){res.render("rooster", { roosterPlanning });} else if (data.permissionLevel == "2"){res.render("rooster-docent", { allStudents, roosterPlanning}) } else if (data.permissionLevel == "3"){res.redirect("/dashboard")}
     
   }
 });

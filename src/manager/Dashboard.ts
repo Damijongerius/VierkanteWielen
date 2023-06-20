@@ -15,17 +15,19 @@ const announcment: AnnouncementManager = new AnnouncementManager();
 
 export class Dashboard {
   async dashboard(req: Request, res: Response) {
-    if (hasPermission(req.session.id)) {
+    if (await hasPermission(req.session.id)) {
         const activeUsers = await getActiveUsers();
         const slaagPercentage = await getSlaagPercentage();
         const sortSubs = await sortSubscriptions();
 
         res.render('dashboard', {activeUsers, slaagPercentage, sortSubs});
+    }else{
+      res.redirect("/")
     }
   }
 
   async autos(req: Request, res: Response) {
-    if (hasPermission(req.session.id)) {
+    if (await hasPermission(req.session.id)) {
       const currAutos = await autos.getCars();
 
       res.render("dashboardautos", { currAutos });
@@ -49,7 +51,7 @@ export class Dashboard {
   }
 
   async studenten(req: Request, res: Response) {
-    if (hasPermission(req.session.id)) {
+    if (await hasPermission(req.session.id)) {
       const currStudenten = await user.getUsers(1);
       res.render("DashboardStudenten", { currStudenten });
     }
@@ -79,7 +81,7 @@ export class Dashboard {
   }
 
   async docenten(req: Request, res: Response) {
-    if (hasPermission(req.session.id)) {
+    if (await hasPermission(req.session.id)) {
       const currDocenten = await user.getUsers(2);
       res.render("DashboardDocenten", { currDocenten });
     }
@@ -94,7 +96,7 @@ export class Dashboard {
   }
 
   async aankondigingen(req: Request, res: Response) {
-    if (hasPermission(req.session.id)) {
+    if (await hasPermission(req.session.id)) {
       const currAankondegingen = await announcment.getAnnouncements();
       res.render("DashboardAankondigingen", { currAankondegingen });
     }
@@ -134,13 +136,14 @@ export class Dashboard {
   }
 }
 
-async function hasPermission(id: string) {
+async function hasPermission(id: string): Promise<boolean> {
   const data = await redisClient.hGetAll(id);
   const permissionLevel = parseInt(data.permissionLevel);
   if (permissionLevel == 3) {
     return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 async function hasPermissions(

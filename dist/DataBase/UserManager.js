@@ -15,7 +15,6 @@ class UserManager {
     //  //\\ //\\ //\\
     addUser(firstName, lastName, email, permissionLevel, password, infix) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(infix);
             let sqlQuery;
             let values;
             sqlQuery =
