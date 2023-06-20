@@ -15,19 +15,28 @@ const App_js_1 = require("./App.js");
 const Subscription_js_1 = require("./manager/Subscription.js");
 const Dashboard_js_1 = require("./manager/Dashboard.js");
 const Encryptor_js_1 = require("./encryption/Encryptor.js");
+<<<<<<< HEAD
 const lesson_js_1 = require("./manager/lesson.js");
+=======
+const Profiel_js_1 = require("./manager/Profiel.js");
+>>>>>>> profiel
 Database_js_1.Database.connect("localhost", "dami", "dami", "vierkantewielen");
 const dashboard = new Dashboard_js_1.Dashboard();
 const userManager = new UserManager_js_1.UserManager();
 <<<<<<< HEAD
 const subscriptionManager = new Subscription_js_1.SubscriptionManager();
+<<<<<<< HEAD
 =======
+=======
+const profiel = new Profiel_js_1.Profiel();
+>>>>>>> profiel
 const logger = new Logger_js_1.Logger("index");
 const lesson = new lesson_js_1.Lesson();
 >>>>>>> rooster
 const studentPermission = 1;
 //dashboard calls
 // //\\//\\//\\
+<<<<<<< HEAD
 App_js_1.app.get('/dashboard', dashboard.dashboard);
 App_js_1.app.get('/dashboard/autos', dashboard.autos);
 // //\\//\\//\\
@@ -48,7 +57,34 @@ App_js_1.app.get('/dashboard/aankondegingen', dashboard.aankondigingen);
 App_js_1.app.post('/dashboard/aankondegingen/add', dashboard.aankondegingenAdd);
 App_js_1.app.post('/dashboard/aankondegingen/remove', dashboard.aankondegingenRemove);
 App_js_1.app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
+=======
+App_js_1.app.get("/dashboard", dashboard.dashboard);
+App_js_1.app.get("/dashboard/autos", dashboard.Autos);
+// //\\//\\//\\
+App_js_1.app.post("/dashboard/autos/add", dashboard.AutosAdd);
+App_js_1.app.post("/dashboard/autos/remove");
+App_js_1.app.post("/dashboard/autos/modify");
 // \\//\\//\\//
+App_js_1.app.get("/dashboard/studenten", dashboard.dashboardStudenten);
+// //\\//\\//\\
+App_js_1.app.post("/dashboard/studenten/add");
+App_js_1.app.post("/dashboard/studenten/remove");
+App_js_1.app.post("/dashboard/studenten/modify");
+// \\//\\//\\//
+App_js_1.app.get("/dashboard/docenten", dashboard.dashboardDocenten);
+// //\\//\\//\\
+App_js_1.app.post("/dashboard/docenten/add");
+App_js_1.app.post("/dashboard/docenten/remove");
+App_js_1.app.post("/dashboard/docenten/modify");
+// \\//\\//\\//
+App_js_1.app.get("/dashboard/Aankondigingen", dashboard.dashboardAankondigingen);
+// //\\//\\//\\
+App_js_1.app.post("/dashboard/Aankondigingen/add");
+App_js_1.app.post("/dashboard/Aankondigingen/remove");
+App_js_1.app.post("/dashboard/Aankondigingen/modify");
+>>>>>>> profiel
+// \\//\\//\\//
+App_js_1.app.get("/profiel", profiel.render);
 // \\//\\//\\//
 App_js_1.app.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {

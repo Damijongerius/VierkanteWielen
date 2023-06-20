@@ -114,6 +114,13 @@ export class LessonManager {
     return null;
   }
 
+  async getResultWithUser(userId: number) {
+    const sqlQuery = `SELECT * FROM results AS r JOIN Lessons AS l ON r.Lessons_lessonId = l.lessonId JOIN UserLessons AS ul ON l.lessonId = ul.Lesson_lessonId JOIN users AS u ON ul.user_id = u.id WHERE u.id = ${userId};`;
+    const res = await Database.query(sqlQuery);
+    console.log(res);
+    return res;
+  }
+
   async setNote(lessonId: number, note: string) {
     const sqlQuery = `UPDATE lessons SET note = "${note}" WHERE lessonId = ${lessonId}`;
     await Database.conn.query(sqlQuery);

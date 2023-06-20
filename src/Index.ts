@@ -2,13 +2,14 @@ import { Database } from "./DataBase/Database.js";
 import { UserManager } from "./DataBase/UserManager.js";
 import { app, redisClient } from "./App.js";
 import { SubscriptionManager } from "./manager/Subscription.js";
-import { Dashboard } from "./manager/Dashboard.js"
+import { Dashboard } from "./manager/Dashboard.js";
 import session from "express-session";
 import path from "path";
 import {
   EncryptPasswordASync,
   comparePassword,
 } from "./encryption/Encryptor.js";
+import { Profiel } from "./manager/Profiel.js";
 import { Lesson } from "./manager/lesson.js";
 import { Request, Response } from "express";
 
@@ -21,12 +22,13 @@ const lesson = new Lesson();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
+const logger: Logger = new Logger("index");
 
 const studentPermission: number = 1;
 
 //dashboard calls
 // //\\//\\//\\
-app.get('/dashboard', dashboard.dashboard);
+app.get("/dashboard", dashboard.dashboard);
 
 app.get('/dashboard/autos', dashboard.autos);
 // //\\//\\//\\
@@ -51,7 +53,7 @@ app.post('/dashboard/aankondegingen/add', dashboard.aankondegingenAdd);
 app.post('/dashboard/aankondegingen/remove', dashboard.aankondegingenRemove);
 app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
 // \\//\\//\\//
-
+app.get("/profiel", profiel.render);
 // \\//\\//\\//
 
 app.get("/", async function (req, res) {
