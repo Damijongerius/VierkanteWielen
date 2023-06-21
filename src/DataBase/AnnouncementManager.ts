@@ -14,12 +14,7 @@ export class AnnouncementManager{
       
       async getAnnouncement(id: number) {
         const sqlQuery = `SELECT * FROM announcments WHERE id = ${id}`;
-        const [rows] = await Database.conn.query(sqlQuery);
-        if (rows.length > 0) {
-          const { id, title, content, footer } = rows[0];
-          return { id, title, content, footer };
-        }
-        return null;
+        return await Database.query(sqlQuery);
       }
 
       async getAnnouncements(){
@@ -32,11 +27,4 @@ export class AnnouncementManager{
         await Database.conn.query(sqlQuery);
       }
 
-      async addAnnouncementTo(){
-
-      }
-
-      async removeAnnouncementFrom(){
-        
-      }
 }

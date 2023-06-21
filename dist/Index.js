@@ -17,9 +17,11 @@ const Dashboard_js_1 = require("./manager/Dashboard.js");
 const Encryptor_js_1 = require("./encryption/Encryptor.js");
 const Profiel_js_1 = require("./manager/Profiel.js");
 const lesson_js_1 = require("./manager/lesson.js");
+const AnnouncementManager_js_1 = require("./DataBase/AnnouncementManager.js");
 Database_js_1.Database.connect("localhost", "dami", "dami", "vierkantewielen");
 const dashboard = new Dashboard_js_1.Dashboard();
 const lesson = new lesson_js_1.Lesson();
+const announcement = new AnnouncementManager_js_1.AnnouncementManager();
 const userManager = new UserManager_js_1.UserManager();
 const subscriptionManager = new Subscription_js_1.SubscriptionManager();
 const profiel = new Profiel_js_1.Profiel();
@@ -49,6 +51,12 @@ App_js_1.app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenMo
 // \\//\\//\\//
 App_js_1.app.get("/profiel", profiel.render);
 // \\//\\//\\//
+App_js_1.app.get("/announcements", function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const announcements = yield announcement.getAnnouncements();
+        res.render('announcement', { announcements });
+    });
+});
 App_js_1.app.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         res.render("index");

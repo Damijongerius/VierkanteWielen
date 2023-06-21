@@ -1,0 +1,62 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='./styles/style.css')
+    title Announcements
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        color: #333;
+        margin-top: 20px;
+      }
+      .nav-menu {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .nav-link {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+      }
+      .announcement {
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 600px;
+        transition: transform 0.3s ease;
+      }
+      .announcement:hover {
+        transform: translateY(-5px);
+      }
+      .announcement h2 {
+        color: #333;
+        font-size: 24px;
+        margin-top: 0;
+      }
+      .announcement p {
+        color: #666;
+        font-size: 18px;
+      }
+  body
+    h1 Announcements
+    .nav-menu
+      a.nav-link(href='profiel')
+        span.nav-text profiel
+    .announcements
+      each announcement in announcements
+        .announcement
+          h2= announcement.title
+          p= announcement.content
+          p= announcement.footer

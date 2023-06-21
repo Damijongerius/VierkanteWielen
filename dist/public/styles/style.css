@@ -25,9 +25,9 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  width: 700px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
   padding-top: 20px;
 }
 
@@ -104,21 +104,20 @@ body {
 }
 
 .content-section-over-ons {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   font-size: 20px;
-  position: relative;
-  left: 40vw;
-  transform: translateX(-50%);
+  margin: 0 auto;
+  text-align: center;
 }
 
 .content-section-pakketten {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   max-width: 900px;
   font-size: 20px;
-  position: relative;
-  left: 50vw;
-  transform: translateX(-50%);
+  margin: 0 auto;
 }
 
 .content-section-pakketten > h1 {
@@ -133,7 +132,7 @@ body {
 }
 
 .pakket {
-  min-width: 300px;
+  flex: 1 1 300px;
   text-align: center;
   margin-bottom: 80px;
 }
@@ -145,6 +144,7 @@ body {
   padding: 9px 15px;
   margin-top: 20px;
   position: absolute;
+  left: 50%;
   transform: translateX(-50%);
   transition: transform 200ms;
 }
@@ -155,11 +155,10 @@ body {
 
 .footer-content {
   display: flex;
-  position: relative;
-  width: auto;
+  flex-wrap: wrap;
+  justify-content: center;
   max-width: 600px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 0 auto;
 }
 
 .footer-content > div {
@@ -200,10 +199,9 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: fit-content;
-  min-width: 400px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .content-section-login > h1,
@@ -234,6 +232,7 @@ body {
   font-size: 14px;
   border: none;
   background-color: #eee;
+  width: 100%;
 }
 
 .content-section-login > form > input:focus,
@@ -253,17 +252,16 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: fit-content;
-  min-width: 400px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .content-section-pakket-kopen {
   position: relative;
-  width: fit-content;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .content-section-pakket-kopen > h1 {
@@ -322,17 +320,20 @@ body {
 
 .content-section-rooster {
   display: flex;
-  position: relative;
-  left: 50vw;
-  transform: translateX(-50%);
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 auto;
+  max-width: 900px;
 }
 
 .rooster-part {
-  width: 300px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .rooster-rooster {
-  width: 600px;
+  width: 100%;
 }
 
 .lesson {
@@ -383,6 +384,6 @@ body {
   }
 }
 
-.cancelled{
+.cancelled {
   background-color: red;
 }

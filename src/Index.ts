@@ -12,11 +12,13 @@ import {
 import { Profiel } from "./manager/Profiel.js";
 import { Lesson } from "./manager/lesson.js";
 import { Request, Response } from "express";
+import { AnnouncementManager } from "./DataBase/AnnouncementManager.js";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
 const dashboard : Dashboard = new Dashboard();
 const lesson = new Lesson();
+const announcement : AnnouncementManager = new AnnouncementManager();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
@@ -54,6 +56,11 @@ app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
 // \\//\\//\\//
 app.get("/profiel", profiel.render);
 // \\//\\//\\//
+
+app.get("/announcements", async function (req,res) {
+  const announcements = await announcement.getAnnouncements()
+  res.render('announcement', { announcements });
+})
 
 app.get("/", async function (req, res) {
   res.render("index");

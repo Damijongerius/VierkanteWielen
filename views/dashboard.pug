@@ -1,111 +1,119 @@
 doctype html
-html
-  head
-    title Dashboard
-    style.
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        font-family: Arial, sans-serif;
-        display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 20px;
-      }
-      nav {
-        background-color: #333;
-        color: #fff;
-        padding: 20px;
-      }
-      nav a {
-        color: #fff;
-        text-decoration: none;
-        display: block;
-        margin-bottom: 10px;
-      }
-      .container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        height: 80%;
-      }
-      .box {
-        padding: 20px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      .box h2 {
-        margin-top: 0;
-      }
-      .sales-container {
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-        border-radius: 5px;
-        gap: 20px;
-        margin: 20px;
-      }
-      .box p {
-        margin-bottom: 0;
-      }
-      .box-2 {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: 0.5fr 2fr;
-        gap: 20px;
-        padding: 20px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        grid-column: 1 / span 2;
-      }
-      .box-2 h2 {
-        margin-top: 0;
-      }
-      .box-2 div div {
-        margin-bottom: 0;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      .box.full {
-        grid-column: 1 / span 3;
-      }
-      .box.warning {
-        background-color: #ffc107;
-      }
-      .box.danger {
-        background-color: #dc3545;
-        color: #fff;
-      }
-
-  body
-    nav
-      a(href="/dashboard") Dashboard
-      a(href="/dashboard/autos") auto's
-      a(href="/dashboard/studenten") studenten
-      a(href="/dashboard/docenten") docenten
-      a(href="/dashboard/aankondegingen") aankondegingen
-    .container
-      .box-2
-        h2 Sales
-        .sales-container
-          div.box
-            h2 Pakket 1
-            p= sortSubs['pakket1']
-          div.box
-            h2 Pakket 2
-            p= sortSubs['pakket2']
-          div.box
-            h2 Pakket 3
-            p= sortSubs['pakket3']
-          div.box
-            h2 Totaal
-            p= sortSubs['totaal']
+head
+  title Dashboard
+  style.
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    }
+    body {
+    font-family: Arial, sans-serif;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    }
+    nav {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    }
+    nav a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    }
+    .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    height: 80%;
+    }
+    .box {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .box h2 {
+    margin-top: 0;
+    }
+    .sales-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border-radius: 5px;
+    gap: 20px;
+    margin: 20px;
+    }
+    .box p {
+    margin-bottom: 0;
+    }
+    .box-2 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 0.5fr 2fr;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .box-2 h2 {
+    margin-top: 0;
+    }
+    .box-2 div div {
+    margin-bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .box.full {
+    grid-column: 1 / span 2;
+    }
+    .box.warning {
+    background-color: #ffc107;
+    }
+    .box.danger {
+    background-color: #dc3545;
+    color: #fff;
+    }
+    @media (min-width: 768px) {
+    /* Styles for desktop */
+    body {
+    grid-template-columns: 200px 1fr;
+    }
+    .container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .box.full {
+    grid-column: 1 / span 3;
+    }
+    }
+nav
+  a(href='/dashboard') Dashboard
+  a(href='/dashboard/autos') Auto&apos;s
+  a(href='/dashboard/studenten') Studenten
+  a(href='/dashboard/docenten') Docenten
+  a(href='/dashboard/aankondegingen') Aankondigingen
+.container
+  .box-2
+    h2 Sales
+    .sales-container
       .box
-        h2 Studenten
-        p Slaagpercentage: #{slaagPercentage}%
-      .box.full
-        h2 Active Users
-        p #{activeUsers} users are currently active.
+        h2 Pakket 1
+        p= sortSubs['pakket1']
+      .box
+        h2 Pakket 2
+        p= sortSubs['pakket2']
+      .box
+        h2 Pakket 3
+        p= sortSubs['pakket3']
+      .box
+        h2 Totaal
+        p= sortSubs['totaal']
+  .box
+    h2 Studenten
+    p Slaagpercentage: #{slaagPercentage}%
+  .box.full
+    h2 Active Users
+    p #{activeUsers} users are currently active.

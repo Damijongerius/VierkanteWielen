@@ -27,12 +27,7 @@ class AnnouncementManager {
     getAnnouncement(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `SELECT * FROM announcments WHERE id = ${id}`;
-            const [rows] = yield Database_js_1.Database.conn.query(sqlQuery);
-            if (rows.length > 0) {
-                const { id, title, content, footer } = rows[0];
-                return { id, title, content, footer };
-            }
-            return null;
+            return yield Database_js_1.Database.query(sqlQuery);
         });
     }
     getAnnouncements() {
@@ -45,14 +40,6 @@ class AnnouncementManager {
         return __awaiter(this, void 0, void 0, function* () {
             const sqlQuery = `UPDATE announcments SET title = "${title}", content = "${content}", footer = "${footer}" WHERE id = ${id}`;
             yield Database_js_1.Database.conn.query(sqlQuery);
-        });
-    }
-    addAnnouncementTo() {
-        return __awaiter(this, void 0, void 0, function* () {
-        });
-    }
-    removeAnnouncementFrom() {
-        return __awaiter(this, void 0, void 0, function* () {
         });
     }
 }
