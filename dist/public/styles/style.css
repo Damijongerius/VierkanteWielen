@@ -53,7 +53,7 @@ body {
 }
 
 .nav-login {
-  color: white;
+  color: white !important;
   background-color: black;
   border: 1px solid black;
   margin-left: 15px;
@@ -83,7 +83,7 @@ body {
 
 .nav-login:hover {
   background-color: white;
-  color: black;
+  color: black !important;
 }
 
 .nav-login:hover::before {
@@ -147,7 +147,6 @@ body {
   padding: 9px 15px;
   margin-top: 20px;
   position: absolute;
-  left: 50%;
   transform: translateX(-50%);
   transition: transform 200ms;
 }
@@ -324,7 +323,6 @@ body {
 .content-section-rooster {
   display: flex;
   position: relative;
-
 }
 
 .rooster-part {
@@ -375,17 +373,17 @@ body {
   background-color: #e6f2ff;
 }
 
-.cancelled{
+.cancelled {
   background-color: red;
 }
 
 @media (max-width: 1048px) {
-  th, td, .btn-primary {
+  th,
+  td,
+  .btn-primary {
     font-size: 10px !important;
     padding: 4px !important;
   }
-
-
 }
 
 @media (max-width: 900px) {
@@ -405,28 +403,25 @@ body {
 }
 
 @media (max-width: 420px) {
-
   .footer-content {
     flex-wrap: wrap;
   }
-
 }
 
 @media (max-width: 600px) {
-
   .content-section-over-ons {
     width: auto;
     left: 0%;
-    padding: 0px 20px ;
+    padding: 0px 20px;
     transform: translateX(0%);
   }
 }
 
 @media (max-width: 390px) {
-  th, td, .btn-primary {
+  th,
+  td,
+  .btn-primary {
     font-size: 8px !important;
     padding: 2px !important;
   }
-
-
 }
