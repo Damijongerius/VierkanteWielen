@@ -126,13 +126,8 @@ export class LessonManager {
     await Database.conn.query(sqlQuery);
   }
 
-  async removeNote(lessonId: number) {
-    const sqlQuery = `UPDATE lessons SET note = NULL WHERE lessonId = ${lessonId}`;
-    await Database.conn.query(sqlQuery);
-  }
-
-  async modifyNote(lessonId: number, note: string) {
-    const sqlQuery = `UPDATE lessons SET note = "${note}" WHERE lessonId = ${lessonId}`;
+  async addNote(lessonId: number, note: string) {
+    const sqlQuery = `INSERT INTO lessons (note,lessonId) VALUES ('${note}',${lessonId})`;
     await Database.conn.query(sqlQuery);
   }
 
@@ -144,6 +139,12 @@ export class LessonManager {
       return note;
     }
     return null;
+  }
+
+  async getAllNotes(lessonId: number[]) {
+    const sqlQuery = `SELECT note FROM lessons WHERE lessonId in (${lessonId.join(',')})`;
+    return await Database.query(sqlQuery);
+
   }
 }
 

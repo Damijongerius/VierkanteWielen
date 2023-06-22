@@ -14,7 +14,7 @@ export class UserManager {
     let values: any[];
 
     sqlQuery =
-      `INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?) WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = '${email}');`;
+      `INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?)`;
     values = [firstName, infix, lastName, email, permissionLevel, password];
 
     const result: any = await Database.query(sqlQuery, values);

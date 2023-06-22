@@ -2,6 +2,9 @@ import session from "express-session";
 import { redisClient } from "../App";
 import { Request, Response } from "express";
 import { Database } from "../DataBase/Database.js";
+import { LessonManager } from '../DataBase/LessonManager';
+
+const lessonManager : LessonManager = new LessonManager();
 
 export class Lesson {
   async Add(req: Request, res: Response) {
@@ -108,20 +111,28 @@ export class Lesson {
     const Positive = req.body.Positive;
     const Negative = req.body.Negative;
     const lessonId = req.body.lessonId;
+    const geslaagd = req.body.Geslaagd == "yes" ? true : false;
 
     values = [
       Result,
       Positive,
       Negative,
-      lessonId
+      lessonId,
+      geslaagd,
     ]
 
     sqlQuery =
-    "INSERT INTO results (result, positive, negative, Lessons_lessonId) VALUES (?, ?, ?, ?)";
+    "INSERT INTO results (result, positive, negative, Lessons_lessonId, geslaagd) VALUES (?, ?, ?, ?,?)";
 
     const asd = await Database.query(sqlQuery, values);
     console.log(asd)
     res.redirect("/rooster")
+  }
+
+  async stuurFeedback(req: Request, res: Response){
+    const note = req.body;
+    lessonManager.addNote(note.note,note.lessonId);
+    res.redirect("/rooster");
   }
 }
 

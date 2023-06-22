@@ -13,6 +13,7 @@ import { Profiel } from "./manager/Profiel.js";
 import { Lesson } from "./manager/lesson.js";
 import { Request, Response } from "express";
 import { AnnouncementManager } from "./DataBase/AnnouncementManager.js";
+import { LessonManager } from "./DataBase/LessonManager.js";
 
 Database.connect("localhost", "dami", "dami", "vierkantewielen");
 
@@ -22,6 +23,8 @@ const announcement : AnnouncementManager = new AnnouncementManager();
 
 const userManager: UserManager = new UserManager();
 const subscriptionManager: SubscriptionManager = new SubscriptionManager();
+
+const lessonManager : LessonManager = new LessonManager();
 
 const profiel : Profiel = new Profiel();
 
@@ -56,6 +59,8 @@ app.post('/dashboard/aankondegingen/modify', dashboard.aankondegingenModify);
 // \\//\\//\\//
 app.get("/profiel", profiel.render);
 // \\//\\//\\//
+
+app.post("/stuurFeedback", lesson.stuurFeedback);
 
 app.get("/announcements", async function (req,res) {
   const announcements = await announcement.getAnnouncements()
@@ -108,6 +113,11 @@ app.get("/rooster", async function (req, res: Response) {
     sqlQuery =
     "SELECT l.*, u.firstName, u.lastName FROM Lessons l JOIN UserLessons ul ON l.lessonId = ul.Lesson_lessonId JOIN users u ON ul.user_id = u.id WHERE ul.user_id = " + data.id + ";"
     const result2: any = await Database.query(sqlQuery);
+
+    let ids: number[] = [];
+    result2.forEach((row) =>{
+      ids.push(row.id);
+    })
 
     const roosterPlanning = result2;
     if(data.permissionLevel == "1"){res.render("rooster", { roosterPlanning });} else if (data.permissionLevel == "2"){res.render("rooster-docent", { allStudents, roosterPlanning}) } else if (data.permissionLevel == "3"){res.redirect("/dashboard")}

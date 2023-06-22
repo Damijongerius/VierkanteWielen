@@ -18,7 +18,11 @@ class UserManager {
             let sqlQuery;
             let values;
             sqlQuery =
+<<<<<<< Updated upstream
                 `INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?) WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = '${email}');`;
+=======
+                `INSERT INTO users (firstName, infix, lastName, email, permissionLevel, password) VALUES (?, ?, ?, ?, ?, ?)`;
+>>>>>>> Stashed changes
             values = [firstName, infix, lastName, email, permissionLevel, password];
             const result = yield Database_js_1.Database.query(sqlQuery, values);
             return result;

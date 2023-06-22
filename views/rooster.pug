@@ -21,13 +21,13 @@ head
   table#lessonsTable
     thead
       tr
-        th Lesson Date
-        th Lesson Description
-        th Is Exam
-        th Lesson Goal
+        th Less Datum
+        th Les Omschrijving
+        th Is Examen
+        th Les doel
         th Ophaal Locatie
-        th Name
-        th Actions
+        th Naam
+        th acties
 
     tbody
       each lesson in roosterPlanning
@@ -40,10 +40,10 @@ head
           td #{lesson.firstName} #{lesson.lastName}
           td
             // Cancel Lesson Modal
-            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#cancelModal-${lesson.lessonId}`) Cancel Lesson
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#cancelModal-${lesson.lessonId}`) annuleer Les
 
             // Change Options Modal
-            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#changeOptionsModal-${lesson.lessonId}`) Change Options
+            button.btn.btn-primary(data-bs-toggle="modal", data-bs-target=`#feedback-${lesson.lessonId}`) stuur Feedback
 
     // Modals
     each lesson in roosterPlanning
@@ -65,25 +65,16 @@ head
                 input.btn.btn-primary(type="submit" value="Cancel lesson")
 
       // Change Options Modal
-      .modal.fade(id=`changeOptionsModal-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`changeOptionsModalLabel-${lesson.lessonId}`, aria-hidden="true")
+      .modal.fade(id=`feedback-${lesson.lessonId}`, tabindex="-1", aria-labelledby=`feedbackLabel-${lesson.lessonId}`, aria-hidden="true")
         .modal-dialog
           .modal-content
             .modal-header
-              h5.modal-title(id=`changeOptionsModalLabel-${lesson.lessonId}`) Change Options
+              h5.modal-title(id=`feedbackLabel-${lesson.lessonId}`) stuur feedback
             .modal-body
-              form(action="/changeOptions", method="post")
+              form(action="/stuurFeedback", method="post")
                 input(type="hidden", name="lessonId", value=lesson.lessonId)
-                label(for=`lessonGoal-${lesson.lessonId}`) Lesson Goal
-                input.form-control(type="text", name="lessonGoal", value=lesson.lessonGoal, required)
-                label(for=`isExam-${lesson.lessonId}`) Is Exam
-                select.form-control(name="isExam", required)
-                  option(value="1") Yes
-                  option(value="0") No
-                label(for=`ophaalLocatiec`) Ophaal Locatie
-                input.form-control(type="text", name="ophaalLocatie", value=lesson.ophaalLocatie, required=true)
-                label(for=`lessonDescription`) Lesson Description
-                textarea.form-control(name="lessonDescription", rows="3", required=true)= lesson.lessonDescription
-                input.btn.btn-primary(type="submit" value="Save changes")
+                textarea.form-control(name="lesFeedback", rows="5", required=true)
+                input.btn.btn-primary(type="submit" value="Stuur In")
 
 .alternating-content.footer
   .footer-content

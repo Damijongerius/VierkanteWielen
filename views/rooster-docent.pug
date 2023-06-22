@@ -111,6 +111,10 @@ head
                 textarea.form-control(name="Positive", rows="3", required=true)
                 label(for=`Negative`) Negative
                 textarea.form-control(name="Negative", rows="3", required=true)
+                label(for=`geslaagd-${lesson.lessonId}`) Is geslaagd
+                select.form-control(name="geslaagd", required)
+                  option(value="1") Yes
+                  option(value="0") No
                 input.btn.btn-primary(type="submit" value="Submit results")
 
 

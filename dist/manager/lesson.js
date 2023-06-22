@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Lesson = void 0;
 const App_1 = require("../App");
 const Database_js_1 = require("../DataBase/Database.js");
+const LessonManager_1 = require("../DataBase/LessonManager");
+const lessonManager = new LessonManager_1.LessonManager();
 class Lesson {
     Add(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -99,16 +101,25 @@ class Lesson {
             const Positive = req.body.Positive;
             const Negative = req.body.Negative;
             const lessonId = req.body.lessonId;
+            const geslaagd = req.body.Geslaagd == "yes" ? true : false;
             values = [
                 Result,
                 Positive,
                 Negative,
-                lessonId
+                lessonId,
+                geslaagd,
             ];
             sqlQuery =
-                "INSERT INTO results (result, positive, negative, Lessons_lessonId) VALUES (?, ?, ?, ?)";
+                "INSERT INTO results (result, positive, negative, Lessons_lessonId, geslaagd) VALUES (?, ?, ?, ?,?)";
             const asd = yield Database_js_1.Database.query(sqlQuery, values);
             console.log(asd);
+            res.redirect("/rooster");
+        });
+    }
+    stuurFeedback(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const note = req.body;
+            lessonManager.addNote(note.note, note.lessonId);
             res.redirect("/rooster");
         });
     }

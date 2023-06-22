@@ -125,15 +125,9 @@ class LessonManager {
             yield Database_js_1.Database.conn.query(sqlQuery);
         });
     }
-    removeNote(lessonId) {
+    addNote(lessonId, note) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `UPDATE lessons SET note = NULL WHERE lessonId = ${lessonId}`;
-            yield Database_js_1.Database.conn.query(sqlQuery);
-        });
-    }
-    modifyNote(lessonId, note) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const sqlQuery = `UPDATE lessons SET note = "${note}" WHERE lessonId = ${lessonId}`;
+            const sqlQuery = `INSERT INTO lessons (note,lessonId) VALUES ('${note}',${lessonId})`;
             yield Database_js_1.Database.conn.query(sqlQuery);
         });
     }
@@ -146,6 +140,12 @@ class LessonManager {
                 return note;
             }
             return null;
+        });
+    }
+    getAllNotes(lessonId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sqlQuery = `SELECT note FROM lessons WHERE lessonId in (${lessonId.join(',')})`;
+            return yield Database_js_1.Database.query(sqlQuery);
         });
     }
 }
